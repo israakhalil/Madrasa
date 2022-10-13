@@ -258,6 +258,7 @@ export default {
                this.classDialog = false;
                 this.submitted = false;
                 this.successMsg = true;
+                this.restform()
                
             })
       },
@@ -268,7 +269,14 @@ export default {
  
       },
 
+      restform() { 
 
+                this.form.level_id=null,
+                this.form.name= null,
+                athis.form.ttached_file=null,
+                this.form.school_id=null
+
+      }
     // editClass(_class) {
     //   this._class = { ..._class };
     //   this.productDialog = true;
