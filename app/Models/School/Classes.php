@@ -46,7 +46,7 @@ class Classes extends Model
         if (request()->filled('school_id') && !empty(request('school_id'))) {
             $key = trim(request()['school_id']);
             $q->where('school_id', '=', $key);
-        }   
+        }    
         if (request()->filled('level_id') && !empty(request('level_id'))) {
             $key = trim(request()['level_id']);
             $q->where('level_id', '=', $key);
