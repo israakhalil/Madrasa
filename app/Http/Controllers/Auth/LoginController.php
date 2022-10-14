@@ -24,31 +24,10 @@ class LoginController extends Controller
 
     public function login(Request $request)
     {
-        // $validator = Validator::make($request->all(), [
-        //     'username' => 'required|numeric',
-        //     'password' => 'required',
-        //   ]);
-      
-        //   if ($validator->fails()) {
-        //     return response()->json(['code' => 401, 'msg' => $validator->errors()->first()]);
-        //   }
-      
-      
-        //   $user = User::where('username', $request->username)->first();
-      
-      
-        //   if (!$user || !Hash::check($request->password, $user->password)) {
-        //     return response()->json(['code' => 401, 'msg' => 'خطأ! تأكد من اسم المستخدم او كلمة المرور ']);
-        //   }
-        //   $token = $user->createToken('API TOKEN')->plainTextToken;
-        //   return $this->sendLoginResponse($request, $user, $token);
-        // }
-
-
         $user = User::query()->where('username', $request->username)->first();
         $school= SchoolsModel::query()->where('id', $user->school_id)->first();
 
-        if (isset($user) && ($request->password== $user->password)) {
+        if (isset($user) && $this->password_check($request->password,$user)) {
             $token = $user->createToken('API TOKEN')->plainTextToken;
 
             return $this->sendLoginResponse($request, $user, $token,$school);

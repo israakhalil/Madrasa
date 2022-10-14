@@ -16,7 +16,7 @@ class User extends Authenticatable
     use HasApiTokens, HasFactory, Notifiable;
 
 
-    protected $table = "access_control_user";
+    protected $table = "users";
     protected $primaryKey = 'id';
     const FILLABLE = [
         'username',
@@ -24,6 +24,7 @@ class User extends Authenticatable
         'email',
         'password',
         'school_id',
+        'id_number'
     ];
 
     protected $fillable = self::FILLABLE;
@@ -37,32 +38,32 @@ class User extends Authenticatable
         return $this->belongsTo(School::class, 'id' , 'school_id');
     }
 
-    public function roles(): BelongsToMany
-    {
-        return $this->belongsToMany(Role::class, 'access_control_user_role', 'user_id', 'role_id');
-    }
+    // public function roles(): BelongsToMany
+    // {
+    //     return $this->belongsToMany(Role::class, 'access_control_user_role', 'user_id', 'role_id');
+    // }
 
-    public function permissions(): BelongsToMany
-    {
-        return $this->belongsToMany(Permission::class, 'access_control_user_permission', 'user_id', 'permission_id');
-    }
+    // public function permissions(): BelongsToMany
+    // {
+    //     return $this->belongsToMany(Permission::class, 'access_control_user_permission', 'user_id', 'permission_id');
+    // }
 
 
 
-    public function getAllPermissions()
-    {
-        $per = Permission::query()
-            ->whereHas('roles', function ($q) {
-                $q->whereIn('id', $this->roles()->pluck('id')->toArray());
-            })
-            ->pluck('code')->toArray();
+    // public function getAllPermissions()
+    // {
+    //     $per = Permission::query()
+    //         ->whereHas('roles', function ($q) {
+    //             $q->whereIn('id', $this->roles()->pluck('id')->toArray());
+    //         })
+    //         ->pluck('code')->toArray();
 
-        $permissions = $this->permissions()->pluck('code')->toArray();
+    //     $permissions = $this->permissions()->pluck('code')->toArray();
 
-        $permissions = array_merge($permissions, $per);
-        $permissions = array_unique($permissions);
-        return $permissions;
-    }
+    //     $permissions = array_merge($permissions, $per);
+    //     $permissions = array_unique($permissions);
+    //     return $permissions;
+    // }
 
 
 
@@ -82,22 +83,22 @@ class User extends Authenticatable
         return $q;
     }
     
-    public function scopePermission($query, $permissions)
-    {
+//     public function scopePermission($query, $permissions)
+//     {
 
-        return $query
-            ->whereHas('permissions', function ($q) use ($permissions) {
-                $q->whereIn('code', $permissions);
-            })
-            ->orWhereHas('roles', function ($q) use ($permissions) {
-                $q->whereHas('permissions', function ($q) use ($permissions) {
-                    $q->whereIn('code', $permissions);
-                });
-            });
+//         return $query
+//             ->whereHas('permissions', function ($q) use ($permissions) {
+//                 $q->whereIn('code', $permissions);
+//             })
+//             ->orWhereHas('roles', function ($q) use ($permissions) {
+//                 $q->whereHas('permissions', function ($q) use ($permissions) {
+//                     $q->whereIn('code', $permissions);
+//                 });
+//             });
 
 
 
-}
+// }
 
 
 
