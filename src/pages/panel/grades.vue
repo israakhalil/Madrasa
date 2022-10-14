@@ -42,7 +42,8 @@
             <div
               v-for="(_class, index) in classes"
               class="md:col-3 mb-15 sm:col-4 xs:col-6 lg:mb-8">
-              <Card >
+              
+                <Card style="cursor: pointer" @click="this.$router.push({ name: 'class-all', params: { id: _class.id } })">
                 <template #header>
                   <div class="flex align-items-center justify-content-between">
                     <div class="flex align-items-center">
@@ -63,6 +64,8 @@
                 </template>
                 <template #footer> </template>
               </Card>
+                           
+             
             </div>
         </div>
 
@@ -308,7 +311,10 @@ export default {
   display: inline-block;
   width: 100%;
 }
-
+.card {
+  border-radius: 0%;
+  padding: 0rem;
+}
 .file-box {
   display: inline-block;
   width: 100%;

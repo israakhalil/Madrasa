@@ -45,22 +45,22 @@ export default {
                 {
                    label:'المراحل',
                    icon:'pi pi-fw pi-sitemap',
-                   to: 'grades',
+                   to: '/grades',
                  },
 				{
 					label:'السجلات',
                     icon: 'pi pi-fw pi-book',
-                    to: 'records',
+                    to: '/records',
                 },
 				{
 					label:'الادرايين',
                     icon: 'pi pi-fw pi-users',
-                    to:'adminstration',
+                    to:'/adminstration',
                 },
 {
 					label:'الشهادات',
                     icon: 'pi pi-fw pi-money-bill',
-                    to:'certificates',
+                    to:'/certificates',
                 }
             ],
          

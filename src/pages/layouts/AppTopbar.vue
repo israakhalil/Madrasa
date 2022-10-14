@@ -28,7 +28,7 @@
 
 	<div class="layout-topbar">
     <div class="layout-topbar-logo">
-      <img alt="Logo" src="images/logo-white.svg"/>
+      <img alt="Logo" :src="this.schoolLogo()"/>
 	  
     </div>
 	<div class="layout-topbar-logo_text">

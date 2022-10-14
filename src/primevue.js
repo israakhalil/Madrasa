@@ -50,7 +50,9 @@ import DataView from 'primevue/dataview';
 import DataViewLayoutOptions from 'primevue/dataviewlayoutoptions';
 import Listbox from 'primevue/listbox';
 import Toast from 'primevue/toast';
+import Breadcrumb from 'primevue/breadcrumb';
 
+globalApp.app.component('Breadcrumb', Breadcrumb);
 globalApp.app.component('Toast', Toast);
 globalApp.app.component('Listbox', Listbox);
 globalApp.app.component('DataView', DataView);
@@ -103,7 +105,7 @@ globalApp.app.component('ScrollPanel', ScrollPanel);
 // import Avatar from 'primevue/avatar';
 // import AvatarGroup from 'primevue/avatargroup';
 // import Badge from 'primevue/badge';
-// import Breadcrumb from 'primevue/breadcrumb';
+
 // 
 //
 // import Carousel from 'primevue/carousel';

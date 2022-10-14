@@ -3,42 +3,56 @@ const routes = [
     {
         path: '/',
         component: () => import('../pages/layouts/DashboardLayout.vue'),
-        redirect: "/grades",
+        redirect: '/home',
         children: [
-            // {
-            //     path: '/home',
-            //     name:"home",
-            //     component: () => import('../pages/Dashboard.vue'),
-               
-            // },
             {
-                path: '/grades',
-                name:"grades",
-                component: () => import('../pages/panel/grades.vue'),
+                path: '/home',
+                name:"home",
+                component: () => import('../pages/Dashboard.vue'),
                
             },
             {
-                path: 'records',
-                name:"records",
-                component: () => import('../pages/panel/records.vue'),
-                
+                path: '/panel',
+                component: () => import('../pages/panel/layout.vue'),
+                children: [
+                    {
+                        path: '/grades',
+                        name:"grades",
+                        component: () => import('../pages/panel/grades.vue'),
+                       
+                    },
+                    {
+                        path: '/records',
+                        name:"records",
+                        component: () => import('../pages/panel/records.vue'),
+                        
+                    },
+                    {
+                        path: '/adminstration',
+                        name:"adminstration",
+                        component: () => import('../pages/panel/administrators.vue'),
+                    },
+                    {
+                        path: '/certificates',
+                        name:"certificates",
+                        component: () => import('../pages/panel/certificates.vue'),
+                    },
+                 
+                ]
             },
+
             {
-                path: 'adminstration',
-                name:"adminstration",
-                component: () => import('../pages/panel/administrators.vue'),
-            },
-            {
-                path: 'certificates',
-                name:"certificates",
-                component: () => import('../pages/panel/certificates.vue'),
-            },
-            // {
-            //     path: '/login',
-            //     name:"login",
-            //     component: () => import('../pages/auth/login.vue'),
-            // },
-        ]
+                path: '/class',
+                component: () => import('../pages/class/layout.vue'),
+                children: [
+                    {
+                        path: `:id/all`,
+                        name: "class-all",
+                        props:true,
+                        component: () => import('../pages/class/index.vue'),
+                    }]
+            }
+        ]    
     },
     {
         path: '/auth',
