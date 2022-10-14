@@ -42,7 +42,10 @@ class Classes extends Model
     }
     public function scopeFilter($q)
     {
-        // request()->school_id=1;
+        if (request()->filled('id') && !empty(request('id'))) {
+            $key = trim(request()['id']);
+            $q->where('id', '=', $key);
+        }  
         if (request()->filled('school_id') && !empty(request('school_id'))) {
             $key = trim(request()['school_id']);
             $q->where('school_id', '=', $key);
