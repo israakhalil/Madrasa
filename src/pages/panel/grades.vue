@@ -58,7 +58,7 @@
                     <img src="images/1.png" class="shadow-2 mb-3 res_image" />
 
                     <div class="font-bold text-lg">
-                      <span>{{_class.name}}</span>
+                      <span>{{_class.name}}-{{_class.level_name}}</span>
                     </div>
                   </div>
                 </template>
