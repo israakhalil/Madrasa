@@ -21,10 +21,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->integer('id_number');
-            $table->integer('school_id')->unsigned();
-            $table->foreign('school_id')->references('id')->on('Schools');
-            
-
+            $table->integer('school_id')->unsigned();            
             $table->timestamps();
         });
     }}
