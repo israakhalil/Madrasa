@@ -1,4 +1,4 @@
-export default class gradesService {
+export default class levelsService {
 
     items = [];
     async index(data) {

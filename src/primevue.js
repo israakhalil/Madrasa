@@ -92,11 +92,23 @@ globalApp.app.component('ScrollPanel', ScrollPanel);
 /********************* Custome Components Region *******************/
 
 // import Loader from '@/components/Loader.vue';
-// import SearchButton from '@/components/Buttons/Search.vue';
-// import BackButton from '@/components/Buttons/Back.vue';
-// import SysDatatable from '@/components/SysDatatable.vue';
+import AbsenceLayout from '@/pages/quick/partial/Absence.vue';
+import DelayLayout from '@/pages/quick/partial/delay.vue';
+import BookLayout from '@/pages/quick/partial/book.vue';
+import ViolationLayout from '@/pages/quick/partial/violation.vue';
+import LeaveLayout from '@/pages/quick/partial/leave.vue';
 
-// globalApp.app.component('Loader', Loader);
+import ErrorMsg from '@/components/errorMsg.vue';
+import SuccessMsg from '@/components/successMsg.vue';
+
+globalApp.app.component('AbsenceLayout', AbsenceLayout);
+globalApp.app.component('DelayLayout', DelayLayout);
+globalApp.app.component('BookLayout', BookLayout);
+globalApp.app.component('ViolationLayout', ViolationLayout);
+globalApp.app.component('LeaveLayout', LeaveLayout);
+
+globalApp.app.component('ErrorMsg', ErrorMsg);
+globalApp.app.component('SuccessMsg', SuccessMsg);
 // globalApp.app.component('SysDatatable', SysDatatable);
 // globalApp.app.component('SearchButton', SearchButton);
 // globalApp.app.component('BackButton', BackButton);

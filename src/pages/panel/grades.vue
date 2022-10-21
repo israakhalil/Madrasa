@@ -24,11 +24,11 @@
           <div class="col-12 md:col-12">
             <div class="flex-1 justify-content-center text-center md:text-center">
               <div class="font-bold text-2xl pt-4 pb-4">الاضافات السريعة:</div>
-              <Button label="اضافة غياب" class="p-button-outlined mb-4" />
-              <Button label="اضافة تاخير" class="p-button-outlined mb-4" />
-              <Button label="اضافة مخالفة سلوكية" class="p-button-outlined mb-4" />
-              <Button label="اضافة استئذان" class="p-button-outlined mb-4" />
-              <Button label="اضافة تسليم كتب" class="p-button-outlined mb-8" />
+              <Button label="اضافة غياب" class="p-button-outlined mb-4" @click="this.$router.push({ name: 'quick-index', params: { type: 1 } })"/>
+              <Button label="اضافة تاخير" class="p-button-outlined mb-4"  @click="this.$router.push({ name: 'quick-index', params: { type: 2 } })"/>
+              <Button label="اضافة مخالفة سلوكية" class="p-button-outlined mb-4" @click="this.$router.push({ name: 'quick-index', params: { type: 3 } })"/>
+              <Button label="اضافة استئذان" class="p-button-outlined mb-4" @click="this.$router.push({ name: 'quick-index', params: { type: 4 } })"/>
+              <Button label="اضافة تسليم كتب" class="p-button-outlined mb-8" @click="this.$router.push({ name: 'quick-index', params: { type: 5 } })"/>
             </div>
           </div>
 
@@ -60,7 +60,7 @@
                     <div class="font-bold text-lg">
                       <span>{{_class.name}}-{{_class.level_name}}</span>
                     </div>
-                  </div>
+                  </div> 
                 </template>
                 <template #footer> </template>
               </Card>
@@ -276,7 +276,7 @@ export default {
 
                 this.form.level_id=null,
                 this.form.name= null,
-                athis.form.ttached_file=null,
+                this.form.attached_file=null,
                 this.form.school_id=null
 
       }
@@ -307,10 +307,7 @@ export default {
   display: none;
 }
 
-.container {
-  display: inline-block;
-  width: 100%;
-}
+
 .card {
   border-radius: 0%;
   padding: 0rem;
@@ -334,15 +331,6 @@ export default {
     box-shadow 0.2s;
   appearance: none;
   border-radius: 6px;
-}
-
-.file-button {
-  background: red;
-  padding: 5px;
-  position: absolute;
-  border: 1px solid;
-  top: 0px;
-  left: 0px;
 }
 
 

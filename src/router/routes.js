@@ -51,6 +51,19 @@ const routes = [
                         props:true,
                         component: () => import('../pages/class/index.vue'),
                     }]
+            },
+            {
+                path: '/quick',
+                component: () => import('../pages/quick/layout.vue'),
+                children: [
+                    {
+                        path: `:type/quick`,
+                        name: "quick-index",
+                        props:true,
+                        component: () => import('../pages/quick/index.vue'),
+                    }
+                ]
+                   
             }
         ]    
     },
