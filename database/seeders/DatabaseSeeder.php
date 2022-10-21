@@ -19,5 +19,12 @@ class DatabaseSeeder extends Seeder
         $this->call(AdminUserSeeder::class);
         $this->call(LevelsSeeder::class);
         $this->call(ClassSeeder::class);
+        $this->call(AbesencesTableSeeder::class);
+        $this->call(StudentsTableSeeder::class);
+        $this->call(AbesenceTypeTableSeeder::class);
+        $this->call(ViolationDegreeSeeder::class);
+        $this->call(ViolationProcedures::class);
+        
+        
     }
 }

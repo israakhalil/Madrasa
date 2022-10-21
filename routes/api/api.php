@@ -3,8 +3,16 @@
 use App\Http\Controllers\School\SchoolsController;
 use App\Http\Controllers\School\LevelsController;
 use App\Http\Controllers\School\ClassesController;
+use App\Http\Controllers\School\StudentsController;
+use App\Http\Controllers\Constants\ConstantsController;
+use App\Http\Controllers\Procedures\AbsencesController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Procedures\BooksController;
+use App\Http\Controllers\Procedures\DelaysController;
+use App\Http\Controllers\Procedures\LeavesController;
+use App\Http\Controllers\Procedures\ViolationsController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -38,7 +46,6 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
             Route::post('/store/{id?}', [SchoolsController::class, 'store']);
             Route::get('{id}/edit', [SchoolsController::class, 'create']);
             Route::delete('{id}/delete', [SchoolsController::class, 'delete']);
-            Route::delete('delete-selected', [SchoolsController::class, 'deleteSelected']);
         });
 
         Route::group(['prefix' => 'levels'], function () {
@@ -47,7 +54,6 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
             Route::post('/store/{id?}', [LevelsController::class, 'store']);
             Route::get('{id}/edit', [LevelsController::class, 'create']);
             Route::delete('{id}/delete', [LevelsController::class, 'delete']);
-            Route::delete('delete-selected', [LevelsController::class, 'deleteSelected']);
         });
 
         Route::group(['prefix' => 'classes'], function () {
@@ -56,7 +62,36 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
             Route::post('/store/{id?}', [ClassesController::class, 'store']);
             Route::get('{id}/edit', [ClassesController::class, 'create']);
             Route::delete('{id}/delete', [ClassesController::class, 'delete']);
-            Route::delete('delete-selected', [ClassesController::class, 'deleteSelected']);
+        });
+
+        
+        Route::group(['prefix' => 'students'], function () {
+            Route::get('/index', [StudentsController::class, 'index']);
+            Route::get('/create', [StudentsController::class, 'create']);
+            Route::post(`/store/{id?}`, [StudentsController::class, 'store']);
+            Route::get('{id}/edit', [StudentsController::class, 'create']);
+            Route::delete('{id}/delete', [StudentsController::class, 'delete']);
+        });
+
+        Route::group(['prefix' => 'constants'], function () {
+            Route::get('/absenceTypes', [ConstantsController::class, 'absenceTypes']);
+            Route::get('/violationDegrees', [ConstantsController::class, 'violationDegrees']);
+            Route::get('/violationProcedures', [ConstantsController::class, 'violationProcedures']);       
+        });
+        Route::group(['prefix' => 'absences'], function () {
+            Route::post('/store', [AbsencesController::class, 'store']);
+        });
+        Route::group(['prefix' => 'delays'], function () {
+            Route::post('/store', [DelaysController::class, 'store']);
+        });
+        Route::group(['prefix' => 'books'], function () {
+            Route::post('/store', [BooksController::class, 'store']);
+        });
+        Route::group(['prefix' => 'violations'], function () {
+            Route::post('/store', [ViolationsController::class, 'store']);
+        });
+        Route::group(['prefix' => 'leaves'], function () {
+            Route::post('/store', [LeavesController::class, 'store']);
         });
 
 });
