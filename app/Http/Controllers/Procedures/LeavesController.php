@@ -16,28 +16,35 @@ class LeavesController extends  Controller
     {
         // return $request;
         $items=collect($request);
+        // foreach ($items as $item) {
+        //     $item["leave_date"]= Carbon::parse($item["leave_date"]);
+        //     $item["leave_time"] =Carbon::parse($item["leave_time"])->setTimezone('asia/jerusalem')->format('h:i:s'); 
+        //     LeavesModel::query()->Create((array)$item);
+        // }
+        // return response()->json([
+        //     'msg' => "تمت الاضافة بنجاح",
+        //     'code'=>StatusCodes::OK
+        // ]);
+        
+
+        
         foreach ($items as $item) {
             $item["leave_date"]= Carbon::parse($item["leave_date"]);
             $item["leave_time"] =Carbon::parse($item["leave_time"])->setTimezone('asia/jerusalem')->format('h:i:s'); 
-            //  $test->format('h:i:s');
-        //    return  $item["leave_time"];
-            // $item["leave_time"]= Carbon::parse($item["leave_time"])->format('h:i:s');
-            // $date=$item["leave_time"]->setTimezone('asia/jerusalem');
-// return  $item["leave_time"];
-            // $date = Carbon::createFromFormat('H:i:s', $item["leave_time"], 'asia/jerusalem');
-            // return $date;
-            // $date->setTimezone('UTC');
-            
-            // $date= ::convertToLocal($post->created_at, 'Y-m-d g:i', true);
-            // return $date;
-            // $item["leave_time"]= Carbon::parse($item["leave_time"])->format('h:i:s');
+            try {
+                LeavesModel::query()->Create((array)$item);
+            } catch (\Exception $exception) {
+                   return response()->json([
+                       'msg' => "هناك مشكلة",
+                       'code'=>StatusCodes::GENERAL_ERROR
+                   ]);            }
 
-            LeavesModel::query()->Create((array)$item);
-        }
-        return response()->json([
-            'msg' => "تمت الاضافة بنجاح",
-            'code'=>StatusCodes::OK
-        ]);
-        
+               }
+           return response()->json([
+               'msg' => "تمت الاضافة بنجاح",
+               'code'=>StatusCodes::OK
+           ]);
+
+
     }
 }

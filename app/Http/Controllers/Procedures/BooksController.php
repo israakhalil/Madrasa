@@ -15,14 +15,32 @@ class BooksController extends  Controller
     public function store(Request $request, $id = null)
     {
         $items=collect($request);
-        foreach ($items as $item) {
-             $item["received_date"]= Carbon::parse($item["received_date"]);
-             BooksModel::query()->Create((array)$item);
-        }
-        return response()->json([
-            'msg' => "تمت الاضافة بنجاح",
-            'code'=>StatusCodes::OK
-        ]);
+        // foreach ($items as $item) {
+        //      $item["received_date"]= Carbon::parse($item["received_date"]);
+        //      BooksModel::query()->Create((array)$item);
+        // }
+        // return response()->json([
+        //     'msg' => "تمت الاضافة بنجاح",
+        //     'code'=>StatusCodes::OK
+        // ]);
         
+
+        foreach ($items as $item) {
+            $item["received_date"]= Carbon::parse($item["received_date"]);
+            try {
+                BooksModel::query()->Create((array)$item);
+            } catch (\Exception $exception) {
+                   return response()->json([
+                       'msg' => "هناك مشكلة",
+                       'code'=>StatusCodes::GENERAL_ERROR
+                   ]);            }
+
+               }
+           return response()->json([
+               'msg' => "تمت الاضافة بنجاح",
+               'code'=>StatusCodes::OK
+           ]);
+       
+
     }
 }

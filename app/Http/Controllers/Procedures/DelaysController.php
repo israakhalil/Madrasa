@@ -15,14 +15,30 @@ class DelaysController extends  Controller
     public function store(Request $request, $id = null)
     {
         $items=collect($request);
+        // foreach ($items as $item) {
+        //     $item["delay_date"]= Carbon::parse($item["delay_date"]);
+        //     DelaysModel::query()->Create((array)$item);
+        // }
+        // return response()->json([
+        //     'msg' => "تمت الاضافة بنجاح",
+        //     'code'=>StatusCodes::OK
+        // ]);
+        
+
         foreach ($items as $item) {
             $item["delay_date"]= Carbon::parse($item["delay_date"]);
-            DelaysModel::query()->Create((array)$item);
-        }
-        return response()->json([
-            'msg' => "تمت الاضافة بنجاح",
-            'code'=>StatusCodes::OK
-        ]);
-        
+            try {
+                DelaysModel::query()->Create((array)$item);
+            } catch (\Exception $exception) {
+                   return response()->json([
+                       'msg' => "هناك مشكلة",
+                       'code'=>StatusCodes::GENERAL_ERROR
+                   ]);            }
+
+               }
+           return response()->json([
+               'msg' => "تمت الاضافة بنجاح",
+               'code'=>StatusCodes::OK
+           ]);
     }
 }

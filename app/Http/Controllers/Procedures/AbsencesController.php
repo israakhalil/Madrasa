@@ -18,16 +18,16 @@ class AbsencesController extends  Controller
     {
         $items=collect($request);
         foreach ($items as $item) {
-            // return (array)$item;
              $item["absence_date"]= Carbon::parse($item["absence_date"]);
-            AbsencesModel::query()->Create((array)$item);
-        }
-       
+             try {
+                AbsencesModel::query()->Create((array)$item);
+                } catch (\Exception $exception) {
+                    return response()->json([
+                        'msg' => "هناك مشكلة",
+                        'code'=>StatusCodes::GENERAL_ERROR
+                    ]);            }
 
-            // $data = $request->only(AbsencesModel::FILLABLE);
-            // return $request;
-            // $data["absence_date"]= Carbon::parse($data["absence_date"]);
-            // AbsencesModel::query()->Create($data);
+                }
             return response()->json([
                 'msg' => "تمت الاضافة بنجاح",
                 'code'=>StatusCodes::OK
