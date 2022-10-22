@@ -47,8 +47,6 @@
         </div>
         <div class="field col-12 md:col-4">
           <label for="leave_time">وقت المغادرة </label>
-          <!-- <Calendar inputId="time12" v-model="date8" :timeOnly="true" hourFormat="12" /> -->
-
           <Calendar :showIcon="true"  inputId="time12" :timeOnly="true" v-model="item.leave_time" hourFormat="12"></Calendar>
         </div>
         <div class="field col-12 md:col-4">
@@ -168,17 +166,37 @@
         });
       },
       saveLeaves() {
+        this.errorMsg = false; 
+        this.successMsg = false;
+
         const formData = new FormData();
         formData.append("items", JSON.stringify(this.items));
           console.log(this.items);
         this.leavesService.store(this.items).then(({ data }) => {
           if (data.code == 200) {
             this.successMsg = true;
-          } else {
-            this.errorMsg = true;
+            this.errorMsg = false;
+            this.resetFrom(this.items)
+          } 
+          if (data.code == 500) { 
+          this.errorMsg = true;
+          this.successMsg = false;
           }
+        
         });
       },
+      resetFrom(items) { 
+         items.forEach((item) => { 
+            item.level_id= null,
+            item.class_id= null,
+            item.student_id = null,
+            item.leave_date= null,
+            item.leave_time= null,
+            item.student_signature= null,
+            item.leave_reason = null
+          });
+      },
+    
     },
     mounted() {
       this.getLevels();

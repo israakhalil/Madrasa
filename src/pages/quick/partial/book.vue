@@ -183,17 +183,37 @@
       },
 
       saveBooks() {
+
+        this.errorMsg = false; 
+        this.successMsg = false;
+
+        
         const formData = new FormData();
         formData.append("items", JSON.stringify(this.items));
   
         this.booksService.store(this.items).then(({ data }) => {
           if (data.code == 200) {
             this.successMsg = true;
-          } else {
-            this.errorMsg = true;
+            this.resetFrom(this.items);
+            this.errorMsg = false;
           }
+          if (data.code == 500) { 
+          this.errorMsg = true;
+          this.successMsg = false;
+        }
         });
       },
+  },
+  resetFrom(items) { 
+      items.forEach((item) => { 
+            item.level_id= null,
+            item.class_id= null,
+            item.student_id = null,
+            item.received_date= null,
+            item.book_name= null,
+            item.is_delivered= null,
+            item.student_signature= null
+          });
     },
     mounted() {
       this.getLevels();

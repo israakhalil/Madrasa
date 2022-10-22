@@ -10,8 +10,8 @@ export default class studentsService {
     }
 
 
-    async store(data,config,id = null) {
-        return await globalApp.request().post('/students/store/' + (id ? id : '') ,data,config);
+    async store(data,config) {
+        return await globalApp.request().post('/students/store' ,data,config);
     }
 
 

@@ -75,8 +75,7 @@
           :style="{ width: '500px' }"
           header="اضافة صف جديد"
           :modal="true"
-          class="p-fluid font-bold text-lg"
-        >
+          class="p-fluid font-bold text-lg">
           <div class="field">
             <label for="levels" class="mb-3">المرحلة الدراسية</label>
             <Dropdown
@@ -87,8 +86,12 @@
               optionLabel="name"
               placeholder="اختر المرحلة الدراسية"
               option-value="id"
+              :class="{ 'p-error':v$.form.level_id.$invalid && submitted }"
             >
             </Dropdown>
+
+            <small class="p-error" v-if="v$.form.level_id.$invalid && submitted">يرجى اختبار المرحلة المدرسية  </small>
+
           </div>
           <div class="field">
             <label for="name">شعبة الصف</label>
@@ -97,11 +100,9 @@
               v-model.trim="form.name"
               required="true"
               autofocus
-              :class="{ 'p-invalid': submitted && !form.name }"
+              :class="{ 'p-error':v$.form.name.$invalid && submitted }"
             />
-            <small class="p-invalid" v-if="submitted && !form.name"
-              >Name is required.</small
-            >
+            <small class="p-error" v-if="v$.form.name.$invalid && submitted">يرجى ادخال اسم الصف</small>
           </div>
           <div class="field">
             <label for="description">الملف المرفق</label>
@@ -118,12 +119,15 @@
                   <span id="file-name" class="file-box">{{form.attached_file}}</span>
                 </span>
               </label>
+
+              <small class="p-error" v-if="v$.form.attached_file.$invalid && submitted">يرجى ارفاق ملف    </small>
+
             </div>
                  
           </div>
 
           <div class="field">
-            <Button label="حفظ" class="mt-5" @click="saveClass" />
+            <Button label="حفظ" class="mt-5" type="submit" @click="saveClass(!v$.$invalid)"  />
           </div>
         </Dialog>
 
@@ -173,10 +177,15 @@
 <script>
 import SchoolsService from "@/services/schoolsService";
 import ClassesService from "@/services/classesService";
+import { useVuelidate } from "@vuelidate/core";
+import {required} from "@vuelidate/validators";
 
 let service = null;
     
 export default {
+  setup () {
+    return { v$: useVuelidate() }
+  },
   data() {
         return {
             form: {
@@ -194,16 +203,26 @@ export default {
             levels: [],
             selectedLevel: null,
             filename: null,
-            error: false,
+          error: false,
+          submitted: false,
           attachment: null,
           classesService:null,
     };
-    },
+  },
+  validations() {
+    return {
+      form: {
+        level_id: { required },
+        name: { required },
+        attached_file: { required },
+      }
+    }
+  },
     props:['id'],
     created() {
         this.service = new SchoolsService();
         this.classesService = new ClassesService();
-    },
+    }, 
     mounted() { 
       this.error=false
       this.loadData();
@@ -246,22 +265,24 @@ export default {
       this.classDialog = true;
     },
 
-    saveClass() {
-
-        const formData = new FormData()
+      saveClass(isFormValid) {
        
+      this.submitted = true;
+      if (!isFormValid) {
+        return;
+      }    
+        const formData = new FormData()
         formData.append('file_name', this.attachment)
         formData.append('data', JSON.stringify(this.form))
         const config = { headers: { 'Content-Type': 'multipart/form-data' } }
-        
-         this.submitted = true;
+  
          this.classesService.store(formData,config,this.id).then(({ data }) => {  
             
-               this.Classes() 
-               this.classDialog = false;
-                this.submitted = false;
-                this.successMsg = true;
-                this.restform()
+              this.Classes() 
+              this.classDialog = false;
+              this.submitted = false;
+              this.successMsg = true;
+              this.restform()
                
             })
       },

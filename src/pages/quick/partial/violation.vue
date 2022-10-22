@@ -212,16 +212,45 @@
         });
       },
       saveViolations() {
+        this.errorMsg = false; 
+        this.successMsg = false;
+
         const formData = new FormData();
         formData.append("items", JSON.stringify(this.items));
   
         this.violationsService.store(this.items).then(({ data }) => {
           if (data.code == 200) {
             this.successMsg = true;
-          } else {
-            this.errorMsg = true;
+            this.errorMsg = false;
+            this.resetFrom(this.items);
+          }
+          if (data.code == 500) { 
+          this.errorMsg = true;
+          this.successMsg = false;
           }
         });
+      },
+      resetFrom(items) { 
+         items.forEach((item) => { 
+            item.level_id= null,
+            item.class_id= null,
+            item.student_id = null,        
+            item.violation_date= null,
+            item.action_performed= null,
+            item.violation_procedure_id= null,
+            item.violation_degree_id = null
+            item.suprvisore_signature= null,
+            item.student_signature = null
+         });
+
+        // items.forEach((item){
+
+        // });
+        // while (items.length > 1) { 
+
+        //   items.splice(items.length, 1);
+         
+        // }
       },
     },
     mounted() {

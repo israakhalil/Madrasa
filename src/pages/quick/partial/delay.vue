@@ -173,21 +173,38 @@ export default {
             item.students = data.data.Students;
            })
        }, 
-        saveDelays() { 
+      saveDelays() { 
+
+        this.errorMsg = false; 
+        this.successMsg = false;
+        
             const formData = new FormData()
             formData.append('items', JSON.stringify(this.items))
 
         this.delaysService.store(this.items).then(({ data }) => {  
             if (data.code == 200) {
-                this.successMsg = true;
-                this.items = [];
+              this.successMsg = true;
+              this.errorMsg = false;
+                this.resetFrom(this.items)
             }
-            else { 
-                this.errorMsg=true
-
-            }
+            if (data.code == 500) { 
+          this.errorMsg = true;
+          this.successMsg = false;
+        }
            })
-       }
+      },
+      resetFrom(items) { 
+      items.forEach((item) => { 
+            item.level_id= null,
+            item.class_id= null,
+            item.student_id = null,
+            item.delay_date= null,
+            item.delay_reason= null,
+            item.delay_amount= null,
+            item.student_signature = null
+
+          });
+    },
        
   },
     mounted() {

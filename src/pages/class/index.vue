@@ -69,8 +69,8 @@
               v-model.trim="form.name"
               required="true"
               autofocus
-              :class="{ 'p-invalid': submitted && !form.name }" />
-            <small class="p-invalid" v-if="submitted && !form.name">الاسم مطلوب</small>
+              :class="{ 'p-error':v$.form.name.$invalid && submitted }"/>
+              <small class="p-error" v-if="v$.form.name.$invalid && submitted">يرجى ادخال اسم الطالب</small>
           </div>
           <div class="field">
             <label for="attached_id">الملف التعريفي للطالب</label>
@@ -84,7 +84,7 @@
               <label for="file">
                 <span class="p-input-icon-left">
                   <i class="pi pi-upload" aria-hidden="true"></i>
-                  <span id="file-name" class="file-box">{{form.attached_file}}</span>
+                  <span id="file-name" class="file-box">{{form.attached_id}}</span>
                 </span>
               </label>
             </div>
@@ -92,7 +92,7 @@
           </div>
 
           <div class="field">
-            <Button label="حفظ" class="mt-5" @click="saveStudent" />
+            <Button label="حفظ" class="mt-5" type="submit" @click="saveStudent(!v$.$invalid)" />
           </div>
         </Dialog>
 
@@ -121,14 +121,19 @@
 <script>
 import ClassesService from "@/services/classesService";
 import StudentsService from "@/services/studentsService";
+import { useVuelidate } from "@vuelidate/core";
+import {required} from "@vuelidate/validators";
 
 export default {
+  setup () {
+    return { v$: useVuelidate() }
+  },
   props: ["id"],
   data() {
     return {
       form: {
             name: null,
-        attached_id: null,
+            attached_id: null,
         class_id:null
             },
       columns: null,
@@ -137,10 +142,17 @@ export default {
       students: [],
       classesService: null,
       studentsService: null,
-      successMsg:false
+      successMsg: false,
+      submitted:false
     };
   },
-
+  validations() {
+    return {
+      form: {
+        name: { required },     
+      }
+    }
+  },
   created() {
     this.classesService = new ClassesService();
     this.studentsService = new StudentsService();
@@ -162,28 +174,29 @@ export default {
       this.submitted = false;
       this.AddStudentDialog = true;
     },
-    saveStudent() {
+    saveStudent(isFormValid) {
+      this.submitted = true;
+      if (!isFormValid) {
+        return;
+      }
+    const formData = new FormData()
+    this.form.class_id=this.id
+    formData.append('file_name', this.attachment)
+    formData.append('data', JSON.stringify(this.form))
+      const config = { headers: { 'Content-Type': 'multipart/form-data' } }   
 
-const formData = new FormData()
-
-formData.append('file_name', this.attachment)
-      formData.append('data', JSON.stringify(this.form))
-
-this.form.class_id=this.id
-const config = { headers: { 'Content-Type': 'multipart/form-data' } }
-
- this.submitted = true;
- this.studentsService.store(formData,config).then(({ data }) => {  
+      this.studentsService.store(formData, config).then(({ data }) => {
+        console.log("hello");
         this.AddStudentDialog = false;
         this.submitted = false;
-        this.successMsg = true;
+         this.successMsg = true;
         this.restform()
-       
-    })
+
+      });
 },
 
 uploadFile(e) {
-  this.form.attached_file = e.target.files[0].name;
+  this.form.attached_id = e.target.files[0].name;
    this.attachment=e.target.files[0]
 
 },

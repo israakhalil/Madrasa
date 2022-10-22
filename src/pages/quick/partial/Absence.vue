@@ -53,7 +53,7 @@
           v-model="item.absence_type_id"
           :options="absence_types"
           optionLabel="name"
-          placeholder=" نوع الغياب"
+          placeholder="اختر"
           option-value="id"
         />
       </div>
@@ -99,8 +99,14 @@
     </div>
   </div>
 
-<SuccessMsg :successMsg=successMsg />
-<ErrorMsg :errorMsg=errorMsg />
+  <SuccessMsg :successMsg=successMsg />
+  <ErrorMsg :errorMsg=errorMsg />
+
+
+<!--  <template v-if="this.errorMsg==true">
+  <ErrorMsg :errorMsg=errorMsg />
+</template> -->
+
  
 </template>
 
@@ -183,14 +189,30 @@ export default {
     saveAbsences() {
       const formData = new FormData();
       formData.append("items", JSON.stringify(this.items));
-
+      this.errorMsg = false; 
+        this.successMsg = false;
       this.absencesService.store(this.items).then(({ data }) => {
         if (data.code == 200) {
+          this.errorMsg = false;
           this.successMsg = true;
-        } else {
+          this.resetFrom(this.items)
+
+        }  if (data.code == 500) { 
           this.errorMsg = true;
+          this.successMsg = false;
         }
       });
+    },
+    resetFrom(items) { 
+      items.forEach((item) => { 
+            item.level_id= null,
+            item.class_id= null,
+            item.student_id= null,
+            item.absence_date= null,
+            item.absence_type_id= null,
+            item.absence_reason= null,
+            item.teacher_signature= null
+          });
     },
   },
   mounted() {
