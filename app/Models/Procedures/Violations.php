@@ -21,6 +21,14 @@ class Violations extends Model
        'violation_procedure_id'=>'integer',
        'violation_degree_id'=>'integer'
     ];
-
+    public function scopeFilter($q)
+    { 
+        if (request()->filled('student_id') && !empty(request('student_id'))) {
+            $key = trim(request()['student_id']);
+            $q->where('student_id', '=', $key);
+        }    
+    
+        return $q;
+    }
 
 }

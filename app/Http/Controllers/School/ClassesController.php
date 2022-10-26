@@ -1,14 +1,17 @@
 <?php
 namespace App\Http\Controllers\School;
 
-use App\Constants\Enum;
 use App\Constants\StatusCodes;
 use App\Http\Controllers\Controller;
 use App\Models\School\classes as ClassesModel;
-// use App\Http\Requests\ClassRequest;
 use App\Http\Resources\ClassResource;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
+
+// use Maatwebsite\Excel\Excel;
+
+use App\Imports\StudentClassesImport;
+
 
 class ClassesController extends  Controller
 {
@@ -46,4 +49,38 @@ class ClassesController extends  Controller
       
         
     }
+
+    public function import(Request $request)
+    {
+        if ($request->hasFile('file_name'))
+         {
+            $file = $request->file('file_name');
+            if ($file->isValid()) 
+            {
+                $path = $file->getRealPath();
+                Excel::import(new StudentClassesImport(), $path);
+                return response()->json([
+                  
+                    'code'=>StatusCodes::OK
+                ]);          
+              }
+         }
+    }
+
+
+    // public function import(Request $request)
+    // {
+    //     if ($request->hasFile('file_name')) {
+    //         $file = $request->file('file_name');
+    //         if ($file->isValid()) {
+    //             $path = $file->getRealPath();
+    //             Excel::import(new StudentClassesImport(), $path);
+    //             return $this->response_api(true, StatusCodes::OK, Enum::DONE_SUCCESSFULLY, []);
+    //         }
+    //         return $this->response_api(false, StatusCodes::UPLOAD_ERR, Enum::UPLOAD_ERR_NOT_VALID, []);
+
+    //     }
+    //     return $this->response_api(false, StatusCodes::UPLOAD_ERR, Enum::UPLOAD_ERR_NO_FILE, []);
+    // }
+
 }

@@ -10,6 +10,7 @@ class ViolationResource extends JsonResource
     public function toArray($request)
     {
         return [
+            'id'=> $this['id'],
             'violation_date'=> $this['violation_date'],
             'action_performed'=> $this['action_performed'],
             'violation_procedure_id'=> $this['violation_procedure_id'],

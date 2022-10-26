@@ -9,6 +9,7 @@ class BookResource extends JsonResource
     public function toArray($request)
     {
         return [
+            'id'=> $this['id'],
             'received_date'=> $this['received_date'],
             'book_name'=> $this['book_name'],
             'is_delivered'=> $this['is_delivered'],

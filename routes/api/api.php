@@ -57,11 +57,14 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         });
 
         Route::group(['prefix' => 'classes'], function () {
+            Route::post('/import', [ClassesController::class, 'import']);
+
             Route::get('/index', [ClassesController::class, 'index']);
             Route::get('/create', [ClassesController::class, 'create']);
             Route::post('/store/{id?}', [ClassesController::class, 'store']);
             Route::get('{id}/edit', [ClassesController::class, 'create']);
             Route::delete('{id}/delete', [ClassesController::class, 'delete']);
+
         });
 
         
@@ -79,19 +82,39 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
             Route::get('/violationProcedures', [ConstantsController::class, 'violationProcedures']);       
         });
         Route::group(['prefix' => 'absences'], function () {
+            Route::get('/index', [AbsencesController::class, 'index']);
             Route::post('/store', [AbsencesController::class, 'store']);
+            Route::post('/save/{id?}', [AbsencesController::class, 'save']);
+            Route::delete('{id}/delete', [AbsencesController::class, 'delete']);
+
         });
         Route::group(['prefix' => 'delays'], function () {
+            Route::get('/index', [DelaysController::class, 'index']);
             Route::post('/store', [DelaysController::class, 'store']);
+            Route::post('/save/{id?}', [DelaysController::class, 'save']);
+            Route::delete('{id}/delete', [DelaysController::class, 'delete']);
+
         });
         Route::group(['prefix' => 'books'], function () {
+            Route::get('/index', [BooksController::class, 'index']);
             Route::post('/store', [BooksController::class, 'store']);
+            Route::post('/save/{id?}', [BooksController::class, 'save']);
+            Route::delete('{id}/delete', [BooksController::class, 'delete']);
+
         });
         Route::group(['prefix' => 'violations'], function () {
+            Route::get('/index', [ViolationsController::class, 'index']);
             Route::post('/store', [ViolationsController::class, 'store']);
+            Route::post('/save/{id?}', [ViolationsController::class, 'save']);
+            Route::delete('{id}/delete', [ViolationsController::class, 'delete']);
+
         });
         Route::group(['prefix' => 'leaves'], function () {
+            Route::get('/index', [LeavesController::class, 'index']);
             Route::post('/store', [LeavesController::class, 'store']);
+            Route::post('/save/{id?}', [LeavesController::class, 'save']);
+            Route::delete('{id}/delete', [LeavesController::class, 'delete']);
+
         });
 
 });

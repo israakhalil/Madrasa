@@ -9,6 +9,7 @@ class DelayResource extends JsonResource
     public function toArray($request)
     {
         return [
+            'id'=> $this['id'],
             'student_id'=> $this['student_id'],
             'delay_date'=> $this['delay_date'],
             'delay_reason'=> $this['delay_reason'],

@@ -22,23 +22,23 @@ class StudentsController extends  Controller
         ]);
     }
 
-    public function store2(Request $request, $id = null)
-    {
-        $filename=null;
+    // public function store2(Request $request, $id = null)
+    // {
+    //     $filename=null;
        
-        if ($request->hasFile('file_name')) {
-            $file = $request->file_name;   
-            $filename=$file->store("Files");
-        }
+    //     if ($request->hasFile('file_name')) {
+    //         $file = $request->file_name;   
+    //         $filename=$file->store("Files");
+    //     }
           
-            $data = json_decode($request->data);
-            $student=new StudentsModel();
-            $student->name=$data->name;
-            $student->class_id= $data->class_id;
-            $student->date_of_birth=Carbon::parse('12/02/2022');
-            $student->attached_id=$filename;
-            $student->save();
-    }
+    //         $data = json_decode($request->data);
+    //         $student=new StudentsModel();
+    //         $student->name=$data->name;
+    //         $student->class_id= $data->class_id;
+    //         $student->date_of_birth=Carbon::parse('12/02/2022');
+    //         $student->attached_id=$filename;
+    //         $student->save();
+    // }
     public function store(Request $request, $id = null)
     {
         $filename=null;
@@ -49,7 +49,6 @@ class StudentsController extends  Controller
         }
           
             $data = json_decode($request->data);
-            return $data;
             $student=new StudentsModel();
             $student->name=$data->name;
             $student->class_id= $data->class_id;
@@ -60,4 +59,7 @@ class StudentsController extends  Controller
       
         
     }
+
+
+
 }

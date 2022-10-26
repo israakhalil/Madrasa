@@ -12,9 +12,7 @@ class Schools extends Model
 
     protected $table="schools";
     protected $fillable = [
-        'name',
-        'logo',
-        'is_active',
+        
     ];
 
     protected $casts = [
