@@ -2,14 +2,14 @@
   <div class="grid">
     <div class="col-12 md:col-12">
       <div class="card">
-        <div class="grid my-2 font-bold">
-            <div class="col-7 md:col-7 justify-content-right mr-10">
-              <span class="font-bold text-xl "
+        <div class="grid my-2 font-bold mr-10">
+            <div class="col-7 md:col-7  py-4">
+              <span class="font-bold text-xl"
                 >المراحل المدرسية > {{ this.class.level_name }} >
                 {{ this.class.name }}</span
               >
             </div>
-            <div class="col-5 md:col-5 justify-content-left">
+            <div class="col-5 md:col-5">
                 <div class="grid">
                     <div class="col-6 md:col-6">
                         <span class="col-12 p-input-icon-right">
@@ -18,21 +18,24 @@
                         </span>
 
                      </div>
-                    <div class="col-3 md:col-3 justify-content-center mt-2">
+                    <div class="col-3 md:col-3 justify-content-center mt-2"  v-tooltip="'يجب على الاقل ان يحتوي الملف على عمود يسمى name  '">
                         <FileUpload
                         style="width:100%"
+                       
                             mode="basic"
-                            accept="image/*"
+                            accept=".xlsx"
                             :maxFileSize="1000000"
                             label="سحب البيانات"
                             chooseLabel="سحب البيانات"
                             uploadIcon ="pi pi-folder-open"
                             class="p-button-outlined p-button-success "
+                            :customUpload="true"
+                            @uploader="onUpload"
                         />
                     </div>
                 
                     <div class="col-3 md:col-3 justify-content-right mt-2">
-                        <Button label="إضافة طالب"  icon="pi pi-plus" class="p-button-outlined " @click="openNew"/>
+                        <Button label="إضافة طالب"   icon="pi pi-plus" class="p-button-outlined " @click="openNew"/>
 
                     </div>
                   
@@ -44,14 +47,44 @@
         </div>
 
         <div>
-          <DataTable :value="products" responsiveLayout="scroll">
-            <Column
-              v-for="col of columns"
-              :field="col.field"
-              :header="col.header"
-              :key="col.field"
-            ></Column>
-          </DataTable>
+
+
+          <DataTable :value="students" class="p-datatable-lg font-bold" showGridlines  responsiveLayout="scroll">
+            <Column field="id_number" header="الرقم ">
+              <template #body="slotProps">
+                        {{slotProps.index+1}}
+                    </template>
+                    </Column>
+
+            <Column field="name" header=" اسم الطالب ثلاثي">
+              <template #body="slotProps">
+                <div class="join">
+                      <span  class="font-semibold" style="cursor: pointer" 
+                      @click="this.$router.push({ name: 'student-index', params: { id: slotProps.data.id,class_id: slotProps.data.class_id} })"> 
+                      {{slotProps.data.name}} 
+                      </span> 
+                      </div>
+                    </template>
+            </Column>
+            <Column field="absence_count" header="الغياب">
+              
+            </Column>
+            <Column field="leave_count" header="الاستئذان">
+              
+            </Column>
+            <Column field="delay_count" header="التأخير الصباحي">
+              
+            </Column>
+            <Column field="violation_count" header="المخالفات السلوكية">
+              
+            </Column>
+            <Column field="book_count" header=" تسليم الكتب">
+              
+            </Column>
+            <template #footer>
+                في المجمل هناك  {{students ? students.length : 0 }} طالب.
+            </template>
+        </DataTable>
         </div>
       </div>
 
@@ -134,12 +167,14 @@ export default {
       form: {
             name: null,
             attached_id: null,
-        class_id:null
+            class_id:null
             },
       columns: null,
       class: [],
       AddStudentDialog: false,
       students: [],
+
+
       classesService: null,
       studentsService: null,
       successMsg: false,
@@ -156,17 +191,6 @@ export default {
   created() {
     this.classesService = new ClassesService();
     this.studentsService = new StudentsService();
-
-    this.columns = [
-      { field: 'id_number', header: 'الرقم' },
-      { field: "name", header: "اسم الطالب ثلاثي" },
-      { field: 'absence', header: 'الغياب' },
-      { field: 'quantity', header: 'الاستئذان' },
-      { field: 'absence', header: 'التأخير الصباحي' },
-      { field: 'quantity', header: 'المخالفات السلوكية' },
-      { field: 'quantity', header: ' تسليم الكتب' }
-    ];
-
   
   },
   methods:{ 
@@ -179,21 +203,32 @@ export default {
       if (!isFormValid) {
         return;
       }
-    const formData = new FormData()
-    this.form.class_id=this.id
-    formData.append('file_name', this.attachment)
-    formData.append('data', JSON.stringify(this.form))
-      const config = { headers: { 'Content-Type': 'multipart/form-data' } }   
+        const formData = new FormData()
+        this.form.class_id=this.id
+        formData.append('file_name', this.attachment)
+        formData.append('data', JSON.stringify(this.form))
+          const config = { headers: { 'Content-Type': 'multipart/form-data' } }   
 
-      this.studentsService.store(formData, config).then(({ data }) => {
-        console.log("hello");
-        this.AddStudentDialog = false;
-        this.submitted = false;
-         this.successMsg = true;
-        this.restform()
+          this.studentsService.store(formData, config).then(({ data }) => {
+            this.AddStudentDialog = false;
+            this.submitted = false;
+            this.getStudents();
+            this.successMsg = true;
+            this.restform()
 
+          });
+    },
+    onUpload(event) {
+      const formData = new FormData(event.target);
+      formData.append('file_name', event.files[0])
+
+      this.classesService.import(formData).then((response) => {
+        if(response.data.code===200){
+          globalApp.success(response.data.message);
+        }
       });
-},
+
+    },
 
 uploadFile(e) {
   this.form.attached_id = e.target.files[0].name;
@@ -204,19 +239,28 @@ uploadFile(e) {
 restform() {    
         this.form.name= null,
     this.form.attached_id = null
-        }
+    },
+
+
+    getStudents() {
+
+      this.studentsService.index({ class_id: this.id }).then(({ data }) => {
+        if (data.code == 200) {
+        this.students = data.data.Students;
+      }
+    });
+}
   },
 
   mounted() {
     this.query = { id: this.id };
-
-    // this.classesService.index(this.query).then(data => this.classes = data);
-
     this.classesService.index(this.query).then(({ data }) => {
       if (data.code == 200) {
         this.class = data.data.Classes[0];
       }
     });
+    this.getStudents(this.query)
+
   },
 };
 </script>
@@ -230,8 +274,17 @@ restform() {
 .inputfile {
   display: none;
 }
+/* .hover{
+  color: var(--primary-color)
 
-
+} */
+a {
+ font-size: 1.2rem;
+}
+.join:hover span {
+    color:var(--primary-color);
+   font-size: 1.1rem;
+}
 .file-box {
   display: inline-block;
   width: 100%;

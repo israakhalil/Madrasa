@@ -7,12 +7,15 @@ import PrimeVue from 'primevue/config';
 import Ripple from 'primevue/ripple';
 import StyleClass from 'primevue/styleclass';
 import BadgeDirective from 'primevue/badgedirective';
+import Tooltip from 'primevue/tooltip';
 
 globalApp.app.use(PrimeVue, { ripple: true, inputStyle: 'outlined' });
 
 globalApp.app.directive('ripple', Ripple);
 globalApp.app.directive('styleclass', StyleClass);
 globalApp.app.directive('badge', BadgeDirective);
+globalApp.app.directive('tooltip', Tooltip);
+
 
 /********************* PrimeVue Region *******************/
 import Button from 'primevue/button';
@@ -98,14 +101,19 @@ import BookLayout from '@/pages/quick/partial/book.vue';
 import ViolationLayout from '@/pages/quick/partial/violation.vue';
 import LeaveLayout from '@/pages/quick/partial/leave.vue';
 
+import AbsenceStudent from '@/pages/class/partial/Absence.vue';
+
 import ErrorMsg from '@/components/errorMsg.vue';
 import SuccessMsg from '@/components/successMsg.vue';
+
+globalApp.app.component('AbsenceStudent', AbsenceStudent);
 
 globalApp.app.component('AbsenceLayout', AbsenceLayout);
 globalApp.app.component('DelayLayout', DelayLayout);
 globalApp.app.component('BookLayout', BookLayout);
 globalApp.app.component('ViolationLayout', ViolationLayout);
 globalApp.app.component('LeaveLayout', LeaveLayout);
+
 
 globalApp.app.component('ErrorMsg', ErrorMsg);
 globalApp.app.component('SuccessMsg', SuccessMsg);

@@ -14,7 +14,7 @@ class="font-bold text-3xl"
   </div>
 
   <div class="justify-content-center text-center md:text-center">
-    <span>تمت الاضافة بنجاح </span>
+    <span>{{Msg}}</span>
   </div>
 </div>
 </Dialog> 
@@ -24,7 +24,8 @@ class="font-bold text-3xl"
 export default {
 
     props: {
-        successMsg: String,  
+    successMsg: String,  
+    Msg: String
 } 
 }
 </script>

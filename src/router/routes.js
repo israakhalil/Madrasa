@@ -50,7 +50,14 @@ const routes = [
                         name: "class-all",
                         props:true,
                         component: () => import('../pages/class/index.vue'),
-                    }]
+                    },
+                    {
+                        path: `:class_id/student/:id/profile`,
+                        name: "student-index",
+                        props:true,
+                        component: () => import('../pages/class/profile.vue'),
+                    }
+                ]
             },
             {
                 path: '/quick',
@@ -64,7 +71,18 @@ const routes = [
                     }
                 ]
                    
-            }
+            },
+            // {
+            //     path: '/student',
+            //     component: () => import('../pages/student/layout.vue'),
+            //     children: [
+            //         {
+            //             path: `:id/profile`,
+            //             name: "student-index",
+            //             props:true,
+            //             component: () => import('../pages/student/index.vue'),
+            //         }]
+            // },
         ]    
     },
     {

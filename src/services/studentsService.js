@@ -23,9 +23,7 @@ export default class studentsService {
     deleteItem(id) {
         return globalApp.request().delete(`/students/${id}/delete`);
     }
-    deleteSelectedItem(ids){
-        return globalApp.request().delete(`/students/delete-selected `, {params:{ids} });
-    }
+
 
 
 

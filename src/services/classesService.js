@@ -11,7 +11,7 @@ export default class classesService {
 
 
     async store(data,config,id = null) {
-        return await globalApp.request().post('/classes/store' + (id ? id : '') ,data,config);
+        return await globalApp.request().post('/classes/store/' + (id ? id : '') ,data,config);
     }
 
 
@@ -23,8 +23,9 @@ export default class classesService {
     deleteItem(id) {
         return globalApp.request().delete(`/classes/${id}/delete`);
     }
-    deleteSelectedItem(ids){
-        return globalApp.request().delete(`/classes/delete-selected `, {params:{ids} });
+
+    import(data){
+        return globalApp.request().post(`/classes/import`, data);
     }
 
 

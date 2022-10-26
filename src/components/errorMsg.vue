@@ -10,7 +10,7 @@
   >
     <div>
       <div class="justify-content-center text-center md:text-center">
-        <i class="pi pi-times-circle" style="font-size: 5rem"></i>
+        <i class="pi pi-times-circle" style="font-size: 5rem; color:red"></i>
       </div>
 
       <div class="justify-content-center text-center md:text-center">
