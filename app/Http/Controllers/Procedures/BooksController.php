@@ -53,7 +53,18 @@ class BooksController extends  Controller
        
 
     }
+    public function save(Request  $request, $id = null)
+    {
+        $data = $request->only(BooksModel::FILLABLE);
+        $data["received_date"]= Carbon::parse($data["received_date"]);
 
+        BooksModel::query()->updateOrCreate(['id' => $id,], $data);
+       
+        return response()->json([
+            'msg' => "تم الحفظ بنجاح",
+            'code'=>StatusCodes::OK
+        ]);   
+     }
     public function delete($id)
     {
         $item = BooksModel::query()->where('id' , '=', $id);

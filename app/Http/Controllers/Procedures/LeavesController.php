@@ -47,6 +47,20 @@ class LeavesController extends  Controller
 
     }
 
+    public function save(Request  $request, $id = null)
+    {
+        $data = $request->only(LeavesModel::FILLABLE);
+        $data["leave_date"]= Carbon::parse($data["leave_date"]);
+        $data["leave_time"] =Carbon::parse($data["leave_time"])->setTimezone('asia/jerusalem')->format('h:i:s'); 
+
+        LeavesModel::query()->updateOrCreate(['id' => $id,], $data);
+       
+        return response()->json([
+            'msg' => "تم الحفظ بنجاح",
+            'code'=>StatusCodes::OK
+        ]);   
+     }
+
     public function delete($id)
     {
         $item = LeavesModel::query()->where('id' , '=', $id);

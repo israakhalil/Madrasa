@@ -56,6 +56,19 @@ class ViolationsController extends  Controller
 
     }
 
+    public function save(Request  $request, $id = null)
+    {
+        $data = $request->only(ViolationsModel::FILLABLE);
+        $data["violation_date"]= Carbon::parse($data["violation_date"]);
+
+        ViolationsModel::query()->updateOrCreate(['id' => $id,], $data);
+       
+        return response()->json([
+            'msg' => "تم الحفظ بنجاح",
+            'code'=>StatusCodes::OK
+        ]);   
+     }
+
     public function delete($id)
     {
         $item = ViolationsModel::query()->where('id' , '=', $id);
