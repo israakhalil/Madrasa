@@ -96,6 +96,19 @@
         
         <DelayStudent  :student_id="id"/>
      </div>
+     <div class="grid p-fluid mt-5 font-bold mr-5">
+        
+        <LeaveStudent  :student_id="id"/>
+     </div>
+     <div class="grid p-fluid mt-5 font-bold mr-5">
+        
+        <ViolationStudent  :student_id="id"/>
+     </div>
+     <div class="grid p-fluid mt-5 font-bold mr-5">
+        
+        <BookStudent  :student_id="id"/>
+     </div>
+
       </div>
     </div>
   </div>
@@ -105,6 +118,9 @@
 import ClassesService from "@/services/classesService";
 import StudentsService from "@/services/studentsService";
 import DelayStudent from "./partial/delay.vue";
+import LeaveStudent from "./partial/leave.vue";
+import ViolationStudent from "./partial/violation.vue";
+import BookStudent from "./partial/book.vue";
 
 export default {
     props: ["class_id", "id"],
@@ -139,7 +155,7 @@ export default {
         });
         this.getStudents();
     },
-    components: { DelayStudent }
+    components: { DelayStudent ,LeaveStudent, ViolationStudent, BookStudent}
 };
 </script>
 
