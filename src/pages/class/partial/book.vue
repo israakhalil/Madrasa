@@ -36,7 +36,7 @@
 
     <Column  header="  الاجراءات" style="max-width:8rem">
         <template #body="slotProps">
-            <Button icon="pi pi-download" class="p-button-rounded p-button-help ml-2" />
+            <!-- <Button icon="pi pi-download" class="p-button-rounded p-button-help ml-2" /> -->
             <Button icon="pi pi-pencil" class="p-button-rounded p-button-success ml-2" @click="openEdit(slotProps.data)"/>
             <Button icon="pi pi-trash" class="p-button-rounded p-button-danger ml-2" @click="openDelete(slotProps.data)"/>
         </template>
@@ -149,7 +149,7 @@ props: ["student_id"],
 data() {
     return {
         submitted:false,
-        student_book: [],
+        student_books: [],
         header:null,
         BookDialog: false,
         successMsg: false,
@@ -203,7 +203,7 @@ methods: {
         this.deleteMsg = "هل انت متاكد من الحذف ";
     },
     save(isFormValid) {
-   
+             this.successMsg = false;
             this.submitted = true;
             if (!isFormValid) {
                 return;
@@ -218,14 +218,16 @@ methods: {
         }
         });        },
     deleteBook() { 
+        this.successMsg = false;
         this.booksService.delete(this.form.id).then(({ data }) => {
             if (data.code == 200) {
             this.deleteconfirm = false;
             this.successMsg = true;
-            this.Msg = data.msg;
+                this.Msg = data.msg;
+                this.student_books = this.student_books.filter(val => val.id !== this.form.id);
+
         }
         });
-        this.student_books = this.student_books.filter(val => val.id !== this.form.id);
         this.form = {};
     },
 
@@ -234,6 +236,7 @@ methods: {
         this.booksService.index(this.query).then(({ data }) => {
         if (data.code == 200) {
             this.student_books = data.data.books;
+
         }
     });
     }
