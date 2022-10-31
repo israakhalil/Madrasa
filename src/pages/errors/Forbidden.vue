@@ -14,7 +14,7 @@
                             <!-- <img :src="this.siteLogo()" alt="Sakai logo" style="width: 100px; height: 100px" /> -->
                         </div>
                         <h3 class="font-bold text-5xl text-900 mb-2">ليس لديك صلاحية وصول لهذا العنصر</h3>
-                        <img src="/layout/images/asset-error.svg" style="width: 80% !important" alt="Error" class="mt-5" width="80%" />
+                        <!-- <img src="/layout/images/asset-error.svg" style="width: 80% !important" alt="Error" class="mt-5" width="80%" /> -->
                         <div class="col-12 mt-5 text-center">
                             <i class="pi pi-fw pi-arrow-right text-blue-500 mx-2" style="vertical-align: center"></i>
                             <router-link to="/" class="text-blue-500">{{ $t('go_home') }}</router-link>
