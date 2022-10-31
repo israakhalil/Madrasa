@@ -263,7 +263,8 @@ methods: {
                 this.Msg = data.msg;
                 this.getViolations();
         }
-        });        },
+        });
+    },
     deleteViolation() { 
         this.successMsg = false;
 

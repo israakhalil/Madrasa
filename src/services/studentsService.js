@@ -14,10 +14,12 @@ export default class studentsService {
         return await globalApp.request().post('/students/store' ,data,config);
     }
 
-
-    async edit(id) {
-        return await globalApp.request().get(`/students/${id}/edit` );
+    async edit(data, id = null) {
+        return await globalApp.request().post('/students/edit/'+ (id ? id : ''),data);
     }
+    // async edit(id) {
+    //     return await globalApp.request().get(`/students/${id}/edit` );
+    // }
 
 
     deleteItem(id) {

@@ -1,0 +1,212 @@
+<template>
+            <div class="grid mt-5 font-bold mr-5">
+          <div class="col-10 md:col-10 justify-content-right mr-10">
+            <span class="font-bold text-xl" style="color: var(--primary-color)">
+              البيانات الرئيسية
+            </span>
+          </div>
+          <div class="col-2 md:col-2 justify-content-left">
+            <Button
+              label="طباعة"
+              icon="pi pi-print"
+              class="p-button-outlined ml-3" />
+            <Button
+              label=" تعديل"
+              icon="pi pi-pencil"
+              class="p-button-outlined"
+              @click="openEdit(this.student)"/>
+          <div>
+
+            </div>
+          </div>
+        </div>
+
+        <div class="grid p-fluid mt-5 font-bold mr-5">
+      <div class="field col-12 md:col-2">
+        <label for="name">اسم الطالب </label>
+        <InputText
+          id="name" disabled
+          v-model.trim="student.name"
+        />
+      </div>
+      <div class="field col-12 md:col-2">
+        <label for="id_number"> رقم الهوية</label>
+        <InputText 
+          id="id_number" disabled
+          v-model.trim="student.id_number"
+
+        />
+      </div>
+      <div class="field col-12 md:col-2">
+        <label for="date_of_birth"> تاريخ الميلاد </label>
+        <InputText
+          id="date_of_birth" disabled
+          v-model.trim="student.date_of_birth"
+          autofocus
+        />
+      </div>
+      <div class="field col-12 md:col-2">
+        <label for="phone_1"> هاتف ولي الامر (الاول) </label>
+        <InputText 
+          id="phone_1" disabled
+          v-model.trim="student.phone_1"
+        />
+              </div>
+      <div class="field col-12 md:col-2">
+        <label for="phone_2">  هاتف ولي الامر (الثاني)</label>
+        <InputText
+          id="phone_2" disabled
+          v-model.trim="student.phone_2"
+        />
+      </div>
+      <div class="field col-12 md:col-2">
+        <label for="phone_3"> هاتف ولي الامر (الثالث) </label>
+        <InputText
+          id="phone_3" disabled
+          v-model.trim="student.phone_3"         
+        />
+      </div>
+         </div>
+
+
+         <Dialog v-model:visible="StudentEditDialog" :style="{width: '450px'}" 
+        header="تعديل بيانات الطالب" :modal="true" 
+    class="p-fluid font-bold text-lg">
+<form @submit.prevent="save(!v$.$invalid)">
+
+
+        <div class="field">
+            <label for="name"> اسم الطالب </label>
+            <InputText
+            id="name"
+            v-model.trim="student_profile.name"
+            :class="{ 'p-invalid':v$.student_profile.name.$invalid && submitted }"/>
+              <small class="p-error" v-if="v$.student_profile.name.$invalid && submitted">
+                يرجى  ادخال اسم الطالب     </small>
+          </div>
+
+          <div class="field">
+            <label for="id_number"> رقم الهوية  </label>
+            <InputText
+            id="id_number"
+            v-model.trim="student_profile.id_number"
+            :class="{ 'p-invalid':v$.student_profile.id_number.$invalid && submitted }"/>
+              <small class="p-error" v-if="v$.student_profile.id_number.$invalid && submitted">يرجى  ادخال رقم الهوية      </small>
+            </div >
+            <div class="field">
+                <label for="date_of_birth">تاريخ الميلاد </label>
+                <Calendar id="date_of_birth" :showIcon="true" 
+                v-model="student_profile.date_of_birth"
+                :class="{ 'p-invalid':v$.student_profile.date_of_birth.$invalid && submitted }"></Calendar>
+                <small class="p-error" v-if="v$.student_profile.date_of_birth.$invalid && submitted">يرجى اختبار  تاريخ الميلاد  </small>
+
+            </div>
+          <div class="field">
+            <label for="phone_1"> (الاول) هاتف ولي الامر  </label>
+            <InputText
+            id="phone_1"
+            v-model.trim="student_profile.phone_1"
+            :class="{ 'p-invalid':v$.student_profile.phone_1.$invalid && submitted }"/>
+              <small class="p-error" v-if="v$.student_profile.phone_1.$invalid && submitted">يرجى  ادخال هاتف ولي الامر     </small>
+            </div>
+            <div class="field">
+                <label for="phone_2"> (الثاني) هاتف ولي الامر  </label>
+                <InputText
+                id="phone_2"
+                v-model.trim="student_profile.phone_2"
+                />
+            </div>
+            <div class="field">
+                <label for="phone_3"> (الثالث) هاتف ولي الامر  </label>
+                <InputText
+                id="phone_3"
+                v-model.trim="student_profile.phone_3"
+                />
+            </div>
+          <div class="field">
+            <Button label="تعديل"  ffclass="mt-5"  type="submit"  />
+          </div>
+
+        </form>
+        </Dialog>
+
+
+</template>
+  
+
+<script>
+import StudentsService from "@/services/studentsService";
+
+import { useVuelidate } from "@vuelidate/core";
+import { required } from "@vuelidate/validators";
+
+export default {
+    props: [ "id"],
+    setup () {
+        return {
+            v$: useVuelidate()
+        }
+},
+    data() {
+        return {
+            student: [],
+            StudentEditDialog: false,
+            student_profile: {},
+            submitted: false,
+            studentsService:null
+
+        };
+    },
+    validations() {
+    return {
+        student_profile: {
+            name: { required },
+            id_number: { required },
+            phone_1: { required },
+            date_of_birth: {required},
+        
+        }
+    }
+  },
+
+    created() {
+        this.studentsService = new StudentsService();
+    },
+    methods: {
+        getStudents() {
+            this.studentsService.index({ id: this.id }).then(({ data }) => {
+                if (data.code == 200) {
+                    this.student = data.data.Students[0];
+                }
+            });
+        },
+        openEdit(data) { 
+            this.StudentEditDialog = true
+             this.student_profile = { ...data };  
+        },
+
+        save(isFormValid) {
+
+            // this.successMsg = false
+          this.submitted = true;
+            if (!isFormValid) {
+                return;
+            }
+        this.student_profile.class_id = this.class_id;
+        this.studentsService.edit(this.student_profile, this.id).then(({ data }) => {
+            if (data.code == 200) {
+                this.StudentEditDialog = false;
+                this.submitted = false
+                this.getStudents();
+        }
+        });
+        },
+
+
+    },
+    mounted() {
+        this.getStudents();
+    },
+
+}
+</script>
