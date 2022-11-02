@@ -25,7 +25,7 @@ class Levels extends Model
     }
 
     public function classes(){
-        return $this->hasMany(classes::class,'level_id','id');
+        return $this->hasMany(Classes::class,'level_id','id');
     }
 
     public function scopeFilter($q)
