@@ -72,7 +72,9 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
             Route::get('/index', [StudentsController::class, 'index']);
             Route::get('/create', [StudentsController::class, 'create']);
             Route::post('/store', [StudentsController::class, 'store']);
-            Route::get('{id}/edit', [StudentsController::class, 'create']);
+            Route::post('/edit/{id?}', [StudentsController::class, 'edit']);
+
+            // Route::get('{id}/edit', [StudentsController::class, 'create']);
             Route::delete('{id}/delete', [StudentsController::class, 'delete']);
         });
 

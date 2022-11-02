@@ -6,7 +6,7 @@ use App\Constants\StatusCodes;
 use App\Http\Controllers\Controller;
 
 use App\Models\School\Levels as LevelsModel;
-use App\Models\School\classes as ClassesModel;
+use App\Models\School\Classes as ClassesModel;
 use App\Models\School\Schools as SchoolsModel;
 use App\Http\Resources\LevelResource;
 use App\Http\Resources\SchoolResource;

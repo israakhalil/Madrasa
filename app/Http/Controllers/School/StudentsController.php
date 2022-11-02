@@ -52,14 +52,28 @@ class StudentsController extends  Controller
             $student=new StudentsModel();
             $student->name=$data->name;
             $student->class_id= $data->class_id;
-            $student->date_of_birth=Carbon::parse('12/02/2022');
+            // $student->phone_1= $data->phone_1;
+            // $student->phone_2= $data->phone_2;
+            // $student->phone_3= $data->phone_3;
+            // $student->date_of_birth=Carbon::parse($data->date_of_birth);
             $student->attached_id=$filename;
             $student->save();
 
       
         
     }
+    public function edit(Request  $request, $id = null)
+    {
+        $data = $request->only(StudentsModel::FILLABLE);
+        $data["date_of_birth"]= Carbon::parse($data["date_of_birth"]);
 
+        StudentsModel::query()->updateOrCreate(['id' => $id,], $data);
+       
+        return response()->json([
+            'msg' => "تم الحفظ بنجاح",
+            'code'=>StatusCodes::OK
+        ]);   
+     }
 
 
 }

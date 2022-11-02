@@ -3,7 +3,7 @@ namespace App\Http\Controllers\School;
 
 use App\Constants\StatusCodes;
 use App\Http\Controllers\Controller;
-use App\Models\School\classes as ClassesModel;
+use App\Models\School\Classes as ClassesModel;
 use App\Http\Resources\ClassResource;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
