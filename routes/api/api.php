@@ -70,11 +70,8 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         
         Route::group(['prefix' => 'students'], function () {
             Route::get('/index', [StudentsController::class, 'index']);
-            Route::get('/create', [StudentsController::class, 'create']);
             Route::post('/store', [StudentsController::class, 'store']);
             Route::post('/edit/{id?}', [StudentsController::class, 'edit']);
-
-            // Route::get('{id}/edit', [StudentsController::class, 'create']);
             Route::delete('{id}/delete', [StudentsController::class, 'delete']);
         });
 
@@ -85,35 +82,35 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         });
         Route::group(['prefix' => 'absences'], function () {
             Route::get('/index', [AbsencesController::class, 'index']);
-            Route::post('/store/', [AbsencesController::class, 'store']);
+            Route::post('/store', [AbsencesController::class, 'store']);
             Route::post('/save/{id?}', [AbsencesController::class, 'save']);
             Route::delete('{id}/delete', [AbsencesController::class, 'delete']);
 
         });
         Route::group(['prefix' => 'delays'], function () {
             Route::get('/index', [DelaysController::class, 'index']);
-            Route::post('/store/', [DelaysController::class, 'store']);
+            Route::post('/store', [DelaysController::class, 'store']);
             Route::post('/save/{id?}', [DelaysController::class, 'save']);
             Route::delete('{id}/delete', [DelaysController::class, 'delete']);
 
         });
         Route::group(['prefix' => 'books'], function () {
             Route::get('/index', [BooksController::class, 'index']);
-            Route::post('/store/', [BooksController::class, 'store']);
+            Route::post('/store', [BooksController::class, 'store']);
             Route::post('/save/{id?}', [BooksController::class, 'save']);
             Route::delete('{id}/delete', [BooksController::class, 'delete']);
 
         });
         Route::group(['prefix' => 'violations'], function () {
             Route::get('/index', [ViolationsController::class, 'index']);
-            Route::post('/store/', [ViolationsController::class, 'store']);
+            Route::post('/store', [ViolationsController::class, 'store']);
             Route::post('/save/{id?}', [ViolationsController::class, 'save']);
             Route::delete('{id}/delete', [ViolationsController::class, 'delete']);
 
         });
         Route::group(['prefix' => 'leaves'], function () {
             Route::get('/index', [LeavesController::class, 'index']);
-            Route::post('/store/', [LeavesController::class, 'store']);
+            Route::post('/store', [LeavesController::class, 'store']);
             Route::post('/save/{id?}', [LeavesController::class, 'save']);
             Route::delete('{id}/delete', [LeavesController::class, 'delete']);
 
