@@ -67,12 +67,19 @@ class="p-fluid font-bold text-lg">
 
         </div >
         <div class="field">
-        <label for="leave_time"> وقت الاستئذان </label>
-        <InputText
+        <label for="leave_time"> وقت الخروج </label>
+        <Calendar :showIcon="true"  inputId="time12" :timeOnly="true" 
+        hourFormat="12"
+        v-model="form.leave_time"
+        :class="{ 'p-invalid':v$.form.leave_time.$invalid && submitted }"></Calendar>
+        <small class="p-error" v-if="v$.form.leave_time.$invalid && submitted">يرجى  ادخال وقت التاخير     </small> 
+
+
+        <!-- <InputText
         id="leave_time"
         v-model.trim="form.leave_time"
         :class="{ 'p-invalid':v$.form.leave_time.$invalid && submitted }"/>
-          <small class="p-error" v-if="v$.form.leave_time.$invalid && submitted">يرجى  ادخال مقدار     </small>
+          <small class="p-error" v-if="v$.form.leave_time.$invalid && submitted">يرجى  ادخال مقدار     </small> -->
 
         </div >
         <div  class="field">

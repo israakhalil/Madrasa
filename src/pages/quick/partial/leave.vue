@@ -42,15 +42,15 @@
           />
         </div>
         <div class="field col-12 md:col-4">
-          <label for="leave_date">تاريخ المغادرة </label>
+          <label for="leave_date">تاريخ الاستئذان </label>
           <Calendar :showIcon="true" v-model="item.leave_date"></Calendar>
         </div>
         <div class="field col-12 md:col-4">
-          <label for="leave_time">وقت المغادرة </label>
+          <label for="leave_time">وقت الاستئذان </label>
           <Calendar :showIcon="true"  inputId="time12" :timeOnly="true" v-model="item.leave_time" hourFormat="12"></Calendar>
         </div>
         <div class="field col-12 md:col-4">
-          <label for="leave_reason"> سبب المغادرة </label>
+          <label for="leave_reason"> سبب الاستئذان </label>
           <InputText
             id="leave_reason"
             v-model.trim="item.leave_reason"
