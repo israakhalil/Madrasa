@@ -29,21 +29,21 @@
 
 
             <template v-if="type==1">
-                <AbsenceLayout/>
+                <AbsenceLayout />
             </template>
 
             <template v-if="type==2">
-                <DelayLayout/>
+                <DelayLayout />
             </template>
 
             
             <template v-if="type==3">
-                <ViolationLayout/>
+                <ViolationLayout />
             </template>
 
             
             <template v-if="type==4">
-                <LeaveLayout/>
+                <LeaveLayout />
             </template>
             
             <template v-if="type==5">

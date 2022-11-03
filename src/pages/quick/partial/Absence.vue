@@ -99,7 +99,7 @@
     </div>
   </div>
 
-  <SuccessMsg :successMsg=successMsg />
+  <SuccessMsg :successMsg=successMsg :Msg=Msg />
   <ErrorMsg :errorMsg=errorMsg />
 
 
@@ -135,7 +135,7 @@ export default {
       items: [],
 
       levels: [],
-
+      Msg: null,
       levelsService: null,
       classesService: null,
       studentsService: null,
@@ -193,6 +193,7 @@ export default {
         this.successMsg = false;
       this.absencesService.store(this.items).then(({ data }) => {
         if (data.code == 200) {
+          this.Msg = data.msg;
           this.errorMsg = false;
           this.successMsg = true;
           this.resetFrom(this.items)

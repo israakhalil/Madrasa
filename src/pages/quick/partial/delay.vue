@@ -97,7 +97,7 @@
     </div>
   </div>
 
-<SuccessMsg :successMsg=successMsg />
+<SuccessMsg :successMsg=successMsg :Msg=Msg />
 <ErrorMsg :errorMsg=errorMsg />
 
 </template>
@@ -126,7 +126,8 @@ export default {
         },
         items: [],          
         levels: [],
-     
+        Msg: null,
+
         levelsService: null,
         classesService: null,
         studentsService: null,
@@ -182,7 +183,8 @@ export default {
             formData.append('items', JSON.stringify(this.items))
 
         this.delaysService.store(this.items).then(({ data }) => {  
-            if (data.code == 200) {
+          if (data.code == 200) {
+            this.Msg = data.msg;
               this.successMsg = true;
               this.errorMsg = false;
                 this.resetFrom(this.items)

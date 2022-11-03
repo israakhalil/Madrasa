@@ -121,7 +121,7 @@
       </div>
     </div>
   
-  <SuccessMsg :successMsg=successMsg />
+  <SuccessMsg :successMsg=successMsg :Msg=Msg />
   <ErrorMsg :errorMsg=errorMsg />
    
 </template>
@@ -153,7 +153,8 @@
           violation_degrees:[]
         },
         items: [],
-  
+        Msg: null,
+
         levels: [],
   
         levelsService: null,
@@ -220,6 +221,7 @@
   
         this.violationsService.store(this.items).then(({ data }) => {
           if (data.code == 200) {
+            this.Msg = data.msg;
             this.successMsg = true;
             this.errorMsg = false;
             this.resetFrom(this.items);

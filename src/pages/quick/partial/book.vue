@@ -100,7 +100,7 @@
       </div>
     </div>
   
-  <SuccessMsg :successMsg=successMsg />
+  <SuccessMsg :successMsg=successMsg :Msg=Msg />
   <ErrorMsg :errorMsg=errorMsg />
    
 </template>
@@ -127,7 +127,8 @@
           students: [],
         },
         items: [],
-  
+        Msg: null,
+
           levels: [],
           delivered_options: [
 					{
@@ -193,6 +194,7 @@
   
         this.booksService.store(this.items).then(({ data }) => {
           if (data.code == 200) {
+            this.Msg = data.msg;
             this.successMsg = true;
             this.resetFrom(this.items);
             this.errorMsg = false;

@@ -5,7 +5,7 @@ let BASE_URL = null ;
 if (process.env.NODE_ENV == "development") {
     BASE_URL = "http://127.0.0.1:8000/api";
 }else{
-    BASE_URL = "http://10.10.50.74/back_end/public/index.php/api";
+    BASE_URL = "Moqsit.com/app/api";
 }
 
 // const API_VERSION = "v1";
