@@ -61,6 +61,16 @@ export default {
 					label:'الشهادات',
                     icon: 'pi pi-fw pi-money-bill',
                     to:'/certificates',
+                },
+                {
+					label:' المدارس',
+                    icon: 'pi pi-fw pi-money-bill',
+                    to:'/schools',
+                },
+                {
+					label:' المشرفين',
+                    icon: 'pi pi-fw pi-money-bill',
+                    to:'/supervisors',
                 }
             ],
          
@@ -76,27 +86,6 @@ export default {
     mounted() { 
 
     },
-    // mounted() {
-    //     let themeElement = document.getElementById('theme-link');
-    //     themeElement.setAttribute('href', themeElement.getAttribute('href').replace(this.$appState.theme, this.$store.state.layout.theme));
-
-    //     this.$appState.theme = this.$store.state.layout.theme;
-    //     this.$appState.darkTheme = this.$store.state.layout.is_dark;
-    //     this.menu = this.$store.state.layout.menu;
-    //     this.showSideMenu = this.$store.getters['settings/showSideMenu'] ? true : false;
-    //     // this.showSideMenu = true;
-
-    //     if (!this.showSideMenu) {
-    //         this.layoutMode = 'overlay';
-    //         this.overlayMenuActive = true;
-    //     }
-
-    //     // let general-settings = this.$store.getters['general-settings/getSettings'];
-
-    //     // let app_title = general-settings.filter((item) => item.code == 'app_title');
-    //     let page_title = document.getElementById('page_title');
-    //     page_title.innerText = this.getAppTitle();
-    // },
     methods: {
         onWrapperClick() {
             if (!this.menuClick) {

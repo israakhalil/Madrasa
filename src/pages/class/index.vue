@@ -14,7 +14,10 @@
                     <div class="col-6 md:col-6">
                         <span class="col-12 p-input-icon-right">
                             <i class="pi pi-search mr-3" />
-                            <InputText type="text" v-model="value3" placeholder="بحث ... " />
+                            <InputText type="text" 
+                            v-model="filter_name" 
+                            @input="onFilter"
+                            placeholder="بحث ... " />
                         </span>
 
                      </div>
@@ -129,24 +132,7 @@
           </div>
         </Dialog>
 
-        <Dialog
-          id="successMsg"
-          v-model:visible="successMsg"
-          :style="{ width: '450px' }"
-          header=""
-          :modal="true"
-          class="font-bold text-3xl"
-        >
-          <div>
-            <div class="justify-content-center text-center md:text-center">
-              <i class="pi pi-check-circle" style="font-size: 5rem"></i>
-            </div>
-
-            <div class="justify-content-center text-center md:text-center">
-              <span>تمت إضافة الطالب بنجاح </span>
-            </div>
-          </div>
-        </Dialog>
+        <SuccessMsg :successMsg=successMsg  :Msg=Msg />
     </div>
   </div>
 </template>
@@ -173,8 +159,9 @@ export default {
       class: [],
       AddStudentDialog: false,
       students: [],
-
-
+      filter_name:null,
+       filter: {},
+       Msg:null,
       classesService: null,
       studentsService: null,
       successMsg: false,
@@ -199,6 +186,7 @@ export default {
       this.AddStudentDialog = true;
     },
     saveStudent(isFormValid) {
+      this.successMsg = false;
       this.submitted = true;
       if (!isFormValid) {
         return;
@@ -212,19 +200,26 @@ export default {
           this.studentsService.store(formData, config).then(({ data }) => {
             this.AddStudentDialog = false;
             this.submitted = false;
-            this.getStudents();
+            this.Msg = "تمت إضافة الطالب بنجاح ";
             this.successMsg = true;
+            this.getStudents();  
             this.restform()
 
           });
     },
+
+
     onUpload(event) {
+      this.successMsg=false
       const formData = new FormData(event.target);
       formData.append('file_name', event.files[0])
+      formData.append('class_id', this.id)
 
       this.classesService.import(formData).then((response) => {
         if(response.data.code===200){
-          globalApp.success(response.data.message);
+          this.Msg = "تم الاسترداد بنجاح";
+          this.successMsg=true
+          this.getStudents()
         }
       });
 
@@ -241,10 +236,14 @@ restform() {
     this.form.attached_id = null
     },
 
-
+    onFilter() {
+      console.log("hello");
+      this.getStudents()
+     },
     getStudents() {
+      this.filter = { class_id: this.id, name: this.filter_name };
 
-      this.studentsService.index({ class_id: this.id }).then(({ data }) => {
+      this.studentsService.index( this.filter).then(({ data }) => {
         if (data.code == 200) {
         this.students = data.data.Students;
       }
@@ -259,7 +258,7 @@ restform() {
         this.class = data.data.Classes[0];
       }
     });
-    this.getStudents(this.query)
+    this.getStudents()
 
   },
 };

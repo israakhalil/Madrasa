@@ -172,7 +172,6 @@
 
         const formData = new FormData();
         formData.append("items", JSON.stringify(this.items));
-          console.log(this.items);
         this.leavesService.store(this.items).then(({ data }) => {
           if (data.code == 200) {
             this.Msg = data.msg;

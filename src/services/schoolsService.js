@@ -5,8 +5,8 @@ export default class schoolsService {
         return  globalApp.request().get('/schools/index'  , {params :data });
     }
 
-    async create() {
-        return  globalApp.request().get('/schools/create');
+    async schools(data) {
+        return  globalApp.request().get('/schools/all', {params :data });
     }
 
 

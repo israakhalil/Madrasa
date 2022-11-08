@@ -1,4 +1,4 @@
-export default class UserService {  
+export default class usersService {  
     
     items = [];
     totalRecords = 0;
@@ -8,6 +8,21 @@ export default class UserService {
     user_permissions = [];
     // user_departments = [];
 
+    async index(data) {
+        return  globalApp.request().get('/users/index'  , {params :data });
+    }
+
+    async store(data, id = null) {
+        return await globalApp.request().post('/users/store/'+ (id ? id : ''),data);
+    }
+
+    getItems(params) {
+        return globalApp.request().get(`'/users/index'` , {params:params }  ).then(  ({data}) => {
+            this.items = data.data;
+            return this;
+        });
+        
+    }
 
     createItem(data){
         return globalApp.request().post(`/system/users/store` , data);
@@ -38,15 +53,7 @@ export default class UserService {
         return globalApp.request().delete(`/system/users/delete-selected `, {params:{ids} });
     }
     
-     getItems(params) {
-        return globalApp.request().get(`'/system/users/index'` , {params:params }  ).then(  ({data}) => {
-            this.items = data.data;
-            this.pagination = data.pagination;
-            this.totalRecords = this.pagination.total;
-            return this;
-        });
-        
-    }
+
     
     updateProfile(data) {
         return globalApp.request().post(`/account/profile/update-profile` , data); 
@@ -56,9 +63,6 @@ export default class UserService {
         return globalApp.request().post(`/account/profile/update-password` , data); 
     }
     
-    citizenDetails(id) {
-         return globalApp.request().get(`system/users/details/${id}`); 
-    }
 
     onImportUsers(data){
         return globalApp.request().post(`/system/users/import`, data);

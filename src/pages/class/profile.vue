@@ -15,7 +15,7 @@
             </span>
           </div>
         </div>
-        <Student :id="id"/>
+        <Student :id="id" />
         <hr/>
 
         <div class="grid p-fluid mt-5 font-bold mr-5">

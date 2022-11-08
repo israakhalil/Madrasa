@@ -72,19 +72,27 @@ const routes = [
                 ]
                    
             },
-            // {
-            //     path: '/student',
-            //     component: () => import('../pages/student/layout.vue'),
-            //     children: [
-            //         {
-            //             path: `:id/profile`,
-            //             name: "student-index",
-            //             props:true,
-            //             component: () => import('../pages/student/index.vue'),
-            //         }]
-            // },
+            {
+                path: '/admin',
+                component: () => import('../pages/admin/layout.vue'),
+                children: [
+                    {
+                        path: '/schools',
+                        name:"schools-index",
+                        component: () => import('../pages/admin/schools.vue'),
+                       
+                    },
+                    {
+                        path: '/supervisors',
+                        name:"supervisors-index",
+                        component: () => import('../pages/admin/supervisors.vue'),
+                       
+                    },
+                ]
+            },
         ]    
     },
+    
     {
         path: '/auth',
         component: () => import('../pages/auth/index.vue'),
