@@ -25,7 +25,13 @@ class Schools extends Model
         if (request()->filled('school_id') && !empty(request('school_id'))) {
             $key = trim(request()['school_id']);
             $q->where('id', '=', $key);
+        } 
+        if (request()->filled('name') && !empty(request('name'))) {
+            $key = trim(request()['name']);
+            $q->where('name', 'like', "%$key%");
         }    
         return $q;
     }
+
+    
 }

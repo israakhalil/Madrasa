@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('Students', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->string('id_number');
+            $table->string('id_number')->nullable();
             $table->integer('class_id')->unsigned();    
             $table->foreign('class_id')->references('id')->on('Classes');
             $table->date('date_of_birth')->nullable();

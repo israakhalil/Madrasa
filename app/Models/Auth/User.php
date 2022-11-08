@@ -2,8 +2,7 @@
 
 namespace App\Models\Auth;
 
-use App\Models\School\Classes;
-use Carbon\Carbon;
+
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -22,7 +21,8 @@ class User extends Authenticatable
         'email',
         'password',
         'school_id',
-        'id_number'
+        'id_number',
+        'role_id'
     ];
 
     protected $fillable = self::FILLABLE;
@@ -74,9 +74,7 @@ class User extends Authenticatable
                 ->orWhere('id_number', 'like', "%$key%")
                 ->orWhere('name', 'like', "%$key%")
                 ->orWhere('email', 'like', "%$key%");
-        }
-
-       
+        }   
 
         return $q;
     }

@@ -11,10 +11,10 @@ class Role extends Model
 {
     use HasFactory;
 
-    protected $table = "access_control_role";
+    protected $table = "roles";
 
 
-    const FILLABLE = ['name', 'note'];
+    const FILLABLE = ['name'];
 
     protected $fillable = self::FILLABLE;
 
@@ -27,8 +27,7 @@ class Role extends Model
             $filter = json_decode($filter, true);
             if (isset($filter['name']) && !empty($filter['name'])) {
                 $key = trim($filter['name']);
-                $q->where('name', 'like', "%$key%")
-                    ->orWhere('note', 'like', "%$key%");
+                $q->where('name', 'like', "%$key%");
             }
 
         }
@@ -39,12 +38,12 @@ class Role extends Model
 
     public function users(): BelongsToMany
     {
-        return $this->belongsToMany(User::class, 'access_control_user_role', 'role_id', 'user_id');
+        return $this->belongsToMany(User::class, 'user_roles', 'role_id', 'user_id');
     }
 
     public function permissions(): BelongsToMany
     {
-        return $this->belongsToMany(Permission::class, 'access_control_role_permission', 'role_id', 'permission_id');
+        return $this->belongsToMany(Permission::class, 'permission', 'role_id', 'permission_id');
     }
 
 

@@ -32,7 +32,7 @@ class Students extends Model
     protected $fillable = self::FILLABLE;
     protected $casts = [
         'id'=>'integer',
-        // 'class_id' => 'integer',
+       'class_id' => 'integer',
     ]; 
 
     public function AbesenceCount(){
@@ -62,7 +62,10 @@ class Students extends Model
             $key = trim(request()['class_id']);
             $q->where('class_id', '=', $key);
         }    
-       
+        if (request()->filled('name') && !empty(request('name'))) {
+            $key = trim(request()['name']);
+            $q->where('name','like', "%$key%");
+        } 
         return $q;
     }
 }

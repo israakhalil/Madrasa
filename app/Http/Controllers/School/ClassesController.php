@@ -58,7 +58,8 @@ class ClassesController extends  Controller
             if ($file->isValid()) 
             {
                 $path = $file->getRealPath();
-                Excel::import(new StudentClassesImport(), $path);
+                $classId=$request->class_id;
+                Excel::import(new StudentClassesImport((int)$classId), $path);
                 return response()->json([
                   
                     'code'=>StatusCodes::OK

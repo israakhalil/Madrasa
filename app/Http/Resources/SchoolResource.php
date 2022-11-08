@@ -13,7 +13,7 @@ class SchoolResource extends JsonResource
             'id'=> $this['id'],
             'name'=> $this['name'],
             'logo'=>$this['logo'],
-            'is_Active' => $this['is_Active']
+            'is_active' => $this['is_active']
             ];
     }
 }

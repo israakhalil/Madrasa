@@ -11,6 +11,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Procedures\BooksController;
 use App\Http\Controllers\Procedures\DelaysController;
 use App\Http\Controllers\Procedures\LeavesController;
+use App\Http\Controllers\Auth\UsersController;
 use App\Http\Controllers\Procedures\ViolationsController;
 
 /*
@@ -42,7 +43,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
 
         Route::group(['prefix' => 'schools'], function () {
             Route::get('/index', [SchoolsController::class, 'index']);
-            Route::get('/create', [SchoolsController::class, 'create']);
+            Route::get('/all', [SchoolsController::class, 'schools']);
             Route::post('/store/{id?}', [SchoolsController::class, 'store']);
             Route::get('{id}/edit', [SchoolsController::class, 'create']);
             Route::delete('{id}/delete', [SchoolsController::class, 'delete']);
@@ -115,5 +116,10 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
             Route::delete('{id}/delete', [LeavesController::class, 'delete']);
 
         });
+        Route::group(['prefix' => 'users'], function () {
+            Route::get('/index', [UsersController::class, 'index']);
+            Route::post('/store/{id?}', [UsersController::class, 'store']);
+            Route::delete('{id}/delete', [UsersController::class, 'delete']);
 
+        });
 });

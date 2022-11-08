@@ -42,7 +42,7 @@ class StudentsTableSeeder extends Seeder
     'name'=>"doaa",
     'id_number'=>"256256256",
 'class_id'=>9,
-'date_of_date'=>Carbon::parse('12/02/2022'),
+'date_of_birth'=>Carbon::parse('12/02/2022'),
 'phone_1'=>'0598769955',
 'phone_2'=>'059876995',
 'phone_3'=>'',

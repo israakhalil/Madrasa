@@ -17,12 +17,23 @@ use Illuminate\Support\Facades\DB;
 
 class SchoolsController extends  Controller
 {
-    // public function index()
-    // {
-    //     $items = SchoolModel::query()->orderBy('id', 'desc')->paginate(\request('page_size', 10));
-    //     $resource = SchoolResource::collection($items);
-    //     return $this->response_api(true, StatusCodes::OK, Enum::DONE_SUCCESSFULLY, $resource, $this->getPaginatorData($items));
-    // }
+    public function schools()
+    {
+        // $items = SchoolsModel::query()->filter()->orderBy('id', 'desc')->paginate(\request('page_size', 10));
+        // $data['Schools'] = new SchoolResource($items);
+        // return response()->json([
+        //     'status' => true,
+        //     'data' => $data,
+        //     'code'=>StatusCodes::OK
+        // ]);
+        
+        $items = SchoolsModel::query()->filter()->orderBy('id', 'asc')->get();
+        $data['Schools']  = SchoolResource::collection($items);
+        return response()->json([
+            'data' => $data,
+            'code'=>StatusCodes::OK
+        ]);
+    }
 
     public function index(Request $request )
     {
@@ -64,48 +75,33 @@ class SchoolsController extends  Controller
 //     }
 
 
-//     public function store(FinancialGroupRequest  $request, $id = null)
-//     {
-//         $data = $request->only(LookUpFinancialGroupsModel::FILLABLE);
-//         if (is_null($id)) {
-//             $data['created_by'] = $request->user()->id;
-//             $grp_cd=LookUpFinancialGroupsModel::query()->max('grp_cd');
-//             $data['grp_cd']= $grp_cd+1;
-//         } else {
-//             $data['updated_by'] = $request->user()->id;
-//         }
+public function store(Request $request, $id = null)
+{
+    $filename=null;
+   
+    if ($request->hasFile('logo')) {
+        $file = $request->file_name;   
+        $filename=$file->store("Files");
+    } 
+        $data = json_decode($request->data);
+        $student=new SchoolsModel();
+        $student->name=$data->name;
+        $student->is_active= $data->is_active;
+        $student->logo=$filename;
+        $student->save();
 
+  
+    
+}
 
-// //        LookUpFinancialGroupsModel::query()->updateOrCreate([
-// //            'seq' => $id,
-// //        ], $data);
-
-//         DB::beginTransaction();
-//         try {
-//             LookUpFinancialGroupsModel::query()->updateOrCreate([
-//                 'seq' => $id,
-//             ], $data);
-
-//         } catch (\Exception $exception) {
-//             DB::rollBack();
-//             return $this->response_api(false, StatusCodes::INTERNAL_ERROR, Enum::GENERAL_ERROR);
-//         } catch (\Error $exception) {
-//             DB::rollBack();
-//             return $this->response_api(false, StatusCodes::INTERNAL_ERROR, Enum::GENERAL_ERROR);
-//         }
-//         DB::commit();
-//         return $this->response_api(true, StatusCodes::OK, Enum::CREATED_SUCCESSFULLY);
-//     }
-
-//     public function delete($id)
-//     {
-//         $item = LookUpFinancialGroupsModel::query()->where('seq' , '=', $id);
-//         if (!$item) {
-//             return $this->notFoundResponse();
-//         }
-
-//         $item->delete();
-//         return $this->response_api(true, StatusCodes::OK, Enum::DELETED_SUCCESSFULLY, []);
-//     }
-
+public function delete($id)
+{
+    $item = SchoolsModel::query()->where('id' , '=', $id);
+    $item->delete();
+    return response()->json([
+        'msg' => "تم الحذف بنجاح",
+        'code'=>StatusCodes::OK
+    ]);   
+   
+}
 }

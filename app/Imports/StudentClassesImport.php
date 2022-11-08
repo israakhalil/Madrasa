@@ -9,6 +9,13 @@ use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
 class StudentClassesImport implements ToModel
 {
+    protected $class_id;
+      
+    public function __construct(int $class_id)
+    {
+        $this->class_id = $class_id;
+    }
+
     /**
     * @param array $row
     *
@@ -18,7 +25,7 @@ class StudentClassesImport implements ToModel
     {
         return new Students([
           'name' =>$row[0],
-          'class_id' =>$row[1],
+          'class_id' =>$this->class_id,
         
         ]);
 
