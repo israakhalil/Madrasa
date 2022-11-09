@@ -24,7 +24,7 @@
 export default {
 
     props: {
-      errorMsg: String,  
+      errorMsg: Boolean,  
 } 
 }
 </script>

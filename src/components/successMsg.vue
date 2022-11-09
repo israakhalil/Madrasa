@@ -24,7 +24,7 @@ class="font-bold text-3xl"
 export default {
 
     props: {
-    successMsg: String,  
+    successMsg: Boolean,  
     Msg: String
 } 
 }

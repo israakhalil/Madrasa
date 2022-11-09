@@ -20,7 +20,7 @@ export default class schoolsService {
     }
 
 
-    deleteItem(id) {
+    delete(id) {
         return globalApp.request().delete(`/schools/${id}/delete`);
     }
     deleteSelectedItem(ids){
