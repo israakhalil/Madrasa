@@ -44,12 +44,10 @@
               <Column field="name" header="اسم المدرسة">
                 
               </Column>
-              <!-- <Column field="logo" header="شعار المدرسة">
-                
-              </Column> -->
+
               <Column header="logo">
                      <template #body="slotProps">
-                        <img src="https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png" :alt="slotProps.data.image" class="product-image" />
+                        <img :src=slotProps.data.logo :alt="slotProps.data.image" class="product-image" />
                     </template>
                 </Column>
               <!-- <Column field="is_active" header="فعال "> -->
@@ -137,7 +135,8 @@
          
           schoolsService: null,
         successMsg: false,
-        submitted:false
+        submitted:false,
+        logo:null
       };
     },
     validations() {
@@ -174,12 +173,12 @@
           return;
         }
           const formData = new FormData()
-          this.form.class_id=this.id
-          formData.append('logo', this.attachment)
+
+          formData.append('logo', this.logo)
           formData.append('data', JSON.stringify(this.form))
             const config = { headers: { 'Content-Type': 'multipart/form-data' } }   
   
-            this.schoolsService.store(formData, config).then(({ data }) => {
+            this.schoolsService.store(formData,this.form.id).then(({ data }) => {
               this.AddSchoolDialog = false;
               this.submitted = false;
               this.Msg = "تمت إضافة المدرسة بنجاح ";
@@ -193,7 +192,7 @@
   
   uploadFile(e) {
     this.form.logo = e.target.files[0].name;
-     this.form.logo=e.target.files[0]
+     this.logo=e.target.files[0]
   
   },
   
