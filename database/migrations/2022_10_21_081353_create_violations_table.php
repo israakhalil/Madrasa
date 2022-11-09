@@ -15,16 +15,16 @@ return new class extends Migration
     {
         Schema::create('violations', function (Blueprint $table) {
             $table->increments('id');
-            $table->date('violation_date');
-            $table->string('action_performed');
-            $table->integer('violation_procedure_id')->unsigned();    
+            $table->date('violation_date')->nullable();
+            $table->string('action_performed')->nullable();
+            $table->integer('violation_procedure_id')->unsigned();
             $table->foreign('violation_procedure_id')->references('id')->on('violation_procedures');
-            $table->integer('violation_degree_id')->unsigned();    
+            $table->integer('violation_degree_id')->unsigned();
             $table->foreign('violation_degree_id')->references('id')->on('violation_degrees');
-            $table->integer('student_id')->unsigned();    
-            $table->foreign('student_id')->references('id')->on('Students');
-            $table->string('suprvisore_signature');
-            $table->string('student_signature');
+            $table->integer('student_id')->unsigned();
+            $table->foreign('student_id')->references('id')->on('students');
+            $table->string('supervisor_signature')->nullable();
+            $table->string('student_signature')->nullable();
             $table->timestamps();
         });
     }

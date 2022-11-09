@@ -14,12 +14,12 @@ return new class extends Migration
     public function up()
     {
         // if(!Schema::hasTable('Levels')){
-        Schema::create('Levels', function (Blueprint $table) {
+        Schema::create('levels', function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('id');
             $table->string('name');
             $table->integer('school_id')->unsigned();;
-            $table->foreign('school_id')->references('id')->on('Schools');
+            $table->foreign('school_id')->references('id')->on('schools');
             $table->timestamps();
         });
     // }

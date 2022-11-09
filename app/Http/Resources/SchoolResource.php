@@ -3,7 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-
+use Illuminate\Support\Facades\Storage;
 class SchoolResource extends JsonResource
 {
 
@@ -12,7 +12,7 @@ class SchoolResource extends JsonResource
         return [
             'id'=> $this['id'],
             'name'=> $this['name'],
-            'logo'=>$this['logo'],
+            'logo'=> asset('storage/' . $this['logo']),
             'is_active' => $this['is_active']
             ];
     }

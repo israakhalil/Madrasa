@@ -14,17 +14,17 @@ return new class extends Migration
     public function up()
     {
         // if(!Schema::hasTable('Classes')){
-            Schema::create('Classes', function (Blueprint $table) {
+            Schema::create('classes', function (Blueprint $table) {
                 $table->engine = 'InnoDB';
                 $table->increments('id');
                 $table->string('name');
                 $table->text('attached_file')->nullable();
                 $table->integer('school_id')->unsigned();
-                $table->foreign('school_id')->references('id')->on('Schools');
+                $table->foreign('school_id')->references('id')->on('schools');
                 $table->integer('level_id')->unsigned();
-                $table->foreign('level_id')->references('id')->on('Levels');
+                $table->foreign('level_id')->references('id')->on('levels');
                 $table->integer('user_id')->unsigned();
-                $table->foreign('user_id')->references('id')->on('Users');
+                $table->foreign('user_id')->references('id')->on('users');
                 $table->timestamps();
             });
         // }

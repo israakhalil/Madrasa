@@ -63,7 +63,7 @@ class classSeeder extends Seeder
         Classes::create(
             [
                 'name' => "الصف الاول",
-                'level_id' => 2,
+                'level_id' => 4,
                 'attached_file' => "",
                 'school_id' => 2,
                 'user_id' => 2,
@@ -72,7 +72,7 @@ class classSeeder extends Seeder
         Classes::create(
             [
                 'name' => "الصف الثاني",
-                'level_id' => 4,
+                'level_id' => 5,
                 'attached_file' => "",
                 'school_id' => 2,
                 'user_id' => 2,

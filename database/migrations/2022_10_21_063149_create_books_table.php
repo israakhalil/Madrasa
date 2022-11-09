@@ -15,12 +15,12 @@ return new class extends Migration
     {
         Schema::create('books', function (Blueprint $table) {
             $table->increments('id');
-            $table->date('received_date');
-            $table->string('book_name');   
-            $table->boolean('is_delivered');
-            $table->string('student_signature');
-            $table->integer('student_id')->unsigned();    
-            $table->foreign('student_id')->references('id')->on('Students');    
+            $table->date('received_date')->nullable();
+            $table->string('book_name')->nullable();
+            $table->boolean('is_delivered')->nullable();
+            $table->string('student_signature')->nullable();
+            $table->integer('student_id')->unsigned();
+            $table->foreign('student_id')->references('id')->on('students');
             $table->timestamps();
         });
     }

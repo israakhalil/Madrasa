@@ -24,3 +24,5 @@ Route::group(['prefix' => 'auth'], function () {
 
 
 });
+
+Route::get('storage-link', [Controller::class, 'storageLink']);

@@ -14,13 +14,13 @@ return new class extends Migration
     public function up()
     {
         Schema::create('delays', function (Blueprint $table) {
-            $table->increments('id');   
-            $table->date('delay_date');
-            $table->string('delay_reason');
-            $table->string('delay_amount');   
-            $table->string('student_signature');          
-            $table->integer('student_id')->unsigned();    
-            $table->foreign('student_id')->references('id')->on('Students');
+            $table->increments('id');
+            $table->date('delay_date')->nullable();
+            $table->string('delay_reason')->nullable();
+            $table->string('delay_amount')->nullable();
+            $table->string('student_signature')->nullable();
+            $table->integer('student_id')->unsigned();
+            $table->foreign('student_id')->references('id')->on('students');
             $table->timestamps();
         });
 

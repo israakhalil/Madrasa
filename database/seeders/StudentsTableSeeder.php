@@ -17,9 +17,9 @@ class StudentsTableSeeder extends Seeder
     public function run()
     {
         Students::create([
-            'name'=>"israa",
+            'name'=>"احمد خالد",
             'id_number'=>"256256256",
-        'class_id'=>8,
+        'class_id'=>1,
         'date_of_birth'=>Carbon::parse('12/02/2022'),
         'phone_1'=>'0598769955',
         'phone_2'=>'059876995',
@@ -28,10 +28,10 @@ class StudentsTableSeeder extends Seeder
         ]
        );
        Students::create([
-        'name'=>"walaa",
+        'name'=>"ولاء احمد",
         'id_number'=>"256256256",
-    'class_id'=>8,
-    'date_of_date'=>Carbon::parse('12/02/2022'),
+    'class_id'=>1,
+    'date_of_birth'=>Carbon::parse('12/02/2022'),
     'phone_1'=>'0598769955',
     'phone_2'=>'059876995',
     'phone_3'=>'',
@@ -39,9 +39,9 @@ class StudentsTableSeeder extends Seeder
     ]
    );
    Students::create([
-    'name'=>"doaa",
+    'name'=>"سلامة النجار",
     'id_number'=>"256256256",
-'class_id'=>9,
+'class_id'=>2,
 'date_of_birth'=>Carbon::parse('12/02/2022'),
 'phone_1'=>'0598769955',
 'phone_2'=>'059876995',
@@ -49,28 +49,8 @@ class StudentsTableSeeder extends Seeder
 'attached_id'=>''
 ]
 );
-Students::create([
-    'name'=>"doaa",
-    'id_number'=>"256256256",
-'class_id'=>13,
-'date_of_date'=>Carbon::parse('12/02/2022'),
-'phone_1'=>'0598769955',
-'phone_2'=>'059876995',
-'phone_3'=>'',
-'attached_id'=>''
-]
-);
-Students::create([
-    'name'=>"doaa",
-    'id_number'=>"256256256",
-'class_id'=>13,
-'date_of_date'=>Carbon::parse('12/02/2022'),
-'phone_1'=>'0598769955',
-'phone_2'=>'059876995',
-'phone_3'=>'',
-'attached_id'=>''
-]
-);
-       
+
+
+
     }
 }

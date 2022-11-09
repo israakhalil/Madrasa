@@ -14,7 +14,6 @@ return new class extends Migration
     public function up()
     {
         Schema::table('absences', function (Blueprint $table) {
-            $table->integer('absence_type_id')->unsigned()->change();          
             $table->foreign('absence_type_id')->references('id')->on('absence_types');
         });
     }

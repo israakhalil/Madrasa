@@ -19,14 +19,6 @@ class SchoolsController extends  Controller
 {
     public function schools()
     {
-        // $items = SchoolsModel::query()->filter()->orderBy('id', 'desc')->paginate(\request('page_size', 10));
-        // $data['Schools'] = new SchoolResource($items);
-        // return response()->json([
-        //     'status' => true,
-        //     'data' => $data,
-        //     'code'=>StatusCodes::OK
-        // ]);
-        
         $items = SchoolsModel::query()->filter()->orderBy('id', 'asc')->get();
         $data['Schools']  = SchoolResource::collection($items);
         return response()->json([
@@ -37,7 +29,7 @@ class SchoolsController extends  Controller
 
     public function index(Request $request )
     {
-         
+
         // $data['department_id'] = request()->header('Center-Id');
         $request['school_id']= request()->header('School_id');
         $item = SchoolsModel::query()->filter()->orderBy('id', 'asc')->first();
@@ -49,7 +41,7 @@ class SchoolsController extends  Controller
         $items = ClassesModel::query()->filter()->orderBy('id', 'asc')->get();
         $data['Classes']  = ClassResource::collection($items);
 
-        //  return response()->json($data, StatusCodes::OK); 
+        //  return response()->json($data, StatusCodes::OK);
          return response()->json([
             'status' => true,
             'data' => $data,
@@ -58,40 +50,21 @@ class SchoolsController extends  Controller
         // return $this->response_api(true, StatusCodes::OK, $data);
     }
 
-//     public function create($id = null)
-//     {
-//         $data = [];
-//         if (isset($id)) {
-
-//             $item = LookUpFinancialGroupsModel::where('seq' , '=', $id)->first();
-//             if (!$item) {
-//                 return $this->notFoundResponse();
-//             }
-//             $data['item'] = (new LookupFinancialGroupResource($item));
-
-//         }
-
-//         return $this->response_api(true, StatusCodes::OK, Enum::DONE_SUCCESSFULLY, $data);
-//     }
-
 
 public function store(Request $request, $id = null)
 {
     $filename=null;
-   
-    if ($request->hasFile('logo')) {
-        $file = $request->file_name;   
-        $filename=$file->store("Files");
-    } 
+        if ($request->hasFile('logo')) {
+            $file = $request->logo;
+            $filename=$file->store("public/images");
+        }
+        $ret = str_replace('public/','',$filename);
         $data = json_decode($request->data);
         $student=new SchoolsModel();
         $student->name=$data->name;
-        $student->is_active= $data->is_active;
-        $student->logo=$filename;
+//        $student->is_active= $data->is_active;
+        $student->logo=$ret ;
         $student->save();
-
-  
-    
 }
 
 public function delete($id)
@@ -101,7 +74,7 @@ public function delete($id)
     return response()->json([
         'msg' => "تم الحذف بنجاح",
         'code'=>StatusCodes::OK
-    ]);   
-   
+    ]);
+
 }
 }

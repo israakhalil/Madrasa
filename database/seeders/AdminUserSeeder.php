@@ -24,17 +24,17 @@ class AdminUserSeeder extends Seeder
             'password'=>Hash::make("123456"),
             'school_id'=>1,
         ]
-        
+
        );
-        User::create( 
-             ['username'=>"user",
+        User::create(
+            ['username'=>"user",
         'name'=>"user ",
         'email'=>"user@gmail.com",
         'id_number'=>2562415,
         'password'=>Hash::make("123456"),
         'school_id'=>2,
     ]);
-        
+
 
     }
 }

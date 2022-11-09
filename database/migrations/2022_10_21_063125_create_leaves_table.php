@@ -13,16 +13,16 @@ return new class extends Migration
      */
     public function up()
     {
-        
+
         Schema::create('leaves', function (Blueprint $table) {
             $table->increments('id');
-            $table->date('leave_date');
-            $table->time('leave_time');             
-            $table->string('leave_reason');
-            $table->integer('student_id')->unsigned();    
-            $table->foreign('student_id')->references('id')->on('Students');
+            $table->date('leave_date')->nullable();
+            $table->time('leave_time')->nullable();
+            $table->string('leave_reason')->nullable();
+            $table->integer('student_id')->unsigned();
+            $table->foreign('student_id')->references('id')->on('students');
             $table->string('student_signature');
-            $table->timestamps(); 
+            $table->timestamps();
         });
     }
 

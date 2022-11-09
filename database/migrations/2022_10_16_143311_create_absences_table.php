@@ -15,12 +15,12 @@ return new class extends Migration
     {
         Schema::create('absences', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('student_id')->unsigned();    
-            $table->foreign('student_id')->references('id')->on('Students');
-            $table->date('absence_date');
-            $table->string('absence_reason');
-            $table->string('teacher_signature');
-            $table->integer('absence_type_id')->unsigned();             
+            $table->integer('student_id')->unsigned();
+            $table->foreign('student_id')->references('id')->on('students');
+            $table->date('absence_date')->nullable();
+            $table->string('absence_reason')->nullable();
+            $table->string('teacher_signature')->nullable();
+            $table->integer('absence_type_id')->unsigned();
             $table->timestamps();
         });
     }

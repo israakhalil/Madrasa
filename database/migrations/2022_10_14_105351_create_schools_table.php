@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         // if(!Schema::hasTable('Schools')){
-        Schema::create('Schools', function (Blueprint $table) {
+        Schema::create('schools', function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('id');
             $table->string('name');
