@@ -23,7 +23,10 @@ export default class usersService {
         });
         
     }
-
+    delete(id) {
+        return globalApp.request().delete(`/users/${id}/delete`);
+    }
+    
     createItem(data){
         return globalApp.request().post(`/system/users/store` , data);
     }
