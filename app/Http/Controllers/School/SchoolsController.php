@@ -56,15 +56,34 @@ public function store(Request $request, $id = null)
     $filename=null;
         if ($request->hasFile('logo')) {
             $file = $request->logo;
-            $filename=$file->store("public/images");
+             $filename=$file->store("images");
+            //  $filename=$file->store("public/images");
         }
-        $ret = str_replace('public/','',$filename);
+         $ret = str_replace('public/','',$filename);
         $data = json_decode($request->data);
         $student=new SchoolsModel();
-        $student->name=$data->name;
-//        $student->is_active= $data->is_active;
-        $student->logo=$ret ;
-        $student->save();
+        if($id){
+            $item = SchoolsModel::where('id', $id)->first();
+            // return  $item ;
+            if($item->logo==$data->logo){
+                $data=$student::where('id', $id)->update(['name' => $data->name]);
+
+            }else{
+                $data=$student::where('id', $id)->update(['name' => $data->name,'logo'=>$filename]);
+
+            }
+            return response()->json([
+                'status' => true,
+                'data' => $data,
+                'code'=>StatusCodes::OK
+            ]);
+        }
+        else{
+            $student->name=$data->name;
+            $student->logo=$filename ;
+            $student->save();
+        }
+
 }
 
 public function delete($id)

@@ -2,7 +2,7 @@
 
 namespace App\Models\Auth;
 
-
+use App\Models\School\Schools;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -33,7 +33,7 @@ class User extends Authenticatable
     ];
 
     public function school(){
-        return $this->belongsTo(School::class, 'id' , 'school_id');
+        return $this->belongsTo(Schools::class, 'school_id' , 'id');
     }
 
     // public function roles(): BelongsToMany

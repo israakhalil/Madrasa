@@ -12,7 +12,8 @@ class SchoolResource extends JsonResource
         return [
             'id'=> $this['id'],
             'name'=> $this['name'],
-            'logo'=> asset('storage/' . $this['logo']),
+            'logo'=> $this['logo'], 
+            'link'=>  asset('storage/' . $this['logo']),
             'is_active' => $this['is_active']
             ];
     }
