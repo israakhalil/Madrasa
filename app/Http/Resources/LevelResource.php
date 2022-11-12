@@ -17,4 +17,12 @@ class LevelResource extends JsonResource
             // 'classes'=> $this->classes,
             ];
     }
+    public function groupClasses($request)
+    {
+        return [
+            'id'=> $this['id'],
+            'name'=> $this['name'],
+            'classes'=> $this->classes,
+        ];
+    }
 }

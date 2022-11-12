@@ -31,23 +31,23 @@ class ClassesController extends  Controller
     public function store(Request $request, $id = null)
     {
         $filename=null;
-       
+
         if ($request->hasFile('file_name')) {
-            $file = $request->file_name;   
+            $file = $request->file_name;
             $filename=$file->store("Files");
         }
-        
+
             $data = json_decode($request->data);
             $_class=new ClassesModel();
             $_class->name=$data->name;
             $_class->level_id= $data->level_id;
             $_class->attached_file=$filename;
-            $_class->user_id=$request->user()->id;
+//            $_class->user_id=$request->user()->id;
             $_class->school_id=request()->header('School_id');
             $_class->save();
 
-      
-        
+
+
     }
 
     public function import(Request $request)
@@ -55,15 +55,15 @@ class ClassesController extends  Controller
         if ($request->hasFile('file_name'))
          {
             $file = $request->file('file_name');
-            if ($file->isValid()) 
+            if ($file->isValid())
             {
                 $path = $file->getRealPath();
                 $classId=$request->class_id;
                 Excel::import(new StudentClassesImport((int)$classId), $path);
                 return response()->json([
-                  
+
                     'code'=>StatusCodes::OK
-                ]);          
+                ]);
               }
          }
     }

@@ -13,14 +13,17 @@ class UserResource extends JsonResource
         return [
             'id' => $this['id'],
             'name' => $this['name'],
-            'id_number' => $this['id_number'],
+//            'classesIds'=>$this->classes()->get()->toArray(),
+//            'classes' => ClassResource::collection($this->classes()->get())->map->toUser($request),
             'email' => $this['email'],
-            // 'password'=>$this['password'],
-            // 'permissions' => $this->getAllPermissions(),
-            'username' => $this['username'],
+//            'PERR'=>$this->permissions()->get(),
+//             'permissions' => PermissionResource::collection($this->permissions()->get()->toArray($request)),
+//                 'permissions' => $this->permissions()->get()->pluck('code'),
+            'role_id'=> $this['role_id'],
+            'permissions' => $this->getAllPermissions()->toArray($request),
             'school_id' => $this['school_id'],
             'school_name'=>@$this->school->name,
-            'role_id'=> $this['role_id'],
+
             'created_at' => isset($this['created_at']) ? Carbon::parse($this['created_at'])->toDateTimeString() : null,
         ];
 

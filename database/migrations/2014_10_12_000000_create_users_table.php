@@ -18,10 +18,10 @@ return new class extends Migration
             $table->engine = 'InnoDB';
             $table->increments('id');
             $table->string('name');
-            $table->string('username')->nullable();
-            $table->string('email')->unique();
+//            $table->string('username')->nullable();
+            $table->string('email');
             $table->string('password');
-            $table->integer('id_number')->nullable();
+//            $table->integer('id_number')->nullable();
             $table->integer('school_id')->unsigned();
             $table->timestamps();
         });

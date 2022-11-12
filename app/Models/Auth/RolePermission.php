@@ -7,14 +7,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class UserRoles extends Model
+class RolePermission extends Model
 {
     use HasFactory;
 
-    protected $table = "user_roles";
+    protected $table = "role_permissions";
 
 
-    const FILLABLE = ['user_id','role_id'];
+    const FILLABLE = ['role_id','permission_id'];
 
     protected $fillable = self::FILLABLE;
 

@@ -24,8 +24,14 @@ class LoginController extends Controller
 
     public function login(Request $request)
     {
-        $user = User::query()->where('username', $request->username)->first();
-        $school= SchoolsModel::query()->where('id', $user->school_id)->first();
+        $user = User::query()->where('email', $request->email)->first();
+        $school=null;
+
+        if($user->school_id != 0){
+
+            $school= SchoolsModel::query()->where('id', $user->school_id)->first();
+
+        }
 
         if (isset($user) && $this->password_check($request->password,$user)) {
             $token = $user->createToken('API TOKEN')->plainTextToken;
@@ -40,7 +46,7 @@ class LoginController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            $this->username() => ['required', 'string', 'max:255'],
+            $this->email() => ['required', 'string', 'max:255'],
             'password' => ['required', 'min:6'],
         ]);
     }
@@ -71,16 +77,30 @@ class LoginController extends Controller
     {
         $this->clearLoginAttempts($request);
 
-        return response()->json([
-            'status' => true,
-            'code' => StatusCodes::OK,
-            'message' => ('messages.done_successfully'),
-            'data' => [
-                'token' => $token,
-                'user' => (new UserResource($user)),
-                'school' => (new SchoolResource($school)),
-            ],
-        ]);
+        if($school){
+
+            return response()->json([
+                'status' => true,
+                'code' => StatusCodes::OK,
+                'message' => ('messages.done_successfully'),
+                'data' => [
+                    'token' => $token,
+                    'user' => (new UserResource($user)),
+                    'school' => (new SchoolResource($school)),
+                ],
+            ]);
+        }
+        else{
+            return response()->json([
+                'status' => true,
+                'data' => [
+                    'token' => $token,
+                    'user' => (new UserResource($user)),
+                    'school' => ["name"=>"مدير النظام"]
+                ],
+            ]);
+        }
+
     }
 
     protected function sendFailedLoginResponse(Request $request)
@@ -107,7 +127,7 @@ class LoginController extends Controller
         ]);
     }
 
-    public function username()
+    public function email()
     {
         return 'username';
     }

@@ -16,6 +16,16 @@ class ClassResource extends JsonResource
             'level_name'=>$this->level->name,
             'attached_file'=>$this['attached_file'],
             'user_id'=>$this['user_id'],
+            'full_class_name'=> $this['name'].' - '.$this->level->name,
             ];
     }
+    public function toUser($request)
+    {
+        return [
+//            'id'=> $this['id'],
+            'name'=> $this['name'].' - '.$this->level->name,
+
+        ];
+    }
+
 }

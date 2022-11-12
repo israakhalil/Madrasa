@@ -11,10 +11,14 @@ class Levels extends Model
     use  HasFactory;
 
     protected $table="levels";
-    protected $fillable = [
+
+    const FILLABLE = [
         'name',
         'school_id',
     ];
+
+    protected $fillable = self::FILLABLE;
+
     protected $casts = [
         'id'=>'integer',
         'school_id' => 'integer',
@@ -34,8 +38,8 @@ class Levels extends Model
         if (request()->filled('school_id') && !empty(request('school_id'))) {
             $key = trim(request()['school_id']);
             $q->where('school_id', '=', $key);
-        }    
+        }
         return $q;
     }
-    
+
 }

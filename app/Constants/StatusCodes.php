@@ -14,5 +14,8 @@ class StatusCodes {
     const NOT_VERTIFIED = 451 ;
     const UNAUTHORIZED  = 401 ;
     CONST UPLOAD_ERR=700;
+    CONST EMAIL_ERR=501;
+    CONST ROLE_ERR=502;
+
 
 }

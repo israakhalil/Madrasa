@@ -51,6 +51,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
 
         Route::group(['prefix' => 'levels'], function () {
             Route::get('/index', [LevelsController::class, 'index']);
+            Route::get('/grouped', [LevelsController::class, 'levelGroup']);
             Route::get('/create', [LevelsController::class, 'create']);
             Route::post('/store/{id?}', [LevelsController::class, 'store']);
             Route::get('{id}/edit', [LevelsController::class, 'create']);
@@ -68,7 +69,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
 
         });
 
-        
+
         Route::group(['prefix' => 'students'], function () {
             Route::get('/index', [StudentsController::class, 'index']);
             Route::post('/store', [StudentsController::class, 'store']);
@@ -79,7 +80,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::group(['prefix' => 'constants'], function () {
             Route::get('/absenceTypes', [ConstantsController::class, 'absenceTypes']);
             Route::get('/violationDegrees', [ConstantsController::class, 'violationDegrees']);
-            Route::get('/violationProcedures', [ConstantsController::class, 'violationProcedures']);       
+            Route::get('/violationProcedures', [ConstantsController::class, 'violationProcedures']);
         });
         Route::group(['prefix' => 'absences'], function () {
             Route::get('/index', [AbsencesController::class, 'index']);
@@ -117,8 +118,11 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
 
         });
         Route::group(['prefix' => 'users'], function () {
-            Route::get('/index', [UsersController::class, 'index']);
-            Route::post('/store/{id?}', [UsersController::class, 'store']);
+            Route::get('fetch-data', [UsersController::class, 'fetchUserData']);
+            Route::get('/supervisors', [UsersController::class, 'supervisors']);
+            Route::get('/administrators', [UsersController::class, 'administrators']);
+            Route::post('/store_supervisor/{id?}', [UsersController::class, 'storeSupervisor']);
+            Route::post('/store_administrator/{id?}', [UsersController::class, 'storeAdministrator']);
             Route::delete('{id}/delete', [UsersController::class, 'delete']);
 
         });
