@@ -194,7 +194,7 @@ export default {
       this.levelsService.store(this.form,this.form.id).then(({ data }) => {
         this.AddLevelsDialog = false;
         this.submitted = false;
-        this.Msg = "تمت إضافة المدرسة بنجاح ";
+        this.Msg = "تمت العملية بنجاح ";
         this.successMsg = true;
         this.getLevels();
         this.form = {};

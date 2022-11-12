@@ -13,16 +13,15 @@
                         <!-- <img :src="this.siteLogo()" alt="Image" height="50" class="mb-3" /> -->
                         <!-- <img src="white.svg" alt="Image" height="50" class="mb-3" /> -->
 
-                        <div class="text-3xl font-medium mb-3">{{مدرسة  }}</div>
-                        <span class="">{{ $t('auth.forget_password_hint') }}</span>
+                        <span class="">ادخل الايميل الخاص بك</span>
                     </div>
 
                     <div class="w-full md:w-10 mx-auto">
                         <form @submit.prevent="doLogin()">
-                            <label for="email1" class="text-xl font-medium mb-2">{{ $t('user.username') }}</label>
+                            <label for="email1" class="text-xl font-medium mb-2">الايميل</label>
                             <InputText
                                 id="email1"
-                                v-model="username.val"
+                                v-model="email.val"
                                 type="text"
                                 class="w-full mb-3"
                                
@@ -31,7 +30,7 @@
 
 
                             <Button
-                                :label="this.$t('auth.request_reset_password')"
+                                label="طلب تعيين كلمة السر"
                                 class="w-full p-3 text-xl mt-3"
                                 iconPos="right"
                                 :loading="loading"
@@ -54,7 +53,7 @@
 </template>
 
 <script>
-// import UserService from '@/services/UserService';
+ import UsersService from '@/services/usersService';
 
 export default {
     data() {
@@ -71,19 +70,19 @@ export default {
     },
 
     mounted() {
-        // this.service = new UserService();
+        this.service = new UsersService();
     },
     methods: {
         doLogin() {
-            // this.loading = true;
-            // this.$store
-            //     .dispatch('settings/login', {
-            //         username: this.username.val,
-            //         password: this.password.val,
-            //     })
-            //     .then(() => {
-            //         this.loading = false;
-            //     });
+            this.loading = true;
+            this.$store
+                .dispatch('settings/login', {
+                    email: this.email.val,
+                    password: this.password.val,
+                })
+                .then(() => {
+                    this.loading = false;
+                });
         },
     },
 

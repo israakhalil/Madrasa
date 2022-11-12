@@ -95,6 +95,22 @@ const routes = [
                     },
                 ]
             },
+            {
+                path: '/account',
+                component: () => import('../pages/account/layout.vue'),
+                children:[
+            {
+                name: "user-profile",
+                path: 'profile',
+                component: () => import('../pages/account/profile.vue'),
+            },
+
+            {
+                name: 'user-change-password',
+                path: 'change-password',
+                component: () => import('../pages/account/change-password.vue'),
+            },]
+            }
         ]    
     },
     

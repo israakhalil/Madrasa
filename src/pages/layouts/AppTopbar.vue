@@ -5,7 +5,7 @@
 	  
     </div>
 	<div class="layout-topbar-logo_text">
-		<span> {{currentSchool.name}}</span>
+		<span> {{currentSchool.name}} - {{ currentUser.name}}</span>
 	</div>
 <!--    <button class="p-link layout-topbar-button">-->
 <!--      <i class="pi pi-cog"></i>-->
@@ -42,17 +42,18 @@ export default {
 	data() { 
 		return {
 			currentSchool:{},
+      currentUser:{},
       drop_down_items: [
-        // {
-        //   label: "الصفحة الشخصية",
-        //   icon: 'pi pi-user',
-        //   to: {name: 'user-profile'},
-        // },
-        // {
-        //   label: "تغيير كلمة السر",
-        //   icon: 'pi pi-unlock',
-        //   // to: {name: 'user-change-password'},
-        // },
+        {
+          label: "الصفحة الشخصية",
+          icon: 'pi pi-user',
+          to: {name: 'user-profile'},
+        },
+        {
+          label: "تغيير كلمة السر",
+          icon: 'pi pi-unlock',
+          to: {name: 'user-change-password'},
+        },
         {
           label: " تسجيل خروج",
           icon: 'pi pi-unlock',
@@ -66,6 +67,7 @@ export default {
 	mounted() {
 		// this.$store.dispatch('settings/fetchSchool');
 		this.currentSchool = this.$store.getters['settings/currentSchool'];
+    this.currentUser = this.$store.getters['settings/currentUser'];
 	},
     methods: {
         // onMenuToggle(event) {

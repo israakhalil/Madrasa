@@ -1,15 +1,15 @@
 <template>
   <div class="grid">
     <template v-if="!this.error">
-        <div id="right" class="md:col-2 sm:col-12 xs:col-12">
+        <div id="right" class="md:col-2 sm:col-12 xs:col-12 lg:col-2 ">
       <div class="card p-fluid">
         <div class="grid formgrid">
 
-          <div class="col-12 md:col-12" style="height:350px">
+          <div class="col-12 md:col-12 lg:col-12" style="height:40vh" >
             <div class="flex-1 justify-content-center text-center md:text-center" >
               <div class="font-bold text-2xl py-3" style="cursor: pointer" @click="Classes">المراحل المدرسية:</div>
             </div>
-            <Listbox v-model="selectedLevel" :options="levels" optionLabel="name"  @change="filterClasses">
+            <Listbox v-model="selectedLevel" :options="levels" optionLabel="name" listStyle="max-height:31vh"  @change="filterClasses">
               <template #option="slotProps">
                 <div class="flex-1 justify-content-right text-right md:text-right px-20">
                   <div class="font-bold text-lg">
@@ -21,9 +21,10 @@
             </Listbox>
           </div>
 
-          <div class="col-12 md:col-12">
-            <div class="flex-1 justify-content-center text-center md:text-center">
-              <div class="font-bold text-2xl pt-4 pb-4">الاضافات السريعة:</div>
+          <div class="col-12 md:col-12 " style="height:50vh"  >
+            <div class="font-bold  justify-content-center text-center md:text-center text-2xl pt-4 pb-4">الاضافات السريعة:</div>
+            <div class="flex-1 justify-content-center text-center md:text-center re_quick">
+
               <Button label="اضافة غياب" class="p-button-outlined mb-4" @click="this.$router.push({ name: 'quick-index', params: { type: 1 } })"/>
               <Button label="اضافة تاخير" class="p-button-outlined mb-4"  @click="this.$router.push({ name: 'quick-index', params: { type: 2 } })"/>
               <Button label="اضافة مخالفة سلوكية" class="p-button-outlined mb-4" @click="this.$router.push({ name: 'quick-index', params: { type: 3 } })"/>
@@ -207,6 +208,7 @@ export default {
           submitted: false,
           attachment: null,
           classesService:null,
+          currentUser:{}
     };
   },
   validations() {
@@ -225,8 +227,11 @@ export default {
     }, 
     mounted() { 
       this.error=false
+      this.currentUser = this.$store.getters['settings/currentUser'];
+
       this.loadData();
-    
+
+
     },
     methods: {
         loadData(query = null) { 
@@ -237,7 +242,10 @@ export default {
             this.service.index(this.query).then(({ data }) => {
                 if (data.code == 200) {
                     this.levels = data.data.Levels;
-                    this.classes = data.data.Classes;
+                    this.classes=this.currentUser.classes
+                    this.levels= this.levels.filter(level => {
+                       return this.currentUser.classes.map((el) => { return el.level_id }).includes(level.id)
+                     });
                 }
                 else { 
                       this.error=true; 
@@ -248,17 +256,18 @@ export default {
         },
 
         filterClasses() { 
-            this.query = { level_id: this.selectedLevel.id };
-          this.Classes() 
-          this.query=null
+            // this.query = { level_id: this.selectedLevel.id };
+          this.classes= this.classes.filter(_class => _class.level_id=this.selectedLevel.id)
+          // this.Classes()
+          // this.query=null
                 
         },
 
-        Classes() {
-            this.classesService.index(this.query).then(({ data }) => {  
-                this.classes = data.data.Classes;
-            })
-        }, 
+        // Classes() {
+        //     this.classesService.index(this.query).then(({ data }) => {
+        //         this.classes = data.data.Classes;
+        //     })
+        // },
           
     openNew() {
       this.submitted = false;
@@ -316,6 +325,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
+.re_quick{
+  overflow-y: scroll;
+  height: 40vh;
+}
  .res_image{
   max-width: 100%;
   height: auto;
@@ -422,7 +436,7 @@ ul.p-listbox-list {
   background-color: var(--primary-color);
   color: var(--primary-color-text);
   text-align: center;
-  top: 750px;
+  top: 80vh;
   left: -52px;
   z-index: -1;
   overflow: hidden;

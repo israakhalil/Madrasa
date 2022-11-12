@@ -50,7 +50,7 @@
             <Column field="classes_name" header=" الصفوف المتاحة" style="width: 35%;">
               <template #body="slotProps">
                 <span v-for="element in slotProps.data.classes" class="item">
-                  <span>{{ element.name }}</span>
+                  <span>{{ element.name  }} - {{element.level_name}}</span>
                 </span>
               </template>
 
@@ -73,7 +73,7 @@
       <Dialog
           v-model:visible="AddUserDialog"
           :style="{ width: '500px' }"
-          header="اضافة مشرف مدرسة "
+          :header=header
           :modal="true"
           class="p-fluid font-bold text-lg">
 
@@ -85,7 +85,7 @@
               required="true"
               autofocus
               :class="{ 'p-error':v$.form.name.$invalid && submitted }"/>
-          <small class="p-error" v-if="v$.form.name.$invalid && submitted">يرجى ادخال اسم المشرف </small>
+          <small class="p-error" v-if="v$.form.name.$invalid && submitted">يرجى ادخال اسم الاداري </small>
         </div>
         <div class="field">
           <label for="class_id">الصفوف المتاحة للاداري  </label>
@@ -185,6 +185,7 @@ export default {
       levelsService: null,
       deleteconfirm:false,
       classes_name:null,
+      header:null,
     };
   },
   validations() {
@@ -193,7 +194,6 @@ export default {
         name: { required },
         email: { email, required },
         password: { required, minLength: minLength(6) },
-        // password: { required },
         classesIds:{ required },
 
       }
@@ -206,9 +206,9 @@ export default {
   },
   methods: {
     openNew() {
-      this.restform()
+      this.header="اضافة اداري"
+      this.form = {}
       this.getClasses();
-      console.log(this.form)
       this.submitted = false;
       this.AddUserDialog = true;
     },
@@ -217,7 +217,6 @@ export default {
       this.getClasses();
       this.form = { ...data };
       this.form.classesIds = this.form.classesIds.map(({ id }) => id);
-      console.log(this.form)
       this.AddUserDialog = true;
     },
     openDelete(data) {

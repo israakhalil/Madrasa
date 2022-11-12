@@ -19,7 +19,7 @@ router.beforeEach((to, from, next) => {
     if(to.name == 'login' && isLoggedIn() ) {
         next({ name: 'home' });
     }
-    if (to.name != 'login' && !isLoggedIn()) {
+    if ((!["login", "forget"].includes( to.name) ) && !isLoggedIn()) {
         next({ name: 'login' });
     } else{
         next();

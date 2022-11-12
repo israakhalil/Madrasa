@@ -43,32 +43,6 @@ export default {
             mobileMenuActive: false,
             showSideMenu: false,
             menu : [
-                {
-                   label:'المراحل',
-                   icon:'pi pi-fw pi-sitemap',
-                   to: '/grades',
-                  visible: () => (authorize.methods.can('GRADE_VIEW_ALL'))
-                 },
-				// {
-				// 	label:'السجلات',
-        //             icon: 'pi pi-fw pi-book',
-        //             to: '/records',
-        //   visible: () => (authorize.methods.can('RECORDS_VIEW_ALL'))
-        //
-        // },
-				{
-					label:'الادرايين',
-                    icon: 'pi pi-fw pi-users',
-                    to:'/administrators',
-          visible: () => (authorize.methods.can('ADMINISTRATOR_VIEW_ALL'))
-
-        },
-          // {
-          //     label:'الشهادات',
-          //     icon: 'pi pi-fw pi-money-bill',
-          //     to:'/certificates',
-          //     visible: () => (authorize.methods.can('GRADES_VIEW_ALL'))
-          // },
               {
                 label:'المراحل الدراسية',
                 icon: 'pi pi-fw pi-money-bill',
@@ -76,20 +50,47 @@ export default {
                 visible: () => (authorize.methods.can('LEVEL_VIEW_ALL'))
 
               },
-          {
-               label:' المدارس',
-              icon: 'pi pi-fw pi-money-bill',
-              to:'/schools',
-              visible: () => (authorize.methods.can('SCHOOL_VIEW_ALL'))
-
-          },
                 {
-				          	label:' المشرفين',
-                    icon: 'pi pi-fw pi-money-bill',
-                    to:'/supervisors',
-                    visible: () => (authorize.methods.can('SUPERVISOR_VIEW_ALL'))
+                   label:'المراحل',
+                   icon:'pi pi-fw pi-sitemap',
+                   to: '/grades',
+                  visible: () => (authorize.methods.can('GRADE_VIEW_ALL'))
+                 },
+              {
+                label:'السجلات',
+                          icon: 'pi pi-fw pi-book',
+                          to: '/records',
+                visible: () => (authorize.methods.can('RECORD_VIEW_ALL'))
 
-                }
+              },
+              {
+                label:'الادرايين',
+                          icon: 'pi pi-fw pi-users',
+                          to:'/administrators',
+                visible: () => (authorize.methods.can('ADMINISTRATOR_VIEW_ALL'))
+
+              },
+            {
+                label:'الشهادات',
+                icon: 'pi pi-fw pi-money-bill',
+                to:'/certificates',
+                visible: () => (authorize.methods.can('CERTIFICATE_VIEW_ALL'))
+            },
+
+            {
+                 label:' المدارس',
+                icon: 'pi pi-fw pi-money-bill',
+                to:'/schools',
+                visible: () => (authorize.methods.can('SCHOOL_VIEW_ALL'))
+
+            },
+            {
+                label:' المشرفين',
+                icon: 'pi pi-fw pi-money-bill',
+                to:'/supervisors',
+                visible: () => (authorize.methods.can('SUPERVISOR_VIEW_ALL'))
+
+            }
             ],
          
         };

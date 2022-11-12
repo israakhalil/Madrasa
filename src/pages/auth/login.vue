@@ -1,6 +1,6 @@
 <template>
         <div class="grid justify-content-center"  style="margin-bottom: -30rem;">
-            <div class="col-12 md:col-6" style=" padding-top: 210px; padding-bottom: 229px; margin-bottom: 0.6rem;">
+            <div class="col-12 md:col-6" style=" padding-top: 13%; padding-bottom: 13.66%; margin-bottom: 0.6rem;">
                 <div class="p-component font-bold ">
                     <div class="text-center mb-5">
                         <div class="text-3xl mb-4">أهلا بك مرة اخرى</div>

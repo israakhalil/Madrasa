@@ -26,3 +26,10 @@ mounted() {
 
 };
 </script>
+
+<style scoped>
+.grid {
+  margin-left: 0rem;
+  margin-right: 0rem;
+}
+</style>
