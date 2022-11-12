@@ -12,21 +12,17 @@ export default {
 },
   
   async fetchUser(context , payload) {
-    await globalApp.request().get('/system/users/fetch-data')
+    await globalApp.request().get('/users/fetch-data')
       .then(({data}) => {
         if(data.status){
           context.state.user = data.data;
-          context.state.permissions = data.data.permissions;
-          context.state.unread_permission_requests_count = data.data.unread_permission_requests_count;
           localStorage.setItem("user" , JSON.stringify(data.data));
-          // localStorage.setItem("unread_permission_requests_count" , data.data.unread_permission_requests_count);
         }
       }).catch(()=>{
       })
   },
 
   async login(context, payload) {
-   
      globalApp.request().post('/auth/login' , payload)
       .then(({ data }) => {     
         if(data.status){
@@ -35,8 +31,9 @@ export default {
           context.state.school = data.data.school;
           localStorage.setItem('token' ,data.data.token);
           localStorage.setItem("user", JSON.stringify(data.data.user));
+          // console.log(JSON.stringify(data.data.user))
           localStorage.setItem("school", JSON.stringify(data.data.school));  
-          router.replace('/grades')
+          router.replace('/home')
         }
       }).catch(() => {
         
@@ -49,6 +46,7 @@ export default {
         if(data.status){
           localStorage.removeItem('token');
           localStorage.removeItem('user');
+          localStorage.removeItem('school');
           setTimeout(() => {
             router.push({ name: 'login' });
           }, 3000); 

@@ -8,8 +8,8 @@
                     </div>
                 
                     <div class="w-full md:w-10 mx-auto">
-                        <label for="username" class="block text-xl  mb-2">اسم المستخدم</label>
-                        <InputText id="username" v-model="username.val" type="text" class="w-full mb-3" style="padding:1rem;" />
+                        <label for="username" class="block text-xl  mb-2">ايميل المستخدم</label>
+                        <InputText id="username" v-model="email.val" type="text" class="w-full mb-3" style="padding:1rem;" />
                 
                         <label for="password1" class="block text-xl mb-2">كلمة المرور</label>
                         <Password id="password1" v-model="password.val"  :toggleMask="true" class="w-full mb-3" inputClass="w-full" inputStyle="padding:1rem 2rem 1rem 10rem;"></Password>
@@ -40,7 +40,7 @@ export default {
         return {
           
             loading: false,
-            username: {
+          email: {
                 val: '',
             },
             password: {
@@ -53,7 +53,7 @@ export default {
             this.loading = true;
             this.$store
                 .dispatch('settings/login', {
-                    username: this.username.val,
+                    email: this.email.val,
                     password: this.password.val,
                 })
                 .then(() => {

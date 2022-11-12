@@ -16,7 +16,6 @@ globalApp.app.directive('styleclass', StyleClass);
 globalApp.app.directive('badge', BadgeDirective);
 globalApp.app.directive('tooltip', Tooltip);
 
-
 /********************* PrimeVue Region *******************/
 import Button from 'primevue/button';
 import DataTable from 'primevue/datatable';

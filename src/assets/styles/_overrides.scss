@@ -1,34 +1,37 @@
 .layout-topbar {
-  background-color: #6F38C5;
+    background-color: #6F38C5;
+}
+.layout-main{
+    background-color: var(--surface-card);
 }
 .layout-main-container {
-  padding: 5rem 0rem 0rem 0rem;
+    padding: 5rem 0rem 0rem 0rem;
 }
 .p-tabmenu{
-        overflow: hidden;
-        position: fixed;
-        width: 100%;
-        z-index: 50;
+    overflow: hidden;
+    position: fixed;
+    width: 100%;
+    z-index: 50;
 
 }
 
 .p-tabmenu .p-tabmenu-nav {
-  background: #eff3f8;
+    background: #eff3f8;
 }
 
 
 .p-tabmenu .p-tabmenu-nav .p-tabmenuitem .p-menuitem-link {
-  // border-width: 0 0 3px 0;
-  background: #eff3f8;
-  border-top-right-radius: 0px;
-  border-top-left-radius: 0px;
-//   overflow: hidden;
-//   z-index: 100;
-//   width: 20;
+    // border-width: 0 0 3px 0;
+    background: #eff3f8;
+    border-top-right-radius: 0px;
+    border-top-left-radius: 0px;
+    //   overflow: hidden;
+    //   z-index: 100;
+    //   width: 20;
 }
 .p-tabmenu-nav .p-menuitem-text {
-  margin-right: 5px;
-  font-size: 1.125rem;
+    margin-right: 5px;
+    font-size: 1.125rem;
 }
 .layout-topbar .layout-topbar-logo {
     width: 1000px;
@@ -39,7 +42,7 @@
     color: var(--surface-0);
     font-size: 1.5rem;
     font-weight: 900;
-     width: 1000px;
+    width: 1000px;
     border-radius: 12px;
 }
 
@@ -49,23 +52,23 @@
 }
 .layout-topbar .layout-topbar-button:hover {
     color: var(--text-color);
-    background-color: var(--surface-hover);  
+    background-color: var(--surface-hover);
 }
 
 
 
 .p-splitter {
-     border: 0px solid #dee2e6; 
+    border: 0px solid #dee2e6;
 }
 
 .p-listbox {
 
- border: 0;
+    border: 0;
 }
 
 
 .p-listbox .p-listbox-list .p-listbox-item {
-    
+
     border: 1px solid  #eff3f8;
     border-right: 0px;
 }
@@ -117,11 +120,11 @@
     width: 0!important;
     left: 0!important;
 }
- .p-column-filter-menu-button{
+.p-column-filter-menu-button{
     display: none !important;
- }
+}
 
- .p-toolbar {
+.p-toolbar {
     padding: 0.75rem 1.25rem;
 }
 
@@ -136,7 +139,7 @@
 }
 
 
-// header 
+// header
 
 .dropdowns-wrapper {
     padding: 10px 0px;

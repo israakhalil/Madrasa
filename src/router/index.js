@@ -17,7 +17,7 @@ function isLoggedIn() {
 router.beforeEach((to, from, next) => {
     
     if(to.name == 'login' && isLoggedIn() ) {
-        next({ name: 'grades' });
+        next({ name: 'home' });
     }
     if (to.name != 'login' && !isLoggedIn()) {
         next({ name: 'login' });

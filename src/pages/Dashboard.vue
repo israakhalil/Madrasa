@@ -19,7 +19,10 @@ export default {
     data() {
         return {};
     },
+mounted() {
+  // let permissions = this.$store.getters['settings/getPermissions'];
+  // console.log(permissions);
+}
 
- 
 };
 </script>

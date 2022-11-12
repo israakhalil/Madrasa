@@ -4,28 +4,18 @@ export default class levelsService {
     async index(data) {
         return  globalApp.request().get('/levels/index'  , {params :data });
     }
-
-    async create() {
-        return  globalApp.request().get('/levels/create');
+    async grouped(data) {
+        return  globalApp.request().get('/levels/grouped'  , {params :data });
     }
-
 
     async store(data , id = null) {
         return  globalApp.request().post('/levels/store/' + (id ? id : '') , data);
     }
 
-
-    async edit(id) {
-        return  globalApp.request().get(`/levels/${id}/edit` );
-    }
-
-
-    deleteItem(id) {
+    delete(id) {
         return globalApp.request().delete(`/levels/${id}/delete`);
     }
-    deleteSelectedItem(ids){
-        return globalApp.request().delete(`/levels/delete-selected `, {params:{ids} });
-    }
+
 
 
 

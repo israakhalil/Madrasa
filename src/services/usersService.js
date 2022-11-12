@@ -8,14 +8,18 @@ export default class usersService {
     user_permissions = [];
     // user_departments = [];
 
-    async index(data) {
-        return  globalApp.request().get('/users/index'  , {params :data });
+    async administrators(data) {
+        return  globalApp.request().get('/users/administrators'  , {params :data });
     }
-
-    async store(data, id = null) {
-        return await globalApp.request().post('/users/store/'+ (id ? id : ''),data);
+    async supervisors(data) {
+        return  globalApp.request().get('/users/supervisors'  , {params :data });
     }
-
+    async store_supervisor(data, id = null) {
+        return await globalApp.request().post('/users/store_supervisor/'+ (id ? id : ''),data);
+    }
+    async store_administrator(data, id = null) {
+        return await globalApp.request().post('/users/store_administrator/'+ (id ? id : ''),data);
+    }
     getItems(params) {
         return globalApp.request().get(`'/users/index'` , {params:params }  ).then(  ({data}) => {
             this.items = data.data;

@@ -25,6 +25,7 @@
 
 <script>
 import '@/assets/styles/layout.scss';
+import authorize from '@/mixins/authorize';
 
 import AppTopBar from './AppTopbar.vue';
 import AppTopMenu from './AppTopMenu.vue';
@@ -46,31 +47,48 @@ export default {
                    label:'المراحل',
                    icon:'pi pi-fw pi-sitemap',
                    to: '/grades',
+                  visible: () => (authorize.methods.can('GRADE_VIEW_ALL'))
                  },
-				{
-					label:'السجلات',
-                    icon: 'pi pi-fw pi-book',
-                    to: '/records',
-                },
+				// {
+				// 	label:'السجلات',
+        //             icon: 'pi pi-fw pi-book',
+        //             to: '/records',
+        //   visible: () => (authorize.methods.can('RECORDS_VIEW_ALL'))
+        //
+        // },
 				{
 					label:'الادرايين',
                     icon: 'pi pi-fw pi-users',
-                    to:'/adminstration',
-                },
-{
-					label:'الشهادات',
-                    icon: 'pi pi-fw pi-money-bill',
-                    to:'/certificates',
-                },
+                    to:'/administrators',
+          visible: () => (authorize.methods.can('ADMINISTRATOR_VIEW_ALL'))
+
+        },
+          // {
+          //     label:'الشهادات',
+          //     icon: 'pi pi-fw pi-money-bill',
+          //     to:'/certificates',
+          //     visible: () => (authorize.methods.can('GRADES_VIEW_ALL'))
+          // },
+              {
+                label:'المراحل الدراسية',
+                icon: 'pi pi-fw pi-money-bill',
+                to:'/levels',
+                visible: () => (authorize.methods.can('LEVEL_VIEW_ALL'))
+
+              },
+          {
+               label:' المدارس',
+              icon: 'pi pi-fw pi-money-bill',
+              to:'/schools',
+              visible: () => (authorize.methods.can('SCHOOL_VIEW_ALL'))
+
+          },
                 {
-					label:' المدارس',
-                    icon: 'pi pi-fw pi-money-bill',
-                    to:'/schools',
-                },
-                {
-					label:' المشرفين',
+				          	label:' المشرفين',
                     icon: 'pi pi-fw pi-money-bill',
                     to:'/supervisors',
+                    visible: () => (authorize.methods.can('SUPERVISOR_VIEW_ALL'))
+
                 }
             ],
          

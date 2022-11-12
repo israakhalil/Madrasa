@@ -14,7 +14,7 @@
       </div>
 
       <div class="justify-content-center text-center md:text-center">
-        <span> يجب ادخال جميع الحقول </span>
+        <span> {{Msg}} </span>
       </div>
     </div>
   </Dialog>
@@ -24,7 +24,8 @@
 export default {
 
     props: {
-      errorMsg: Boolean,  
+      errorMsg: Boolean,
+      Msg: String
 } 
 }
 </script>

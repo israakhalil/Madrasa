@@ -7,6 +7,7 @@ export default {
   },
 
   getPermissions(state) {
+
     if (state.permissions.length) {
       return state.permissions  
     }else{
@@ -14,6 +15,7 @@ export default {
       if (user != undefined) {
         state.permissions = JSON.parse(user).permissions;
       }
+
       return state.permissions;
     }
   },

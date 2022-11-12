@@ -141,6 +141,7 @@
     </Dialog>
 
           <SuccessMsg :successMsg=successMsg  :Msg=Msg />
+
       </div>
     </div>
 </template>
@@ -186,7 +187,7 @@
     },
     methods:{ 
         openNew() {
-        this.restform()
+          this.form={}
         this.header="اضافة مدرسة جديدة "
         this.submitted = false;
         this.AddSchoolDialog = true;
@@ -232,8 +233,8 @@
               this.submitted = false;
               this.Msg = "تمت إضافة المدرسة بنجاح ";
               this.successMsg = true;
-              this.getSchools();  
-              this.restform()
+              this.getSchools();
+              this.form = {};
   
             });
       },
@@ -244,12 +245,7 @@
      this.logo=e.target.files[0]
   
   },
-  
-  restform() {    
-          this.form.name= null,
-          this.form.logo = null
-      },
-  
+
         onFilter() {
             this.getSchools()
        },
@@ -289,10 +285,15 @@
   .inputfile {
     display: none;
   }
-  /* .hover{
-    color: var(--primary-color)
-  
-  } */
+
+.card {
+  border-radius: 0%;
+  /*padding: 0rem;*/
+}
+.grid {
+   margin-left: 0rem;
+   margin-right: 0rem;
+}
   a {
    font-size: 1.2rem;
   }

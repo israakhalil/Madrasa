@@ -9,7 +9,7 @@ const routes = [
                 path: '/home',
                 name:"home",
                 component: () => import('../pages/Dashboard.vue'),
-               
+
             },
             {
                 path: '/panel',
@@ -17,25 +17,30 @@ const routes = [
                 children: [
                     {
                         path: '/grades',
-                        name:"grades",
+                        name:"grades-index",
                         component: () => import('../pages/panel/grades.vue'),
                        
                     },
                     {
                         path: '/records',
-                        name:"records",
+                        name:"records-index",
                         component: () => import('../pages/panel/records.vue'),
                         
                     },
                     {
-                        path: '/adminstration',
-                        name:"adminstration",
+                        path: '/administrators',
+                        name:"administrators-index",
                         component: () => import('../pages/panel/administrators.vue'),
                     },
                     {
                         path: '/certificates',
-                        name:"certificates",
+                        name:"certificates-index",
                         component: () => import('../pages/panel/certificates.vue'),
+                    },
+                    {
+                        path: '/levels',
+                        name:"levels-index",
+                        component: () => import('../pages/panel/levels.vue'),
                     },
                  
                 ]

@@ -17,11 +17,9 @@
                               @input="onFilter"
                               placeholder="بحث ... " />
                           </span>
-  
                        </div>
                       <div class="col-4 md:col-4 justify-content-right mt-2">
                           <Button label="إضافة مشرف"   icon="pi pi-plus" class="p-button-outlined " @click="openNew"/>
-  
                       </div>
                     
               </div>
@@ -44,22 +42,16 @@
               <Column field="name" header="اسم المشرف">
                 
               </Column>
-              <Column field="username" header="اسم المستخدم">
-                
-              </Column>
-              <Column field="id_number" header="رقم الهوية">
-                
+              <Column field="school_name" header="اسم المدرسة">
+
               </Column>
               <Column field="email" header="الايميل">
                 
               </Column>
-              <Column field="school_name" header="اسم المدرسة">
-                
-              </Column>
+
               
               <Column fheader="  الاجراءات" style="max-width:8rem">
             <template #body="slotProps">
-                <!-- <Button icon="pi pi-download" class="p-button-rounded p-button-help ml-2" /> -->
                 <Button icon="pi pi-pencil" class="p-button-rounded p-button-success ml-2" @click="openEdit(slotProps.data)"/>
                 <Button icon="pi pi-trash" class="p-button-rounded p-button-danger ml-2" @click="openDelete(slotProps.data)"/>
             </template>
@@ -90,28 +82,6 @@
                 <small class="p-error" v-if="v$.form.name.$invalid && submitted">يرجى ادخال اسم المشرف </small>
             </div>
             <div class="field">
-              <label for="id_number"> رقم الهوية </label>
-              <InputText
-                id="id_number"
-                v-model.trim="form.id_number"
-                :class="{ 'p-error':v$.form.id_number.$invalid && submitted }"/>
-                <small class="p-error" v-if="v$.form.id_number.$invalid && submitted">يرجى ادخال رقم الهوية </small>
-            </div>
-            <div class="field">
-              <label for="school_id">المدرسة التابع لها </label>
-              <Dropdown
-              id="school_id"
-              :filter=true
-              v-model="form.school_id"
-              :options=" schools"
-              optionLabel="name"
-              placeholder="اختر"
-              option-value="id"
-              :class="{ 'p-invalid':v$.form.school_id.$invalid && submitted }"
-              />
-              <small class="p-error" v-if="v$.form.school_id.$invalid && submitted">يرجى  اختبار المدرسة التابع لها  </small>
-            </div>
-            <div class="field">
               <label for="email"> ايميل المشرف  </label>
               <InputText
                 id="email"
@@ -125,14 +95,22 @@
               <Password id="password" v-model="form.password"  class="w-full mb-3" 
               inputClass="w-full" inputStyle="padding:1rem 2rem 1rem 10rem;" 
               :class="{ 'p-error':v$.form.password.$invalid && submitted }"></Password>
-
-              <!-- <InputText
-                id="password"
-                v-model.trim="form.password"
-                :class="{ 'p-error':v$.form.password.$invalid && submitted }"/> -->
                 <small class="p-error" v-if="v$.form.password.$invalid && submitted">يرجى ادخال كلمة السر  </small>
             </div>
-          
+          <div class="field">
+            <label for="school_id">المدرسة التابع لها </label>
+            <Dropdown
+                id="school_id"
+                :filter=true
+                v-model="form.school_id"
+                :options=" schools"
+                optionLabel="name"
+                placeholder="اختر"
+                option-value="id"
+                :class="{ 'p-invalid':v$.form.school_id.$invalid && submitted }"
+            />
+            <small class="p-error" v-if="v$.form.school_id.$invalid && submitted">يرجى  اختبار المدرسة التابع لها  </small>
+          </div>
             <div class="field">
               <Button label="حفظ" class="mt-5" type="submit" @click="save(!v$.$invalid)" />
             </div>
@@ -168,6 +146,8 @@
 
     </Dialog>
           <SuccessMsg :successMsg=successMsg  :Msg=Msg />
+        <ErrorMsg :errorMsg=errorMsg :Msg=Msg />
+
       </div>
     </div>
 </template>
@@ -196,6 +176,7 @@
          
           userService: null,
         successMsg: false,
+        errorMsg:false,
         submitted: false,
         schoolsService: null,
         deleteconfirm:false
@@ -207,8 +188,6 @@
               name: { required },  
               email: { email, required },
                password: { required, minLength: minLength(6) },
-              id_number: {required},
-          // password: { required },
           school_id:{ required },
               
         }
@@ -253,17 +232,34 @@
       },
     save(isFormValid) {
       this.successMsg = false;
+      this.errorMsg = false;
       this.submitted = true;
+      this.Msg=null;
       if (!isFormValid) {
         return;
       }
-      this.userService.store(this.form, this.form.id).then(({ data }) => {
+      // this.form.role_id=2
+      // this.form.roles = service.user_roles.map(({ id }) => id);
+      this.form.role_id=2
+      this.userService.store_supervisor(this.form, this.form.id).then(({ data }) => {
         if (data.code == 200) {
           this.AddUserDialog = false;
           this.successMsg = true;
           this.Msg = data.msg;
           this.getSupervisors();
           this.restform()
+        }
+        else if(data.code == 501){
+          this.errorMsg = true;
+          this.Msg = data.msg;
+        }
+        else if(data.code == 502){
+          this.errorMsg = true;
+          this.Msg = data.msg;
+        }
+        else{
+          this.errorMsg = true;
+          this.Msg = "هناك خطأ";
         }
       });
     },
@@ -286,9 +282,10 @@
       });
     },
     getSupervisors() {
+      //role =2 مشرف
       this.filter = { name: this.filter_name };
 
-      this.userService.index(this.filter).then(({ data }) => {
+      this.userService.supervisors(this.filter).then(({ data }) => {
         if (data.code == 200) {
           this.users = data.data.Users;
 
@@ -306,18 +303,15 @@
   </script>
   
   <style scoped>
-  
-  .inputfile-box {
-    position: relative;
+
+  .card {
+    border-radius: 0%;
+    /*padding: 0rem;*/
   }
-  
-  .inputfile {
-    display: none;
+  .grid {
+    margin-left: 0rem;
+    margin-right: 0rem;
   }
-  /* .hover{
-    color: var(--primary-color)
-  
-  } */
   a {
    font-size: 1.2rem;
   }
