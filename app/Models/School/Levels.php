@@ -39,6 +39,10 @@ class Levels extends Model
             $key = trim(request()['school_id']);
             $q->where('school_id', '=', $key);
         }
+        if (request()->filled('name') && !empty(request('name'))) {
+            $key = trim(request()['name']);
+            $q->where('name', 'like', "%$key%");
+        }
         return $q;
     }
 

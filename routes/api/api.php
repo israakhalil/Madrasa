@@ -121,6 +121,8 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
             Route::get('fetch-data', [UsersController::class, 'fetchUserData']);
             Route::get('/supervisors', [UsersController::class, 'supervisors']);
             Route::get('/administrators', [UsersController::class, 'administrators']);
+            Route::post('/update-profile', [UsersController::class, 'updateProfile']);
+            Route::post('/update-password', [UsersController::class, 'updatePassword']);
             Route::post('/store_supervisor/{id?}', [UsersController::class, 'storeSupervisor']);
             Route::post('/store_administrator/{id?}', [UsersController::class, 'storeAdministrator']);
             Route::delete('{id}/delete', [UsersController::class, 'delete']);

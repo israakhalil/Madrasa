@@ -13,8 +13,8 @@ class UserResource extends JsonResource
         return [
             'id' => $this['id'],
             'name' => $this['name'],
-//            'classesIds'=>$this->classes()->get()->toArray(),
-//            'classes' => ClassResource::collection($this->classes()->get())->map->toUser($request),
+            'classesIds'=>$this->classes()->get(),
+            'classes' => ClassResource::collection($this->classes()->get())->map->toArray($request),
             'email' => $this['email'],
 //            'PERR'=>$this->permissions()->get(),
 //             'permissions' => PermissionResource::collection($this->permissions()->get()->toArray($request)),

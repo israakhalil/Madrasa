@@ -9,6 +9,8 @@ use App\Http\Resources\UserResource;
 use App\Models\Auth\User as UsersModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
+
 
 class UsersController extends  Controller
 {
@@ -156,8 +158,9 @@ class UsersController extends  Controller
                         'code'=>StatusCodes::EMAIL_ERR
                     ]);
                 } else {
-                    $user->update($data);
-                    $user->classes()->sync($request->get('classesIds', []));
+//                    $user->update($data);
+                     UsersModel::where('id', $id)->update($data);
+                    $this->classes()->sync($request->get('classesIds', []));
                     return response()->json([
                         'msg' => "تم الحفظ بنجاح",
                         'code'=>StatusCodes::OK
@@ -223,5 +226,36 @@ class UsersController extends  Controller
         }
         return response()->json(['status'=>true, 'code'=>StatusCodes::OK, Enum::DONE_SUCCESSFULLY, 'data'=>(new UserResource($user)) ]);
 
+    }
+
+    public function updateProfile(Request $request)
+    {
+        $user = $request->user();
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['status'=>false,'code'=>StatusCodes::VALIDATION_ERROR, 'msg'=>$validator->errors()->first(), []]);
+        }
+
+
+        $data = $request->only(['name', 'email']);
+        $user->update($data);
+        return response()->json(['status'=>true, 'code'=>StatusCodes::OK, Enum::DONE_SUCCESSFULLY, 'data'=>(new UserResource($user)) ]);
+    }
+
+    public function updatePassword(ResetPasswordRequest $request)
+    {
+        $user = $request->user();
+        $data = $request->all();
+
+        if (Hash::check($request->old_password, $user->getAuthPassword())) {
+            $user->password = Hash::make($data['password']);
+            $user->save();
+            return $this->response_api(true, StatusCodes::OK, Enum::UPDATED_SUCCESSFULLY, (new UserResource($user)));
+        } else {
+            return $this->response_api(false, StatusCodes::VALIDATION_ERROR, Enum::INVALID_OLD_PASSWORD);
+        }
     }
 }
