@@ -16,7 +16,7 @@ class ViolationResource extends JsonResource
             'violation_procedure_id'=> $this['violation_procedure_id'],
             'violation_degree_id'=> $this['violation_degree_id'],
             'student_id'=> $this['student_id'],
-            'suprvisore_signature'=> $this['suprvisore_signature'],
+            'supervisor_signature'=> $this['supervisor_signature'],
             'student_signature'=> $this['student_signature'],
             ];
     }

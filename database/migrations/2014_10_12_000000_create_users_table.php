@@ -15,14 +15,12 @@ return new class extends Migration
     {
         if(!Schema::hasTable('users')){
         Schema::create('users', function (Blueprint $table) {
-            $table->engine = 'InnoDB';
             $table->increments('id');
             $table->string('name');
-//            $table->string('username')->nullable();
             $table->string('email');
             $table->string('password');
-//            $table->integer('id_number')->nullable();
-            $table->integer('school_id')->unsigned();
+            $table->integer('school_id');
+            $table->integer('role_id')->unsigned();
             $table->timestamps();
         });
     }}

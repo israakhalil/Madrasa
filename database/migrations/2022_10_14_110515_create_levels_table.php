@@ -15,7 +15,6 @@ return new class extends Migration
     {
         // if(!Schema::hasTable('Levels')){
         Schema::create('levels', function (Blueprint $table) {
-            $table->engine = 'InnoDB';
             $table->increments('id');
             $table->string('name');
             $table->integer('school_id')->unsigned();;

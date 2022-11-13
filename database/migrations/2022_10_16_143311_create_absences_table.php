@@ -14,7 +14,6 @@ return new class extends Migration
     public function up()
     {
         Schema::create('absences', function (Blueprint $table) {
-            $table->engine = 'InnoDB';
             $table->increments('id');
             $table->integer('student_id')->unsigned();
             $table->foreign('student_id')->references('id')->on('students');

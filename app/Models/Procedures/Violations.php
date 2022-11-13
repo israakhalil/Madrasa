@@ -12,7 +12,7 @@ class Violations extends Model
     protected $table="violations";
     const FILLABLE = ['violation_date','action_performed',
     'violation_procedure_id','violation_degree_id','student_id',
-    'suprvisore_signature','student_signature'];
+    'supervisor_signature','student_signature'];
 
     protected $fillable = self::FILLABLE;
     protected $casts = [

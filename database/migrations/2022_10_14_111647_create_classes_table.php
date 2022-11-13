@@ -15,7 +15,6 @@ return new class extends Migration
     {
         // if(!Schema::hasTable('Classes')){
             Schema::create('classes', function (Blueprint $table) {
-                $table->engine = 'InnoDB';
                 $table->increments('id');
                 $table->string('name');
                 $table->text('attached_file')->nullable();
