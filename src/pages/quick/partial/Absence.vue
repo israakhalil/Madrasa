@@ -33,7 +33,7 @@
         <label for="student_id"> اسم الطالب </label>
         <Dropdown
           id="student_id"
-          filter="true"
+          :filter=true
           v-model="item.student_id"
           :options="item.students"
           optionLabel="name"
@@ -49,7 +49,7 @@
         <label for="absence_type_id"> نوع الغياب</label>
         <Dropdown
           id="absence_type_id"
-          filter="true"
+          :filter=true
           v-model="item.absence_type_id"
           :options="absence_types"
           optionLabel="name"
@@ -63,7 +63,6 @@
           id="absence_reason"
           v-model.trim="item.absence_reason"
           required="true"
-          autofocus
         />
       </div>
       <div class="field col-12 md:col-4">
@@ -72,7 +71,6 @@
           id="teacher_signature"
           v-model.trim="item.teacher_signature"
           required="true"
-          autofocus
         />
       </div>
       <div class="field col-12 md:col-2">
@@ -100,7 +98,7 @@
   </div>
 
   <SuccessMsg :successMsg=successMsg :Msg=Msg />
-  <ErrorMsg :errorMsg=errorMsg />
+  <ErrorMsg :errorMsg=errorMsg :Msg=Msg />
 
 
 <!--  <template v-if="this.errorMsg==true">
@@ -111,12 +109,10 @@
 </template>
 
 <script>
-import LevelsService from "@/services/levelsService";
-import ClassesService from "@/services/classesService";
-import StudentsService from "@/services/studentsService";
 import ConstantsService from "@/services/constantsService";
 import AbsencesService from "@/services/absencesService";
 export default {
+  props: { levels:Array, classes:Array ,students:Array },
   data() {
     return {
       newItem: {
@@ -127,18 +123,11 @@ export default {
         absence_type_id: null,
         absence_reason: null,
         teacher_signature: null,
-
-        classes: [],
-        students: [],
-        absence_types: [],
       },
+      absence_types:[],
       items: [],
-
-      levels: [],
       Msg: null,
-      levelsService: null,
-      classesService: null,
-      studentsService: null,
+
       constantsService: null,
       absencesService: null,
 
@@ -147,39 +136,21 @@ export default {
     };
   },
   created() {
-    this.levelsService = new LevelsService();
-    this.classesService = new ClassesService();
-    this.studentsService = new StudentsService();
     this.constantsService = new ConstantsService();
     this.absencesService = new AbsencesService();
   },
   methods: {
     addItem() {
-      this.getLevels();
       this.items.push(Object.assign({}, this.newItem));
     },
     unset(obj, key) {
       obj.splice(key, 1);
     },
-
-    getLevels() {
-      this.levelsService.index().then(({ data }) => {
-        if (data.code == 200) {
-          this.levels = data.data.Levels;
-        }
-      });
-    },
-    getClasses(item) {
-      this.query = { level_id: item.level_id };
-      this.classesService.index(this.query).then(({ data }) => {
-        item.classes = data.data.Classes;
-      });
+    getClasses(item) { 
+        item.classes=this.classes.filter((_class) => { return _class.level_id == item.level_id });
     },
     getStudents(item) {
-      this.query = { class_id: item.class_id };
-      this.studentsService.index(this.query).then(({ data }) => {
-        item.students = data.data.Students;
-      });
+      item.students=this.students.filter((std) => { return std.class_id == item.class_id });
     },
     getAbsenceType() {
       this.constantsService.fetchAbsenceTypes().then(({ data }) => {
@@ -187,20 +158,22 @@ export default {
       });
     },
     saveAbsences() {
+
+      this.errorMsg = false; 
+      this.successMsg = false;
+      this.Msg = null;
+
       const formData = new FormData();
       formData.append("items", JSON.stringify(this.items));
-      this.errorMsg = false; 
-        this.successMsg = false;
       this.absencesService.store(this.items).then(({ data }) => {
         if (data.code == 200) {
           this.Msg = data.msg;
-          this.errorMsg = false;
           this.successMsg = true;
           this.resetFrom(this.items)
 
-        }  if (data.code == 500) { 
+        } if (data.code == 500) { 
+          this.Msg = data.msg; 
           this.errorMsg = true;
-          this.successMsg = false;
         }
       });
     },
@@ -217,7 +190,7 @@ export default {
     },
   },
   mounted() {
-    this.getLevels();
+    // this.levels;
     this.getAbsenceType();
     this.items.push(Object.assign({}, this.newItem));
   },

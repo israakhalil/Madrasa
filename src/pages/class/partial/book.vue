@@ -70,7 +70,7 @@ class="p-fluid font-bold text-lg">
         <label for="is_delivered">  التسليم </label>
         <Dropdown
             id="is_delivered"
-            filter="true"
+            :filter=true
             v-model="form.is_delivered"
             :options="delivered_options"
             optionLabel="name"

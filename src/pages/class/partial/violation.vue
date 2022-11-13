@@ -77,7 +77,7 @@ class="p-fluid font-bold text-lg">
         <label for="violation_procedure_id"> نوع الاجراء</label>
         <Dropdown
         id="violation_procedure_id"
-        filter="true"
+        :filter=true
         v-model="form.violation_procedure_id"
         :options="violation_procedures"
         optionLabel="name"
@@ -91,7 +91,7 @@ class="p-fluid font-bold text-lg">
         <label for="violation_degree_id">درجة المخالفة</label>
         <Dropdown
         id="violation_degree_id"
-        filter="true"
+        :filter=true
         v-model="form.violation_degree_id"
         :options="violation_degrees"
         optionLabel="name"
@@ -115,14 +115,14 @@ class="p-fluid font-bold text-lg">
         </div>
 
         <div  class="field">
-            <label for="suprvisore_signature"> توقيع الاداري </label>
+            <label for="supervisor_signature"> توقيع الاداري </label>
             <InputText
-            id="suprvisore_signature"
-            v-model.trim="form.suprvisore_signature"
+            id="supervisor_signature"
+            v-model.trim="form.supervisor_signature"
             required="true"
-            :class="{ 'p-invalid':v$.form.suprvisore_signature.$invalid && submitted }"
+            :class="{ 'p-invalid':v$.form.supervisor_signature.$invalid && submitted }"
             />
-            <small class="p-error" v-if="v$.form.suprvisore_signature.$invalid && submitted">يرجى  ادخال توقيع     </small>
+            <small class="p-error" v-if="v$.form.supervisor_signature.$invalid && submitted">يرجى  ادخال توقيع     </small>
 
         </div>
       <div class="field">
@@ -208,7 +208,7 @@ validations() {
         action_performed: { required },
         violation_procedure_id: { required },
         violation_degree_id: { required },
-        suprvisore_signature: { required },
+        supervisor_signature: { required },
         student_signature: { required },
     }
     }

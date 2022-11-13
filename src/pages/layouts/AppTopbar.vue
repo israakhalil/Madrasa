@@ -56,7 +56,7 @@ export default {
         },
         {
           label: " تسجيل خروج",
-          icon: 'pi pi-unlock',
+          icon: 'pi pi-sign-out',
           command: () => {
             this.$store.dispatch('settings/logout');
           },
@@ -93,7 +93,9 @@ export default {
 </script>
 
 <style scoped>
-.p-menuitem-icon{
-  padding-left: 10px;
-}
+
+
+.p-menu .p-menuitem-link .p-menuitem-icon {
+
+    padding-left: 5%;}
 </style>

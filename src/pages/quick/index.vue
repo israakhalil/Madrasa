@@ -29,25 +29,25 @@
 
 
             <template v-if="type==1">
-                <AbsenceLayout />
+                <AbsenceLayout :levels=levels :classes=classes :students=students />
             </template>
 
-            <template v-if="type==2">
-                <DelayLayout />
+            <template v-if="type==2" >
+                <DelayLayout :levels=levels :classes=classes :students=students />
             </template>
 
             
             <template v-if="type==3">
-                <ViolationLayout />
+                <ViolationLayout :levels=levels :classes=classes :students=students />
             </template>
 
             
             <template v-if="type==4">
-                <LeaveLayout />
+                <LeaveLayout :levels=levels :classes=classes :students=students />
             </template>
             
             <template v-if="type==5">
-                <BookLayout />
+                <BookLayout :levels=levels :classes=classes :students=students />
             </template>
         </div>
    
@@ -58,13 +58,50 @@
 </template>
 
 <script>
-  
+import LevelsService from "@/services/levelsService";
+import SchoolsService from "@/services/schoolsService";
+import StudentsService from "@/services/studentsService";
+
+
+
 export default {
     props: ["type"],
     data() {
         return {
-            name:null
-        }  
+            name: null,
+            classes: [],
+            levels: [],
+            students:[],
+        }
+    },
+    created() {
+        // this.levelsService = new LevelsService();
+        this.service = new SchoolsService();
+        this.studentsService = new StudentsService();
+
+    },
+
+    methods: {
+
+        // getClasses() {
+        //     if (this.classes.length) {
+        //         item.classes=this.classes.filter((_class) => { return _class.level_id == item.level_id });
+
+        //     }
+        //     else {
+        //         this.query = { level_id: item.level_id };
+        //         this.classesService.index(this.query).then(({ data }) => {
+        //         item.classes = data.data.Classes;
+        //         });
+        //     }
+        // },
+        getStudents() {
+            // this.query = { class_id: item.class_id };
+            this.studentsService.index(this.query).then(({ data }) => {
+                this.students = data.data.Students;
+            });
+    },
+    
     },
     watch: {
         type() {
@@ -101,6 +138,50 @@ export default {
         if (this.type == 5) {
             this.name="اضافة تسليم كتاب"
         }
+        // this.getLevels();
+        this.currentUser = this.$store.getters['settings/currentUser'];
+        
+        this.service.index(this.query).then(({ data }) => {
+            if (data.code == 200) {
+                this.levels = data.data.Levels;
+                this.classes = data.data.Classes;
+
+                if (this.currentUser.role_id == 3) {
+                    this.classes = this.currentUser.classes;
+                    this.levels = this.levels.filter(level => {
+                        return this.currentUser.classes.map((el) => { return el.level_id }).includes(level.id)
+                    });
+                }
+            }
+            else {
+                this.error = true;
+            }
+
+
+        });
+        this.getStudents();
+            
+        // this.levelsService.index().then(({ data }) => {
+        // if (data.code == 200) {
+        //     this.levels = data.data.Levels;
+        //     this.currentClasses =data.data.Classes;
+        //     console.log( this.currentClasses);
+          
+        // if (this.currentUser.role_id == 3) {
+        //     this.currentClasses = this.currentUser.classes;
+        //     this.levels= this.levels.filter(level => {
+        //     return this.currentClasses.map((el) => { return el.level_id }).includes(level.id)
+        // });
+        
+        // } else {
+        //     this.currentClasses =data.data.Classes;
+        //     } 
+        // console.log( this.currentClasses);
+        
+                   
+    //     }
+    //   });
+
     }
   };
   </script>

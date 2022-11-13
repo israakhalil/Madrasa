@@ -33,7 +33,7 @@
           <label for="student_id"> اسم الطالب </label>
           <Dropdown
             id="student_id"
-            filter="true"
+            :filter=true
             v-model="item.student_id"
             :options="item.students"
             optionLabel="name"
@@ -55,7 +55,6 @@
             id="leave_reason"
             v-model.trim="item.leave_reason"
             required="true"
-            autofocus
           />
         </div>
         <div class="field col-12 md:col-4">
@@ -64,7 +63,6 @@
             id="student_signature"
             v-model.trim="item.student_signature"
             required="true"
-            autofocus
           />
         </div>
         <div class="field col-12 md:col-2">
@@ -92,17 +90,19 @@
     </div>
   
   <SuccessMsg :successMsg=successMsg :Msg=Msg />
-  <ErrorMsg :errorMsg=errorMsg />
+  <ErrorMsg :errorMsg=errorMsg :Msg=Msg />
    
 </template>
   
   <script>
-  import LevelsService from "@/services/levelsService";
-  import ClassesService from "@/services/classesService";
-  import StudentsService from "@/services/studentsService";
+  // import LevelsService from "@/services/levelsService";
+  // import ClassesService from "@/services/classesService";
+  // import StudentsService from "@/services/studentsService";
   import LeavesService from "@/services/leavesService";
 
-  export default {
+export default {
+  props: { levels:Array, classes:Array ,students:Array },
+
     data() {
       return {
         newItem: {
@@ -115,17 +115,17 @@
               student_signature: null,
               leave_reason: null,
   
-          classes: [],
-          students: [],
+          // classes: [],
+          // students: [],
         },
         items: [],
         Msg: null,
 
-        levels: [],
+        // levels: [],
   
-        levelsService: null,
-        classesService: null,
-        studentsService: null,
+        // levelsService: null,
+        // classesService: null,
+        // studentsService: null,
         leavesService: null,
   
         errorMsg: false,
@@ -133,9 +133,9 @@
       };
     },
     created() {
-      this.levelsService = new LevelsService();
-      this.classesService = new ClassesService();
-      this.studentsService = new StudentsService();
+      // this.levelsService = new LevelsService();
+      // this.classesService = new ClassesService();
+      // this.studentsService = new StudentsService();
       this.leavesService = new LeavesService();
     },
     methods: {
@@ -146,42 +146,47 @@
       unset(obj, key) {
         obj.splice(key, 1);
       },
-  
-      getLevels() {
-        this.levelsService.index().then(({ data }) => {
-          if (data.code == 200) {
-            this.levels = data.data.Levels;
-          }
-        });
-      },
-      getClasses(item) {
-        this.query = { level_id: item.level_id };
-        this.classesService.index(this.query).then(({ data }) => {
-          item.classes = data.data.Classes;
-        });
-      },
-      getStudents(item) {
-        this.query = { class_id: item.class_id };
-        this.studentsService.index(this.query).then(({ data }) => {
-          item.students = data.data.Students;
-        });
-      },
+      getClasses(item) { 
+        item.classes=this.classes.filter((_class) => { return _class.level_id == item.level_id });
+    },
+    getStudents(item) {
+      item.students=this.students.filter((std) => { return std.class_id == item.class_id });
+    },
+      // getLevels() {
+      //   this.levelsService.index().then(({ data }) => {
+      //     if (data.code == 200) {
+      //       this.levels = data.data.Levels;
+      //     }
+      //   });
+      // },
+      // getClasses(item) {
+      //   this.query = { level_id: item.level_id };
+      //   this.classesService.index(this.query).then(({ data }) => {
+      //     item.classes = data.data.Classes;
+      //   });
+      // },
+      // getStudents(item) {
+      //   this.query = { class_id: item.class_id };
+      //   this.studentsService.index(this.query).then(({ data }) => {
+      //     item.students = data.data.Students;
+      //   });
+      // },
       saveLeaves() {
         this.errorMsg = false; 
         this.successMsg = false;
-
+        this.Msg = null;
+        
         const formData = new FormData();
         formData.append("items", JSON.stringify(this.items));
         this.leavesService.store(this.items).then(({ data }) => {
           if (data.code == 200) {
             this.Msg = data.msg;
             this.successMsg = true;
-            this.errorMsg = false;
             this.resetFrom(this.items)
           } 
-          if (data.code == 500) { 
+          if (data.code == 500) {
+            this.Msg = data.msg; 
           this.errorMsg = true;
-          this.successMsg = false;
           }
         
         });
@@ -200,7 +205,7 @@
     
     },
     mounted() {
-      this.getLevels();
+      // this.getLevels();
       this.items.push(Object.assign({}, this.newItem));
     },
   };

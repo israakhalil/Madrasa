@@ -7,7 +7,7 @@
 
           <div class="col-12 md:col-12 lg:col-12" style="height:40vh" >
             <div class="flex-1 justify-content-center text-center md:text-center" >
-              <div class="font-bold text-2xl py-3" style="cursor: pointer" @click="Classes">المراحل المدرسية:</div>
+              <div class="font-bold text-2xl py-3" style="cursor: pointer" @click="filterClasses">المراحل المدرسية:</div>
             </div>
             <Listbox v-model="selectedLevel" :options="levels" optionLabel="name" listStyle="max-height:31vh"  @change="filterClasses">
               <template #option="slotProps">
@@ -154,6 +154,7 @@
 
       <div class="layout-add">
         <Button
+        v-if="this.can('CLASS_ADD')"
           label="اضافة"
           icon="pi pi-plus"
           class="layout-add-button text-center"
@@ -241,11 +242,18 @@ export default {
             }
             this.service.index(this.query).then(({ data }) => {
                 if (data.code == 200) {
-                    this.levels = data.data.Levels;
-                    this.classes=this.currentUser.classes
+                  this.levels = data.data.Levels;
+                  this.classes =data.data.Classes;
+
+                  if (this.currentUser.role_id == 3) {
+                    this.classes = this.currentUser.classes;
                     this.levels= this.levels.filter(level => {
                        return this.currentUser.classes.map((el) => { return el.level_id }).includes(level.id)
-                     });
+                    });
+                  }
+                  // else {
+                  //   this.classes =data.data.Classes;
+                  // }
                 }
                 else { 
                       this.error=true; 
@@ -256,20 +264,42 @@ export default {
         },
 
         filterClasses() { 
-            // this.query = { level_id: this.selectedLevel.id };
-          this.classes= this.classes.filter(_class => _class.level_id=this.selectedLevel.id)
-          // this.Classes()
-          // this.query=null
+          if (this.currentUser.role_id == 3) {
+            if (this.selectedLevel) {
+              this.classes = this.currentUser.classes;
+             this.classes=this.classes.filter((_class) => { return _class.level_id == this.selectedLevel.id });
+            }
+            else {
+              this.classes = this.currentUser.classes;
+           } 
+             this.selectedLevel=null
+            } 
+          else {
+            if (this.selectedLevel) {
+              this.query = { level_id: this.selectedLevel.id };
+              this.Classes( );
+            }
+            else{
+              this.Classes();
+            }
+            this.selectedLevel = null
+            this.query={}
+          }
+          
                 
         },
 
-        // Classes() {
-        //     this.classesService.index(this.query).then(({ data }) => {
-        //         this.classes = data.data.Classes;
-        //     })
+      Classes() {
+
+        this.classesService.index(this.query).then(({ data }) => {
+          this.classes = data.data.Classes;
+        });
+        },
+            
         // },
           
-    openNew() {
+      openNew() {
+      // this.restform()
       this.submitted = false;
       this.classDialog = true;
     },
@@ -287,7 +317,8 @@ export default {
   
          this.classesService.store(formData,config,this.id).then(({ data }) => {  
             
-              this.Classes() 
+              this.Classes();
+              this.classes.push(this.form);
               this.classDialog = false;
               this.submitted = false;
               this.successMsg = true;
@@ -303,11 +334,7 @@ export default {
       },
 
       restform() { 
-
-                this.form.level_id=null,
-                this.form.name= null,
-                this.form.attached_file=null,
-                this.form.school_id=null
+        this.form={}
 
       }
     // editClass(_class) {

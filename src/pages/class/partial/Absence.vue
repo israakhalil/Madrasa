@@ -61,7 +61,7 @@
             <label for="absence_type_id"> نوع الغياب</label>
             <Dropdown
             id="absence_type_id"
-            filter="true"
+            :filter=true
             v-model="form.absence_type_id"
             :options="absence_types"
             optionLabel="name"

@@ -64,7 +64,7 @@
 
             </Column>
             <template #footer>
-              في المجمل هناك  {{users ? users.length : 0 }} مدرسة.
+              في المجمل هناك  {{users ? users.length : 0 }} اداري.
             </template>
           </DataTable>
         </div>
