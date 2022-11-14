@@ -177,7 +177,8 @@ export default {
 setup () {
     return { v$: useVuelidate() }
 },
-props: ["student_id"],
+props: ["student_id",'class_id'],
+
 
 data() {
     return {
@@ -254,8 +255,10 @@ methods: {
             this.submitted = true;
             if (!isFormValid) {
                 return;
-        }   
-        this.form.student_id=this.student_id
+      }   
+      this.form.class_id = this.class_id;
+      this.form.student_id = this.student_id;
+      this.form.violation_date=this.formatDate(this.form.violation_date)
         this.violationsService.save(this.form, this.form.id).then(({ data }) => {
             if (data.code == 200) {
             this.ViolationDialog = false;

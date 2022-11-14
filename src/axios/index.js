@@ -55,34 +55,34 @@ instance.interceptors.response.use(
         return response
     },
     error => {
-        if (error instanceof axios.Cancel) {
-            return Promise.reject(error)
-        }
+        // if (error instanceof axios.Cancel) {
+        //     return Promise.reject(error)
+        // }
 
-        const { status } = error.response
-        console.log(status);
+        // const { status } = error.response
+        // console.log(status);
 
-        // Show the user a 500 error
-        if (status >= 500) {
-            globalApp.error(error.response.data.message)
-        }
+        // // Show the user a 500 error
+        // if (status >= 500) {
+        //     globalApp.error(error.response.data.message)
+        // }
 
-        // Handle Session Timeouts
-        if (status === 401) {
-            localStorage.removeItem('token');
-            localStorage.removeItem('user');
-            globalApp.warning('انتهت الجلسة الخاصة بك')
-            router.push({name: 'login'})
-        }
+        // // Handle Session Timeouts
+        // if (status === 401) {
+        //     localStorage.removeItem('token');
+        //     localStorage.removeItem('user');
+        //     globalApp.warning('انتهت الجلسة الخاصة بك')
+        //     router.push({name: 'login'})
+        // }
 
-        if (status === 404) {
-            router.push({name: '404'})
-        }
+        // if (status === 404) {
+        //     router.push({name: '404'})
+        // }
  
 
-        if (status == 422 || status == 429) {
-            globalApp.warning(error.response.data.message)
-        }
+        // if (status == 422 || status == 429) {
+        //     globalApp.warning(error.response.data.message)
+        // }
 
         return Promise.reject(error)
     }

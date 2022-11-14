@@ -121,7 +121,7 @@
                 </span>
               </label>
 
-              <small class="p-error" v-if="v$.form.attached_file.$invalid && submitted">يرجى ارفاق ملف    </small>
+              <!-- <small class="p-error" v-if="v$.form.attached_file.$invalid && submitted">يرجى ارفاق ملف    </small> -->
 
             </div>
                  
@@ -217,7 +217,7 @@ export default {
       form: {
         level_id: { required },
         name: { required },
-        attached_file: { required },
+        // attached_file: { required },
       }
     }
   },

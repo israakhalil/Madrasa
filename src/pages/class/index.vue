@@ -237,7 +237,6 @@ restform() {
     },
 
     onFilter() {
-      console.log("hello");
       this.getStudents()
      },
     getStudents() {

@@ -24,27 +24,27 @@
 
         <div class="grid p-fluid mt-4 font-bold mr-5">
         
-           <AbsenceStudent  :student_id="id"/>
+           <AbsenceStudent  :student_id="id" :class_id="class_id"/>
         </div>
 
         <div class="grid p-fluid mt-5 font-bold mr-5">
         
-        <DelayStudent  :student_id="id" />
+        <DelayStudent  :student_id="id" :class_id="class_id" />
         </div>
    
         <div class="grid p-fluid mt-5 font-bold mr-5">
             
-            <LeaveStudent  :student_id="id" />
+            <LeaveStudent  :student_id="id" :class_id="class_id"/>
         </div>
 
         <div class="grid p-fluid mt-5 font-bold mr-5">
             
-            <ViolationStudent  :student_id="id" />
+            <ViolationStudent  :student_id="id" :class_id="class_id" />
         </div>
 
         <div class="grid p-fluid mt-5 font-bold mr-5">
             
-            <BookStudent  :student_id="id" />
+            <BookStudent  :student_id="id" :class_id="class_id" />
         </div>
 
       </div>
@@ -89,7 +89,8 @@ export default {
         this.query = { id: this.class_id };
         this.classesService.index(this.query).then(({ data }) => {
             if (data.code == 200) {
-                this.class = data.data.Classes[0];
+              this.class = data.data.Classes[0];
+                console.log(thi.class);
             }
         });
       this.getStudents();

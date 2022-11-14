@@ -144,7 +144,7 @@ export default {
 setup () {
     return { v$: useVuelidate() }
 },
-props: ["student_id"],
+props: ["student_id",'class_id'],
 
 data() {
     return {
@@ -208,7 +208,10 @@ methods: {
             if (!isFormValid) {
                 return;
         }   
-        this.form.student_id=this.student_id
+        this.form.class_id = this.class_id;
+        this.form.student_id = this.student_id
+        this.form.received_date=this.formatDate(this.form.received_date)
+
         this.booksService.save(this.form, this.form.id).then(({ data }) => {
             if (data.code == 200) {
             this.BookDialog = false;

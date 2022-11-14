@@ -162,9 +162,12 @@ export default {
       this.errorMsg = false; 
       this.successMsg = false;
       this.Msg = null;
-
+      this.items.forEach(item => {
+        item.absence_date = this.formatDate(item.absence_date);
+      });
       const formData = new FormData();
       formData.append("items", JSON.stringify(this.items));
+
       this.absencesService.store(this.items).then(({ data }) => {
         if (data.code == 200) {
           this.Msg = data.msg;
