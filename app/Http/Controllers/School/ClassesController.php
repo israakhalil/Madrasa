@@ -27,7 +27,16 @@ class ClassesController extends  Controller
         ]);
     }
 
-
+    public function quicks(Request $request )
+    {
+        $request['school_id']= request()->header('School_id');
+        $items = ClassesModel::query()->filter()->orderBy('id', 'asc')->get();
+        $data['Classes']  = ClassResource::collection($items);
+        return response()->json([
+            'data' => $data,
+            'code'=>StatusCodes::OK
+        ]);
+    }
     public function store(Request $request, $id = null)
     {
         $filename=null;

@@ -17,6 +17,8 @@ return new class extends Migration
             $table->increments('id');
             $table->integer('student_id')->unsigned();
             $table->foreign('student_id')->references('id')->on('students');
+            $table->integer('class_id')->unsigned();
+            $table->foreign('class_id')->references('id')->on('classes');
             $table->date('absence_date')->nullable();
             $table->string('absence_reason')->nullable();
             $table->string('teacher_signature')->nullable();

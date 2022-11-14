@@ -21,6 +21,8 @@ return new class extends Migration
             $table->string('student_signature')->nullable();
             $table->integer('student_id')->unsigned();
             $table->foreign('student_id')->references('id')->on('students');
+            $table->integer('class_id')->unsigned();
+            $table->foreign('class_id')->references('id')->on('classes');
             $table->timestamps();
         });
     }

@@ -62,6 +62,8 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
             Route::post('/import', [ClassesController::class, 'import']);
 
             Route::get('/index', [ClassesController::class, 'index']);
+            Route::get('/quicks', [ClassesController::class, 'quicks']);
+
             Route::get('/create', [ClassesController::class, 'create']);
             Route::post('/store/{id?}', [ClassesController::class, 'store']);
             Route::get('{id}/edit', [ClassesController::class, 'create']);

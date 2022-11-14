@@ -12,13 +12,14 @@ class Absences extends Model
 
 
     protected $table="absences";
-    const FILLABLE = ['student_id','absence_date','absence_reason','teacher_signature','absence_type_id'];
+    const FILLABLE = ['student_id','absence_date','absence_reason','teacher_signature','absence_type_id','class_id'];
     protected $fillable = self::FILLABLE;
     protected $casts = 
     [
         'id'=>'integer',
     'student_id'=>'integer',
-    'absence_type_id'=>'integer'
+    'absence_type_id'=>'integer',
+    'class_id'=>'integer',
 ];
 
 public function absenceType(){
@@ -29,8 +30,15 @@ public function absenceType(){
         if (request()->filled('student_id') && !empty(request('student_id'))) {
             $key = trim(request()['student_id']);
             $q->where('student_id', '=', $key);
-        }    
-    
+        }  
+        if (request()->filled('class_id') && !empty(request('class_id'))) {
+            $key = trim(request()['class_id']);
+            $q->where('class_id', '=', $key);
+        }
+        if (request()->filled('date') && !empty(request('date'))) {
+            $key = trim(request()['date']);
+                $q->whereDate('absence_date', '=', $key);           
+        }
         return $q;
     }
 }

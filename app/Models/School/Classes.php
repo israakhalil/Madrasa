@@ -19,7 +19,7 @@ class Classes extends Model
         'level_id',
         'attached_file',
         'school_id',
-        'user_id',
+        // 'user_id',
         'created_at',
         'updated_at'
     ];
@@ -28,7 +28,7 @@ class Classes extends Model
     protected $casts = [
         'id'=>'integer',
         'level_id' => 'integer',
-        'user_id' => 'integer',
+        // 'user_id' => 'integer',
         'school_id'=> 'integer',
     ];
     
@@ -37,9 +37,10 @@ class Classes extends Model
         return $this->belongsTo(Levels::class, 'level_id' , 'id');
     }
 
-    public function user(){
-        // return $this->belongsTo(Levels::class, 'id' , 'level_id');
+    public function student(){
+        return $this->hasMany(Students::class,'class_id','id');
     }
+    
     public function scopeFilter($q)
     {
         if (request()->filled('id') && !empty(request('id'))) {
