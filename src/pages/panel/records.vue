@@ -10,8 +10,8 @@
 
             <div class="grid p-fluid mt-3 font-bold mr-5">
             <div class="field col-12 md:col-3">
-                <label for="absence_date">التاريخ  </label>
-                <Calendar id="absence_date" :showIcon="true" v-model="filter.date"></Calendar>
+                <label for="date">التاريخ  </label>
+                <Calendar id="date" :showIcon="true" v-model="date"></Calendar>
             </div>
             <div class="field col-12 md:col-3">
                 <label for="level_id">المرحلة </label>
@@ -81,6 +81,7 @@
                                     {{slotProps.index+1}}
                             </template>
                         </Column>
+                        <Column field="student_name" header="اسم الطالب"></Column>
                         <Column field="absence_date" header="تاريخ الغياب"></Column>
                         <Column field="absence_reason" header="سبب الغياب"></Column>
                         <Column field="absence_type_name" header="نوع الغياب"></Column>
@@ -100,6 +101,7 @@
                                     {{slotProps.index+1}}
                             </template>
                         </Column>
+                        <Column field="student_name" header="اسم الطالب"></Column>
                         <Column field="delay_date" header="تاريخ التاخير"></Column>
                         <Column field="delay_reason" header="سبب التاخير"></Column>
                         <Column field="delay_amount" header="مقدار التاخير"></Column>
@@ -117,6 +119,7 @@
                                     {{slotProps.index+1}}
                                 </template>
                         </Column>
+                        <Column field="student_name" header="اسم الطالب"></Column>
                         <Column field="violation_date" header="تاريخ المخالفة"></Column>
                         <Column field="action_performed" header=" الاجراء المنفذ"></Column>
                         <Column field="violation_procedure_id" header="نوع الاجراء"></Column>
@@ -138,6 +141,7 @@
                                     {{slotProps.index+1}}
                                 </template>
                                 </Column>
+                         <Column field="student_name" header="اسم الطالب"></Column>
                         <Column field="leave_date" header="تاريخ الاستئذان"></Column>
                         <Column field="leave_reason" header="سبب الاستئذان"></Column>
                         <Column field="leave_time" header="وقت الاستئذان"></Column>
@@ -156,6 +160,7 @@
                                 {{slotProps.index+1}}
                         </template>
                     </Column>
+                    <Column field="student_name" header="اسم الطالب"></Column>
                     <Column field="received_date" header="تاريخ التسليم"></Column>
                     <Column field="book_name" header=" اسم الكتاب"></Column>
                     <Column field="is_delivered" header=" التسليم"></Column>
@@ -190,7 +195,8 @@ export default {
               filterclasses:[],
               levels: [],
               form: {},
-              filter:{},
+              filter: {},
+              date:null,
               types: [
                  { id: "", name: "اختر" },
                   { id: 1, name: "غياب" },
@@ -281,12 +287,12 @@ export default {
             this.query = {
                   level_id:this.filter.level_id,
                   class_id: this.filter.class_id,
-                  date:this.formatDate(this.filter.date)
+                //   date:this.formatDate(this.filter.date)
               };
             this.filter.type=this.filter.type?this.filter.type:0
-            // if (this.filter.data) {
-            // this.filter.date = this.formatDate(this.filter.date);
-            // }
+            if (this.date) {
+            this.filter.date = this.formatDateForSearch(this.date);
+            }
 
             this.query = Object.assign(this.query, this.filter);
             this.loadData();
@@ -298,11 +304,10 @@ export default {
     
        },
     mounted() {
-        // this.query = {
-        //           level_id:this.filter.level_id,
-        //           class_id: this.filter.class_id,
-        //           date:this.filter.data
-        //       };
+        this.query = {
+                  level_id:this.filter.level_id,
+                  class_id: this.filter.class_id,
+              };
         this.currentUser = this.$store.getters['settings/currentUser'];
         this.service.index(this.query).then(({ data }) => {
             if (data.code == 200) {

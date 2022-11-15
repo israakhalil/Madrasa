@@ -10,6 +10,9 @@ export default {
         formatDate(date) {
             return moment(date).format("DD-MM-YYYY");
         },
+        formatDateForSearch(date) {
+            return moment(date).format("YYYY-MM-DD");
+        },
         parseDateRange(filter_date) {
             let dates = [];
             if (Object.keys(filter_date).length) {

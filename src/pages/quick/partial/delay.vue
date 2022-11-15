@@ -145,7 +145,7 @@ export default {
     },
     methods: {
     addItem() {
-        this.getLevels();
+        // this.getLevels();
         this.items.push(Object.assign({}, this.newItem))
     },
     unset(obj, key) {

@@ -194,7 +194,7 @@ export default {
                 return;
             }
         this.student_profile.class_id = this.class_id;
-        this.student.date_of_birth=this.formatDate(date_of_birth)
+          this.student_profile.date_of_birth = this.formatDate(this.student_profile.date_of_birth)
         this.studentsService.edit(this.student_profile, this.id).then(({ data }) => {
             if (data.code == 200) {
                 this.StudentEditDialog = false;
