@@ -61,7 +61,20 @@ export default {
         'old_password' : this.old_password,
         'password' : this.password,
         'password_confirmation' : this.password_confirmation,
-      });
+      }).then(({ data }) => {
+        if (data.code ==200) { 
+          globalApp.success(data.msg);
+
+        }
+        else {
+          if (data.code == 422) { 
+            globalApp.error(data.msg);
+
+        }
+          
+        }
+
+      });;
 
       this.old_password = this.password = this.password_confirmation =null;
     },

@@ -245,7 +245,7 @@ export default {
             item.action_performed= null,
             item.violation_procedure_id= null,
             item.violation_degree_id = null
-            item.suprvisore_signature= null,
+            item.supervisore_signature= null,
             item.student_signature = null
          });
 

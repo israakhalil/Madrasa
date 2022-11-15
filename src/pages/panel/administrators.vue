@@ -55,6 +55,14 @@
               </template>
 
             </Column>
+            <Column field="permissions_name" header="الصلاحيات المتاحة" style="width: 35%;">
+              <template #body="slotProps">
+                <span v-for="element in slotProps.data.permissions" class="item">
+                  <span>{{ element.name  }} </span>
+                </span>
+              </template>
+
+            </Column>
 
             <Column fheader="  الاجراءات" style="max-width:8rem">
               <template #body="slotProps">
@@ -96,8 +104,15 @@
           <MultiSelect v-model="form.classesIds" :options="levels"
                        optionLabel="name" optionGroupLabel="name" option-value="id" optionGroupChildren="classes">
           </MultiSelect>
-          <small class="p-error" v-if="v$.form.classesIds.$invalid && submitted">يرجى  اختبار الصفوف </small>
+          <small class="p-error" v-if="v$.form.classesIds.$invalid && submitted">يرجى  اختيار الصفوف </small>
         </div>
+        <div class="field">
+            <label for="permissions" class="mb-3"> صلاحيات الاداري</label>
+            <MultiSelect v-model="form.permissionIds" :options="permissions" option-value="id" optionLabel="name" />
+            <small class="p-error" v-if="v$.form.permissionIds.$invalid && submitted">يرجى اختيار الصلاحيات   </small>
+
+          </div>
+
         <div class="field">
           <label for="email"> ايميل المشرف  </label>
           <InputText
@@ -158,6 +173,7 @@
 <script>
 import UsersService from "@/services/usersService";
 import LevelsService from "@/services/levelsService";
+import PermissionsService from "@/services/permissionsService";
 
 
 import { useVuelidate } from "@vuelidate/core";
@@ -172,7 +188,8 @@ export default {
     return {
       form: { },
       users: [],
-      levels:[],
+      levels: [],
+      permissions:[],
       AddUserDialog: false,
       filter_name:null,
       filter: {},
@@ -183,9 +200,12 @@ export default {
       errorMsg:false,
       submitted: false,
       levelsService: null,
+      permissionsService:null,
       deleteconfirm:false,
       classes_name:null,
-      header:null,
+      header: null,
+      permissionIds: [],
+      classesIds:[]
     };
   },
   validations() {
@@ -194,7 +214,8 @@ export default {
         name: { required },
         email: { email, required },
         password: { required, minLength: minLength(6) },
-        classesIds:{ required },
+        classesIds: { required },
+        permissionIds:{required}
 
       }
     }
@@ -202,6 +223,7 @@ export default {
   created() {
     this.userService = new UsersService();
     this.levelsService = new LevelsService();
+    this.permissionsService = new PermissionsService();
 
   },
   methods: {
@@ -209,14 +231,17 @@ export default {
       this.header="اضافة اداري"
       this.form = {}
       this.getClasses();
+      this.getPermissions();
       this.submitted = false;
       this.AddUserDialog = true;
     },
     openEdit(data) {
       this.header = "تعديل اداري"
       this.getClasses();
+      this.getPermissions();
       this.form = { ...data };
       this.form.classesIds = this.form.classesIds.map(({ id }) => id);
+      this.form.permissionIds = this.form.permissionIds.map(({ id }) => id);
       this.AddUserDialog = true;
     },
     openDelete(data) {
@@ -277,6 +302,11 @@ export default {
     getClasses() {
       this.levelsService.grouped().then(({ data }) => {
         this.levels = data.data.Classes;
+      });
+    },
+    getPermissions() {
+      this.permissionsService.index().then(({ data }) => {
+        this.permissions = data.data.Permissions;
       });
     },
     getAdministrator() {

@@ -57,11 +57,8 @@ export default {
   
   },
     mounted() { 
-        console.log(this.id);
-        console.log(this.class_id);
-
         this.query = { id: this.class_id };
-    this.classesService.index(this.query).then(({ data }) => {
+        this.classesService.index(this.query).then(({ data }) => {
       if (data.code == 200) {
         this.class = data.data.Classes[0];
       }

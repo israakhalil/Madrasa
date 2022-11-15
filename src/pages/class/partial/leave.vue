@@ -12,6 +12,7 @@
         icon="pi pi-plus"
         class="p-button-outlined align-left"
         @click="openNew"
+        v-if="this.can('LEAVE_ADD_EDIT')"
         />
     </div>
     <div class="col-12 md:col-12 mr-10">
@@ -37,8 +38,8 @@
     <Column  header="  الاجراءات" style="max-width:8rem">
         <template #body="slotProps">
             <!-- <Button icon="pi pi-download" class="p-button-rounded p-button-help ml-2" /> -->
-            <Button icon="pi pi-pencil" class="p-button-rounded p-button-success ml-2" @click="openEdit(slotProps.data)"/>
-            <Button icon="pi pi-trash" class="p-button-rounded p-button-danger ml-2" @click="openDelete(slotProps.data)"/>
+            <Button   v-if="this.can('LEAVE_ADD_EDIT')" icon="pi pi-pencil" class="p-button-rounded p-button-success ml-2" @click="openEdit(slotProps.data)"/>
+            <Button   v-if="this.can('LEAVE_DELETE')" icon="pi pi-trash" class="p-button-rounded p-button-danger ml-2" @click="openDelete(slotProps.data)"/>
         </template>
 
     </Column>

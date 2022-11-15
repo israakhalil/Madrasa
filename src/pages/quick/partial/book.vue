@@ -210,8 +210,8 @@ export default {
         }
         });
       },
-  },
-  resetFrom(items) { 
+
+      resetFrom(items) { 
       items.forEach((item) => { 
             item.level_id= null,
             item.class_id= null,
@@ -222,6 +222,8 @@ export default {
             item.student_signature= null
           });
     },
+  },
+
     mounted() {
       // this.getLevels();
       this.items.push(Object.assign({}, this.newItem));

@@ -14,6 +14,7 @@
               label=" تعديل"
               icon="pi pi-pencil"
               class="p-button-outlined"
+              v-if="this.can('STUDENT_ADD_EDIT')"
               @click="openEdit(this.student)"/>
           <div>
 

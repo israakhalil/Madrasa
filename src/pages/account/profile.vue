@@ -78,7 +78,21 @@ export default {
   },
   methods: {
     submitForm() {
-      service.updateProfile(this.user);
+      service.updateProfile(this.user).then(({ data }) => {
+        if (data.code ==200) { 
+          globalApp.success(data.msg);
+
+        }
+        else {
+          if (data.code == 422) { 
+            globalApp.error(data.msg);
+
+        }
+          
+        }
+
+      });
+
     },
   },
 };

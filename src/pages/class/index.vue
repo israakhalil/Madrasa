@@ -21,8 +21,9 @@
                         </span>
 
                      </div>
-                    <div class="col-3 md:col-3 justify-content-center mt-2"  v-tooltip="'يجب على الاقل ان يحتوي الملف على عمود يسمى name  '">
+                    <div class="col-3 md:col-3 justify-content-center mt-2"  v-tooltip="'يجب على الاقل ان يحتوي الملف على عمود الاسم  '">
                         <FileUpload
+                        v-if="this.can('STUDENT_IMPORT')"
                         style="width:100%"
                        
                             mode="basic"
@@ -38,7 +39,7 @@
                     </div>
                 
                     <div class="col-3 md:col-3 justify-content-right mt-2">
-                        <Button label="إضافة طالب"   icon="pi pi-plus" class="p-button-outlined " @click="openNew"/>
+                        <Button  v-if="this.can('STUDENT_ADD_EDIT')" label="إضافة طالب"   icon="pi pi-plus" class="p-button-outlined " @click="openNew"/>
 
                     </div>
                   
@@ -52,7 +53,7 @@
         <div>
 
 
-          <DataTable :value="students" class="p-datatable-lg font-bold" showGridlines  responsiveLayout="scroll">
+          <DataTable :value="students" :loading="loading" class="p-datatable-lg font-bold" showGridlines  responsiveLayout="scroll">
             <Column field="id_number" header="الرقم ">
               <template #body="slotProps">
                         {{slotProps.index+1}}
@@ -154,7 +155,9 @@ export default {
             name: null,
             attached_id: null,
             class_id:null
-            },
+      },
+      loading: false,
+
       columns: null,
       class: [],
       AddStudentDialog: false,
@@ -210,6 +213,7 @@ export default {
 
 
     onUpload(event) {
+      this.loading = true;
       this.successMsg=false
       const formData = new FormData(event.target);
       formData.append('file_name', event.files[0])
@@ -218,7 +222,8 @@ export default {
       this.classesService.import(formData).then((response) => {
         if(response.data.code===200){
           this.Msg = "تم الاسترداد بنجاح";
-          this.successMsg=true
+          this.successMsg = true
+          this.loading=false
           this.getStudents()
         }
       });

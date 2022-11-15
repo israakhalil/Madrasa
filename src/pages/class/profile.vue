@@ -90,7 +90,6 @@ export default {
         this.classesService.index(this.query).then(({ data }) => {
             if (data.code == 200) {
               this.class = data.data.Classes[0];
-                console.log(thi.class);
             }
         });
       this.getStudents();

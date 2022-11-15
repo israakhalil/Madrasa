@@ -11,7 +11,7 @@
         label=" اضافة تسليم"
         icon="pi pi-plus"
         class="p-button-outlined align-left"
-        @click="openNew"
+        @click="openNew" v-if="this.can('BOOK_ADD_EDIT')"
         />
     </div>
     <div class="col-12 md:col-12 mr-10">
@@ -37,8 +37,8 @@
     <Column  header="  الاجراءات" style="max-width:8rem">
         <template #body="slotProps">
             <!-- <Button icon="pi pi-download" class="p-button-rounded p-button-help ml-2" /> -->
-            <Button icon="pi pi-pencil" class="p-button-rounded p-button-success ml-2" @click="openEdit(slotProps.data)"/>
-            <Button icon="pi pi-trash" class="p-button-rounded p-button-danger ml-2" @click="openDelete(slotProps.data)"/>
+            <Button v-if="this.can('BOOK_ADD_EDIT')" icon="pi pi-pencil" class="p-button-rounded p-button-success ml-2" @click="openEdit(slotProps.data)"/>
+            <Button v-if="this.can('BOOK_DELETE')" icon="pi pi-trash" class="p-button-rounded p-button-danger ml-2" @click="openDelete(slotProps.data)"/>
         </template>
 
     </Column>
@@ -120,10 +120,10 @@ class="p-fluid font-bold text-lg">
   <template #footer>
     <div class="grid p-fluid">
         <div class="col-6 md:col-6">  
-             <Button label="حذف"  class=" p-button-outlined mt-5"   @click="deleteBook" />
+             <Button  label="حذف"  class=" p-button-outlined mt-5"   @click="deleteBook" />
         </div>
         <div class="col-6 md:col-6">            
-             <Button label="الغاء"  class="p-button-outlined mt-5" @click="deleteconfirm = false"  />
+             <Button v-if="this.can('BOOK_ADD_EDIT')"  label="الغاء"  class="p-button-outlined mt-5" @click="deleteconfirm = false"  />
         </div>
     </div>
         </template>

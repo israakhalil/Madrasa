@@ -4,7 +4,7 @@ import router from './router';
 import store from './store'
 import axios from './axios'
 import AppLayout from './App.vue';
-// import Toaster from "@meforma/vue-toaster";
+import Toaster from "@meforma/vue-toaster";
 import ConfirmationService from 'primevue/confirmationservice'; 
 import mixins from "./mixins"; 
 import ToastService from 'primevue/toastservice';
@@ -20,7 +20,7 @@ export default class App {
     this.app = await createApp(AppLayout).use(router)
       .use(i18n)
       .use(store)
-      .use(ToastService)
+      .use(Toaster)
       .use(ConfirmationService);
  
     // this.app.config.warnHandler = () => null;;
