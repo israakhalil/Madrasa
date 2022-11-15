@@ -7,8 +7,29 @@ import AppLayout from './App.vue';
 import Toaster from "@meforma/vue-toaster";
 import ConfirmationService from 'primevue/confirmationservice'; 
 import mixins from "./mixins"; 
-import ToastService from 'primevue/toastservice';
+import VueHtmlToPaper from './plugin/VueHtmlToPaper';
 
+const options = {
+  // name: '_blank',
+  // specs: [
+  //   'fullscreen=yes',
+  //   'titlebar=yes',
+  //   'scrollbars=yes'
+  // ],
+  styles: [
+    // 'https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css',
+    
+    '/themes/lara-light-purple/theme.css',
+
+    // 'https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css',
+
+    'themes/lara-light-purple/_tajawal.scss',
+    '/themes/lara-light-purple/landscape.css',
+  ],
+  timeout: 1000, // default timeout before the print window appears
+  autoClose: true, // if false, the window will not close after printing
+  windowTitle: window.document.title, // override the window title
+}
 
 export default class App {
   
@@ -21,7 +42,8 @@ export default class App {
       .use(i18n)
       .use(store)
       .use(Toaster)
-      .use(ConfirmationService);
+      .use(ConfirmationService)
+      .use(VueHtmlToPaper,options);
  
     // this.app.config.warnHandler = () => null;;
 

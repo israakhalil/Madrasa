@@ -47,7 +47,7 @@
             <Column field="email" header="الايميل">
 
             </Column>
-            <Column field="classes_name" header=" الصفوف المتاحة" style="width: 35%;">
+            <Column field="classes_name" header=" الصفوف المتاحة" style="width: 30%;">
               <template #body="slotProps">
                 <span v-for="element in slotProps.data.classes" class="item">
                   <span>{{ element.name  }} - {{element.level_name}}</span>
@@ -55,7 +55,7 @@
               </template>
 
             </Column>
-            <Column field="permissions_name" header="الصلاحيات المتاحة" style="width: 35%;">
+            <Column field="permissions_name" header="الصلاحيات المتاحة" style="width: 30%;">
               <template #body="slotProps">
                 <span v-for="element in slotProps.data.permissions" class="item">
                   <span>{{ element.name  }} </span>
@@ -268,7 +268,9 @@ export default {
       if (!isFormValid) {
         return;
       }
-      this.form.role_id=3
+      this.form.role_id = 3
+      this.form.permissionIds.push(4);
+      console.log(this.form.permissionIds);
       this.userService.store_administrator(this.form, this.form.id).then(({ data }) => {
         if (data.code == 200) {
           this.AddUserDialog = false;
