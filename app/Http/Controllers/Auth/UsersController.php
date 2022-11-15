@@ -92,8 +92,6 @@ class UsersController extends  Controller
             
             $data['school_id']=request()->header('School_id');
             $item=UsersModel::query()->Create($data);
-            $per=UserPermission::create([ 'user_id' =>$item->id,'permission_id' => 4]);
- 
             $item->classes()->sync($request->get('classesIds', []));
             
             $item->permissions()->sync($request->get('permissionIds', []));
