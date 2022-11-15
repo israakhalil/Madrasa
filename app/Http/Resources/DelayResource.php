@@ -11,6 +11,7 @@ class DelayResource extends JsonResource
         return [
             'id'=> $this['id'],
             'student_id'=> $this['student_id'],
+            'student_name'=>@$this->student->name,
             'delay_date'=> $this['delay_date'],
             'delay_reason'=> $this['delay_reason'],
             'delay_amount'=> $this['delay_amount'],

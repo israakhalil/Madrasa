@@ -3,6 +3,7 @@
 namespace App\Models\Procedures;
 
 use App\Models\Constants\AbsenceTypes;
+use App\Models\School\Students;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -21,6 +22,10 @@ class Absences extends Model
     'absence_type_id'=>'integer',
     'class_id'=>'integer',
 ];
+
+public function student(){
+    return $this->belongsTo(Students::class, 'student_id' , 'id');
+}
 
 public function absenceType(){
     return $this->belongsTo(AbsenceTypes::class, 'absence_type_id' , 'id');

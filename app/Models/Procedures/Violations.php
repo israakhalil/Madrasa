@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Models\Procedures;
-
+use App\Models\School\Students;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -22,6 +22,13 @@ class Violations extends Model
        'violation_degree_id'=>'integer',
        'class_id'=>'integer',
     ];
+
+
+    public function student(){
+        return $this->belongsTo(Students::class, 'student_id' , 'id');
+    }
+
+
     public function scopeFilter($q)
     { 
         if (request()->filled('student_id') && !empty(request('student_id'))) {

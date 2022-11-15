@@ -11,6 +11,7 @@ class LeaveResource extends JsonResource
         return [
             'id'=> $this['id'],
             'student_id'=> $this['student_id'],
+            'student_name'=>@$this->student->name,
             'leave_date'=> $this['leave_date'],
             'leave_time'=> $this['leave_time'],
             'student_signature'=> $this['student_signature'],

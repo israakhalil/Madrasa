@@ -12,6 +12,7 @@ class AbsenceResource extends JsonResource
         return [
             'id'=> $this['id'],
             'student_id'=> $this['student_id'],
+            'student_name'=>@$this->student->name,
             'absence_date'=> $this['absence_date'],
             'absence_reason'=> $this['absence_reason'],
             'teacher_signature'=> $this['teacher_signature'],

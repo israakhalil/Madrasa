@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Models\Procedures;
-
+use App\Models\School\Students;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -18,6 +18,10 @@ class Leaves extends Model
      ['id'=>'integer',
     'student_id'=>'integer',
     'class_id'=>'integer',];
+
+    public function student(){
+        return $this->belongsTo(Students::class, 'student_id' , 'id');
+    }
 
     public function scopeFilter($q)
     { 
