@@ -12,6 +12,7 @@ class PermissionResource extends JsonResource
             'id' => $this['id'],
             'name' => $this['name'],
            'code'=>$this['code'],
+           'group'=>$this['group']
         ];
 
     }

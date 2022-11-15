@@ -16,7 +16,7 @@ class Permission extends BaseModel
      protected $table = "permissions";
 
      const FILLABLE = [
-         'name', 'code', 'created_by', 'updated_at',
+         'name', 'code', 'group','created_by', 'updated_at',
      ];
 
      protected $fillable = self::FILLABLE;
@@ -40,5 +40,13 @@ class Permission extends BaseModel
 //            $result
 //        ))->all();
 //    }
+
+public function scopeFilter($q)
+{
+
+        $q->where('group', '=', 3);
+
+    return $q;
+}
 
 }

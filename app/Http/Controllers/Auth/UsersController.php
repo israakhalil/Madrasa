@@ -6,7 +6,9 @@ use App\Constants\StatusCodes;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserRequest;
 use App\Http\Resources\UserResource;
+use App\Models\Auth\Permission;
 use App\Models\Auth\User as UsersModel;
+use App\Models\Auth\UserPermission;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -43,150 +45,61 @@ class UsersController extends  Controller
         if (isset($data['password'])) {
             $data['password'] = Hash::make($data['password']);
         }
-
-           $userNew = UsersModel::query()->where('role_id', 2)
-                ->where('email', $request->email)->where('school_id', $request->school_id)->first();
+    
+        $Permission= Permission::query()->select("id")->whereIn('group', [2,3])->get();
 
         if($id){
-            $user = UsersModel::query()->where('id', $id)->first();
-
-            if( $data['email']== $user->email){
-                if( $data['school_id']== $user->school_id){
-//                    return $user;
-                    UsersModel::where('id', $id)->update(['name'=>$data['name'],'password'=>$data['password']]);
-                    return response()->json([
-                        'msg' => "تم الحفظ بنجاح",
-                        'code'=>StatusCodes::OK
-                    ]);
-                }
-                else{
-                    $userNew = UsersModel::query()->where('role_id', 2)-> where('school_id', $request->school_id)->first();
-                    if($this->check_school($userNew , $data)){
-                        return response()->json([
-                            'msg' => "هناك مشرف على هذه المدرسة",
-                            'code'=>StatusCodes::ROLE_ERR
-                        ]);
-                    }
-                    else{
-
-                        UsersModel::where('id', $id)->update(
-                            ['name'=>$data['name'],
-                            'password'=>$data['password'],
-                            'school_id'=>$data['school_id']]);
-                        return response()->json([
-                            'msg' => "تم الحفظ بنجاح",
-                            'code'=>StatusCodes::OK
-                        ]);
-                    }
-                }
+            $user = UsersModel::query()->where('role_id', 2)->where('email', $request->email)->where('id','!=', $id)->first();
+            if($user){return response()->json(['msg' => "هذا الاايميل موجود سابقا ",'code'=>StatusCodes::EMAIL_ERR]);}
+            UsersModel::where('id', $id)->update(['name'=>$data['name'],'password'=>$data['password'],'school_id'=>$data['school_id']]);
+            // $this->permissions()->sync($Permission);
+            return response()->json(['msg' => "تم الحفظ بنجاح",'code'=>StatusCodes::OK]);
             }
-            else{
-                $userNew = UsersModel::query()->where('role_id', 2)-> where('email', $request->email)->first();
-
-                if($this->check_email($userNew, $data)){
-                    return response()->json([
-                        'msg' => "هذا الاايميل موجود سابقا ",
-                        'code'=>StatusCodes::EMAIL_ERR
-                    ]);
-                }
-                else{
-                    UsersModel::where('id', $id)->update([
-                        'name'=>$data['name'],
-                        'school_id'=>$data['school_id'],
-                        'email'=>$data['email'],
-                        'password'=>$data['password']]);
-
-                    return response()->json([
-                        'msg' => "تم الحفظ بنجاح",
-                        'code'=>StatusCodes::OK
-                    ]);
-                }
-            }
-
-        }
         else{
             $userNew = UsersModel::query()->where('role_id', 2)-> where('email', $request->email)->first();
-
-            if($this->check_email($userNew, $data)){
-                return response()->json([
-                    'msg' => "هذا الاايميل موجود سابقا ",
-                    'code'=>StatusCodes::EMAIL_ERR
-                ]);
+            if(isset($userNew)){ return response()->json([ 'msg' => "هذا الاايميل موجود سابقا ", 'code'=>StatusCodes::EMAIL_ERR ]);}
+            $item=UsersModel::query()->Create($data);
+            $item->permissions()->sync($Permission);
+            return response()->json(['msg' => "تم الحفظ بنجاح",'code'=>StatusCodes::OK]);
             }
-            $userNew = UsersModel::query()->where('role_id', 2)-> where('school_id', $request->school_id)->first();
-
-            if( $this->check_school($userNew, $data)){
-                return response()->json([
-                    'msg' => "هناك مشرف على هذه المدرسة",
-                    'code'=>StatusCodes::ROLE_ERR
-                ]);
-            }
-            else{
-                UsersModel::query()->Create($data);
-
-                return response()->json([
-                    'msg' => "تم الحفظ بنجاح",
-                    'code'=>StatusCodes::OK
-                ]);
-            }
-
-
-        }
-
      }
+
     public function storeAdministrator( Request $request, $id = null)
     {
         $data = $request->only(UsersModel::FILLABLE);
         if (isset($data['password'])) {
             $data['password'] = Hash::make($data['password']);
         }
+      
         if($id){
-            $user = UsersModel::query()->where('role_id',  $request->role_id)->where('email', $request->email)->where('id', $id)->first();
-            if( isset($user)){
-                $user->update($data);
-                $user->classes()->sync($request->get('classesIds', []));
-                return response()->json([
-                    'msg' => "تم الحفظ بنجاح",
-                    'code'=>StatusCodes::OK
-                ]);
-            }
-            else{
-                $user = UsersModel::query()->where('role_id',  $request->role_id)->where('email', $request->email)->first();
-                if (isset($user) && $user->email == $request->email) {
-                    return response()->json([
-                        'msg' => "هذا الاايميل موجود سابقا ",
-                        'code'=>StatusCodes::EMAIL_ERR
-                    ]);
-                } else {
-//                    $user->update($data);
-                     UsersModel::where('id', $id)->update($data);
-                    $this->classes()->sync($request->get('classesIds', []));
-                    return response()->json([
-                        'msg' => "تم الحفظ بنجاح",
-                        'code'=>StatusCodes::OK
-                    ]);
-                }
-            }
+            $user = UsersModel::query()->where('role_id',  $request->role_id)->where('email', $request->email)->where('id','!=', $id)->first();
+            if (isset($user)) { return response()->json(['msg' => "هذا الاايميل موجود سابقا ",'code'=>StatusCodes::EMAIL_ERR]);} 
+            $item = UsersModel::query()->find($id);
+            $item->update($data);
+            // UsersModel::where('id', $id)->update($data);
+            $item->classes()->sync($request->get('classesIds', []));
+            // UserPermission::create([ 'user_id' =>$id,'permission_id' => 4,]);
+            $item->permissions()->sync($request->get('permissionIds', []));
+
+           return response()->json(['msg' => "تم الحفظ بنجاح", 'code'=>StatusCodes::OK ]);
+           
         }
         else{
             $userNew = UsersModel::query()->where('role_id',  $request->role_id)->where('email', $request->email)->first();
-
-            if($this->check_email($userNew, $data)){
-                return response()->json([
-                    'msg' => "هذا الاايميل موجود سابقا ",
-                    'code'=>StatusCodes::EMAIL_ERR
-                ]);
+            if(isset($userNew)){
+                return response()->json(['msg' => "هذا الاايميل موجود سابقا ",'code'=>StatusCodes::EMAIL_ERR]);
             }
-            else{
-                $data['school_id']=request()->header('School_id');
-                $item=UsersModel::query()->Create($data);
-                $item->classes()->sync($request->get('classesIds', []));
-
-                return response()->json([
-                    'msg' => "تم الحفظ بنجاح",
-                    'code'=>StatusCodes::OK
-                ]);
-            }
+            
+            $data['school_id']=request()->header('School_id');
+            $item=UsersModel::query()->Create($data);
+            $per=UserPermission::create([ 'user_id' =>$item->id,'permission_id' => 4]);
+ 
+            $item->classes()->sync($request->get('classesIds', []));
+            
+            $item->permissions()->sync($request->get('permissionIds', []));
+            // return $request->get('permissionIds', []);
+            return response()->json([ 'msg' => "تم الحفظ بنجاح", 'code'=>StatusCodes::OK ]);
+          
         }
 
     }
@@ -231,6 +144,7 @@ class UsersController extends  Controller
     public function updateProfile(Request $request)
     {
         $user = $request->user();
+        $data = $request->only(['name', 'email']);
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
         ]);
@@ -238,24 +152,41 @@ class UsersController extends  Controller
         if ($validator->fails()) {
             return response()->json(['status'=>false,'code'=>StatusCodes::VALIDATION_ERROR, 'msg'=>$validator->errors()->first(), []]);
         }
+ 
+        $_user = UsersModel::query()->where('role_id',  $user->role_id)->where('email', $data['email'])->where('id','!=', $user->id)->first();
 
+        if (isset($_user)) {
+            return response()->json([
+                'msg' => "هذا الاايميل موجود سابقا ",
+                'code'=>StatusCodes::VALIDATION_ERROR
+            ]);
+        }
 
-        $data = $request->only(['name', 'email']);
+        
         $user->update($data);
-        return response()->json(['status'=>true, 'code'=>StatusCodes::OK, Enum::DONE_SUCCESSFULLY, 'data'=>(new UserResource($user)) ]);
+        return response()->json(['status'=>true, 'code'=>StatusCodes::OK, Enum::DONE_SUCCESSFULLY, 'data'=>(new UserResource($user)) , 'msg'=>"تمت العملية بنجاح"]);
     }
 
-    public function updatePassword(ResetPasswordRequest $request)
+    public function updatePassword(Request $request)
     {
         $user = $request->user();
         $data = $request->all();
-
+        $validator = Validator::make($request->all(), [
+            'old_password' => 'required|min:6',
+            'password' => 'required|min:6|confirmed',
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['status'=>false,'code'=>StatusCodes::VALIDATION_ERROR, 'msg'=>$validator->errors()->first(), []]);
+        }
+        
         if (Hash::check($request->old_password, $user->getAuthPassword())) {
             $user->password = Hash::make($data['password']);
             $user->save();
-            return $this->response_api(true, StatusCodes::OK, Enum::UPDATED_SUCCESSFULLY, (new UserResource($user)));
+            return response()->json(['true'=>false,'code'=>StatusCodes::OK, Enum::UPDATED_SUCCESSFULLY, (new UserResource($user)), 'msg'=>"تمت العملية بنجاح"] );
+
         } else {
-            return $this->response_api(false, StatusCodes::VALIDATION_ERROR, Enum::INVALID_OLD_PASSWORD);
+            return response()->json(['status'=>false,'code'=>StatusCodes::VALIDATION_ERROR, 'msg'=>"كلمة المرور القديمة غير صحيحة" ]);
+
         }
     }
 }

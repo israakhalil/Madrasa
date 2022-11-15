@@ -24,6 +24,7 @@ class DatabaseSeeder extends Seeder
         $this->call(violationProceduresSeeder::class);
         $this->call(PermissionsSeeder::class);
         $this->call(RolePermissionsSeeder::class);
+        $this->call(UserPermissionrSeeder::class);
 
 
 

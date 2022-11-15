@@ -12,6 +12,7 @@ use App\Http\Controllers\Procedures\BooksController;
 use App\Http\Controllers\Procedures\DelaysController;
 use App\Http\Controllers\Procedures\LeavesController;
 use App\Http\Controllers\Auth\UsersController;
+use App\Http\Controllers\Auth\PermissionsController;
 use App\Http\Controllers\Procedures\ViolationsController;
 
 /*
@@ -128,6 +129,11 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
             Route::post('/store_supervisor/{id?}', [UsersController::class, 'storeSupervisor']);
             Route::post('/store_administrator/{id?}', [UsersController::class, 'storeAdministrator']);
             Route::delete('{id}/delete', [UsersController::class, 'delete']);
+
+        });
+        Route::group(['prefix' => 'permissions'], function () {
+            Route::get('index', [PermissionsController::class, 'index']);
+           
 
         });
 });

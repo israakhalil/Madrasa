@@ -42,16 +42,28 @@ class User extends Authenticatable
      {
          return $this->belongsToMany(Classes::class, 'user_classes', 'user_id', 'class_id');
      }
+     public function permissions()
+     {
+         return $this->belongsToMany(Permission::class, 'user_permissions', 'user_id','permission_id');
+     }
 
-    public function permissions()
-    {
-        return $this->belongsToMany(RolePermission::class, 'role_permissions', 'role_id ', 'permission_id');
+    // public function permissions()
+    // {
+    //     return $this->belongsToMany(RolePermission::class, 'role_permissions', 'role_id ', 'permission_id');
 
-    }
+    // }
+    // public function getAllPermissions(){
+    //     $data = User::join('role_permissions', 'role_permissions.role_id', '=', 'users.role_id')
+    //         ->join('permissions', 'permissions.id', '=', 'role_permissions.permission_id')
+    //         ->where('users.role_id','=',$this->role_id)
+    //         ->get(['permissions.name', 'permissions.code', 'permissions.id']);
+    //     return $data;
+    // }
+
     public function getAllPermissions(){
-        $data = User::join('role_permissions', 'role_permissions.role_id', '=', 'users.role_id')
-            ->join('permissions', 'permissions.id', '=', 'role_permissions.permission_id')
-            ->where('users.role_id','=',$this->role_id)
+        $data = User::join('user_permissions', 'user_permissions.user_id', '=', 'users.id')
+            ->join('permissions', 'permissions.id', '=', 'user_permissions.permission_id')
+            ->where('users.id','=',$this->id)
             ->get(['permissions.name', 'permissions.code', 'permissions.id']);
         return $data;
     }
