@@ -22,7 +22,7 @@ export default {
       })
   },
 
-  async login(context, payload) {
+   login(context, payload) {
      globalApp.request().post('/auth/login' , payload)
       .then(({ data }) => {     
         if(data.status){
@@ -40,16 +40,20 @@ export default {
         console.log("error");
       })
   },
-  async logout(context) {
-    await globalApp.request().post('/auth/logout')
+   logout(context) {
+     globalApp.request().post('/auth/logout')
       .then(({data}) => {
-        if(data.status){
+        if (data.status) {
+          window.location.href = "/";
+
           localStorage.removeItem('token');
           localStorage.removeItem('user');
           localStorage.removeItem('school');
+          localStorage.clear();
+
           setTimeout(() => {
             router.push({ name: 'login' });
-          }, 3000); 
+          },); 
         }
       })
   },
