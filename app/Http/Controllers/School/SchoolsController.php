@@ -56,10 +56,10 @@ public function store(Request $request, $id = null)
     $filename=null;
         if ($request->hasFile('logo')) {
             $file = $request->logo;
-             $filename=$file->store("images");
-            //  $filename=$file->store("public/images");
+            //  $filename=$file->store("images");
+              $filename=$file->store("public/images");
         }
-         $ret = str_replace('public/','',$filename);
+        //  $ret = str_replace('public/','',$filename);
         $data = json_decode($request->data);
         $student=new SchoolsModel();
         if($id){
