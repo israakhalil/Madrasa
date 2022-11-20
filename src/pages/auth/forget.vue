@@ -17,7 +17,7 @@
                     </div>
 
                     <div class="w-full md:w-10 mx-auto">
-                        <form @submit.prevent="doLogin()">
+                        <form @submit.prevent="doForget()">
                             <label for="email1" class="text-xl font-medium mb-2">الايميل</label>
                             <InputText
                                 id="email1"
@@ -73,12 +73,12 @@ export default {
         this.service = new UsersService();
     },
     methods: {
-        doLogin() {
+        doForget() {
+          
             this.loading = true;
             this.$store
-                .dispatch('settings/login', {
+                .dispatch('settings/forget', {
                     email: this.email.val,
-                    password: this.password.val,
                 })
                 .then(() => {
                     this.loading = false;

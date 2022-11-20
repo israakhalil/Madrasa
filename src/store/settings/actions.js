@@ -24,18 +24,18 @@ export default {
 
    login(context, payload) {
      globalApp.request().post('/auth/login' , payload)
-      .then(({ data }) => {     
+       .then(({ data }) => {  
         if(data.status){
           context.state.access_token = data.data.token;
           context.state.user = data.data.user;
           context.state.school = data.data.school;
           localStorage.setItem('token' ,data.data.token);
           localStorage.setItem("user", JSON.stringify(data.data.user));
-          // console.log(JSON.stringify(data.data.user))
           localStorage.setItem("school", JSON.stringify(data.data.school));
-            // window.location.reload();
              window.location.href = "/home";
-            // router.replace('/home')
+        }
+        else {
+          globalApp.error(data.msg);
         }
       }).catch(() => {
         
@@ -46,19 +46,35 @@ export default {
      globalApp.request().post('/auth/logout')
       .then(({data}) => {
         if (data.status) {
-          // window.location.href = "/";
-          //   window.location.reload();
           localStorage.removeItem('token');
           localStorage.removeItem('user');
           localStorage.removeItem('school');
           localStorage.clear();
-            router.go({ name: 'login' });
-
-          // setTimeout(() => {
-          //   router.push({ name: 'login' });
-          // },);
+         router.go({ name: 'login' });
         }
       })
   },
-   
+  forget(context, payload) {
+    console.log("hi");
+    globalApp.request().post('/auth/forget' , payload)
+     .then(({ data }) => {     
+       if (data.status ==200) {
+        globalApp.success(data.msg);
+        // router.replace({ name: 'login' });
+        //  context.state.access_token = data.data.token;
+        //  context.state.user = data.data.user;
+        //  context.state.school = data.data.school;
+        //  localStorage.setItem('token' ,data.data.token);
+        //  localStorage.setItem("user", JSON.stringify(data.data.user));
+        //  // console.log(JSON.stringify(data.data.user))
+        //  localStorage.setItem("school", JSON.stringify(data.data.school));
+        //    // window.location.reload();
+        //     window.location.href = "/home";
+        //    // router.replace('/home')
+       }
+     }).catch(() => {
+       
+       console.log("error");
+     })
+ },
 };
