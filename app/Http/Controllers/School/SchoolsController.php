@@ -56,8 +56,8 @@ public function store(Request $request, $id = null)
     $filename=null;
         if ($request->hasFile('logo')) {
             $file = $request->logo;
-             $filename=$file->store("images");
-            //  $filename=$file->store("public/images");
+//             $filename=$file->store("images");
+              $filename=$file->store("public/images");
         }
          $ret = str_replace('public/','',$filename);
         $data = json_decode($request->data);
@@ -69,7 +69,7 @@ public function store(Request $request, $id = null)
                 $data=$student::where('id', $id)->update(['name' => $data->name]);
 
             }else{
-                $data=$student::where('id', $id)->update(['name' => $data->name,'logo'=>$filename]);
+                $data=$student::where('id', $id)->update(['name' => $data->name,'logo'=>$ret]);
 
             }
             return response()->json([
