@@ -32,8 +32,10 @@ export default {
           localStorage.setItem('token' ,data.data.token);
           localStorage.setItem("user", JSON.stringify(data.data.user));
           // console.log(JSON.stringify(data.data.user))
-          localStorage.setItem("school", JSON.stringify(data.data.school));  
-          router.replace('/home')
+          localStorage.setItem("school", JSON.stringify(data.data.school));
+            // window.location.reload();
+             window.location.href = "/home";
+            // router.replace('/home')
         }
       }).catch(() => {
         
@@ -44,16 +46,17 @@ export default {
      globalApp.request().post('/auth/logout')
       .then(({data}) => {
         if (data.status) {
-          window.location.href = "/";
-
+          // window.location.href = "/";
+          //   window.location.reload();
           localStorage.removeItem('token');
           localStorage.removeItem('user');
           localStorage.removeItem('school');
           localStorage.clear();
+            router.go({ name: 'login' });
 
-          setTimeout(() => {
-            router.push({ name: 'login' });
-          },); 
+          // setTimeout(() => {
+          //   router.push({ name: 'login' });
+          // },);
         }
       })
   },

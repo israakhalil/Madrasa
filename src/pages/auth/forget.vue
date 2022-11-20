@@ -60,7 +60,7 @@ export default {
         return {
             service: null,
             loading: false,
-            username: {
+            email: {
                 val: '',
             },
             password: {
