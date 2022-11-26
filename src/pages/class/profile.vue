@@ -22,27 +22,27 @@
             <span class="font-bold text-xl">البيانات المسجلة</span>
         </div>
 
-        <div class="grid p-fluid mt-4 font-bold mr-5">
+        <div v-if="this.can('ABSENCE_ADD_EDIT')" class="grid p-fluid mt-4 font-bold mr-5">
         
            <AbsenceStudent  :student_id="id" :class_id="class_id"/>
         </div>
 
-        <div class="grid p-fluid mt-5 font-bold mr-5">
+        <div v-if="this.can('DELAY_ADD_EDIT')" class="grid p-fluid mt-5 font-bold mr-5">
         
         <DelayStudent  :student_id="id" :class_id="class_id" />
         </div>
    
-        <div class="grid p-fluid mt-5 font-bold mr-5">
+        <div v-if="this.can('LEAVE_ADD_EDIT')" class="grid p-fluid mt-5 font-bold mr-5">
             
             <LeaveStudent  :student_id="id" :class_id="class_id"/>
         </div>
 
-        <div class="grid p-fluid mt-5 font-bold mr-5">
+        <div v-if="this.can('VIOLATION_ADD_EDIT')"  class="grid p-fluid mt-5 font-bold mr-5">
             
             <ViolationStudent  :student_id="id" :class_id="class_id" />
         </div>
 
-        <div class="grid p-fluid mt-5 font-bold mr-5">
+        <div v-if="this.can('BOOK_ADD_EDIT')" class="grid p-fluid mt-5 font-bold mr-5">
             
             <BookStudent  :student_id="id" :class_id="class_id" />
         </div>

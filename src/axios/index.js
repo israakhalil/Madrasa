@@ -5,7 +5,7 @@ let BASE_URL = null ;
 if (process.env.NODE_ENV == "development") {
     BASE_URL = "http://127.0.0.1:8000/api";
 }else{
-    BASE_URL = "moqsit.com/attendance/api";
+    BASE_URL = "http://moqsit.com/attendance/api";
 }
 
 // const API_VERSION = "v1";

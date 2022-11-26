@@ -25,11 +25,11 @@
             <div class="font-bold  justify-content-center text-center md:text-center text-2xl pt-4 pb-4">الاضافات السريعة:</div>
             <div class="flex-1 justify-content-center text-center md:text-center re_quick">
 
-              <Button label="اضافة غياب" class="p-button-outlined mb-4" @click="this.$router.push({ name: 'quick-index', params: { type: 1 } })"/>
-              <Button label="اضافة تاخير" class="p-button-outlined mb-4"  @click="this.$router.push({ name: 'quick-index', params: { type: 2 } })"/>
-              <Button label="اضافة مخالفة سلوكية" class="p-button-outlined mb-4" @click="this.$router.push({ name: 'quick-index', params: { type: 3 } })"/>
-              <Button label="اضافة استئذان" class="p-button-outlined mb-4" @click="this.$router.push({ name: 'quick-index', params: { type: 4 } })"/>
-              <Button label="اضافة تسليم كتب" class="p-button-outlined mb-8" @click="this.$router.push({ name: 'quick-index', params: { type: 5 } })"/>
+              <Button v-if="this.can('ABSENCE_ADD_EDIT')" label="اضافة غياب"  class="p-button-outlined mb-4" @click="this.$router.push({ name: 'quick-index', params: { type: 1 } })"/>
+              <Button  v-if="this.can('DELAY_ADD_EDIT')" label="اضافة تاخير" class="p-button-outlined mb-4"  @click="this.$router.push({ name: 'quick-index', params: { type: 2 } })"/>
+              <Button v-if="this.can('VIOLATION_ADD_EDIT')" label="اضافة مخالفة سلوكية" class="p-button-outlined mb-4" @click="this.$router.push({ name: 'quick-index', params: { type: 3 } })"/>
+              <Button v-if="this.can('LEAVE_ADD_EDIT')" label="اضافة اذونات" class="p-button-outlined mb-4" @click="this.$router.push({ name: 'quick-index', params: { type: 4 } })"/>
+              <Button v-if="this.can('BOOK_ADD_EDIT')" label="اضافة تسليم كتب" class="p-button-outlined mb-8" @click="this.$router.push({ name: 'quick-index', params: { type: 5 } })"/>
             </div>
           </div>
 
@@ -44,19 +44,23 @@
               v-for="(_class, index) in classes"
               class="md:col-3 mb-15 sm:col-4 xs:col-6 lg:mb-8">
               
-                <Card style="cursor: pointer" @click="this.$router.push({ name: 'class-all', params: { id: _class.id } })">
+                <Card >
                 <template #header>
-                  <div class="flex align-items-center justify-content-between">
+                  <div class="flex mt-2 lign-items-center justify-content-between">
                     <div class="flex align-items-center">
                       <span class="font-semibold mr-2">{{ (index+1) }}</span>
+                    </div>
+                    <div v-if="this.can('CLASS_DELETE')" class="flex align-items-left">
+                      <span  style="cursor: pointer" class="font-semibold ml-2" @click="openDelete(_class)" ><i class="pi pi-times"></i></span>
                     </div>
                   </div>
                 </template>
                 <template #content>
                   <div
                     class="flex-1 justify-content-center text-center md:text-center"
+                    style="cursor: pointer" @click="this.$router.push({ name: 'class-all', params: { id: _class.id } })"
                   >
-                    <img src="/images/1.png" class="shadow-2 mb-3 res_image" />
+                    <img src="/images/1.jpg" class="shadow-2 mb-3 res_image" />
 
                     <div class="font-bold text-lg">
                       <span>{{_class.name}}-{{_class.level_name}}</span>
@@ -131,25 +135,8 @@
             <Button label="حفظ" class="mt-5" type="submit" @click="saveClass(!v$.$invalid)"  />
           </div>
         </Dialog>
+        <SuccessMsg :successMsg=successMsg  :Msg=Msg />
 
-        <Dialog
-          id="successMsg"
-          v-model:visible="successMsg"
-          :style="{ width: '450px' }"
-          header=""
-          :modal="true"
-          class="font-bold text-3xl"
-        >
-          <div>
-            <div class="justify-content-center text-center md:text-center">
-              <i class="pi pi-check-circle" style="font-size: 5rem"></i>
-            </div>
-
-            <div class="justify-content-center text-center md:text-center">
-              <span>تمت إضافة الصف بنجاح </span>
-            </div>
-          </div>
-        </Dialog>
       </div>
 
       <div class="layout-add">
@@ -163,8 +150,7 @@
       </div>
     </div>
     </template>
-    
-
+  
         <template v-if="this.error">
             <div class="filed col">
             <div class="card p-fluid">
@@ -174,7 +160,41 @@
             </Message>
             </div>  </div>
         </template>
+
+        <Dialog
+      id="deleteconfirm"
+      v-model:visible="deleteconfirm"
+      :style="{ width: '450px' }"
+      header=""
+      :modal="true"
+      class="font-bold text-3xl"
+    >
+      <div>
+        <div class="justify-content-center text-center md:text-center">
+          <i class="pi pi-times-circle" style="font-size: 5rem; color:red"></i>
+        </div>
+  
+        <div class="justify-content-center text-center md:text-center">
+          <span> {{deleteMsg}} </span>
+        </div>
+      </div>
+
+      <template #footer>
+        <div class="grid p-fluid">
+            <div class="col-6 md:col-6">  
+                 <Button label="حذف"  class=" p-button-outlined mt-5"   @click="deleteClass" />
+            </div>
+            <div class="col-6 md:col-6">            
+                 <Button label="الغاء"  class="p-button-outlined mt-5" @click="deleteconfirm = false"  />
+            </div>
+        </div>
+            </template>
+
+    </Dialog>
+
   </div>
+
+
 </template>
 <script>
 import SchoolsService from "@/services/schoolsService";
@@ -209,7 +229,9 @@ export default {
           submitted: false,
           attachment: null,
           classesService:null,
-          currentUser:{}
+          currentUser: {},
+          deleteconfirm: false,
+          Msg:null
     };
   },
   validations() {
@@ -234,7 +256,8 @@ export default {
 
 
     },
-    methods: {
+  methods:
+  {
         loadData(query = null) { 
            
             if (query) {
@@ -296,13 +319,12 @@ export default {
         });
         },
             
-        // },
-          
+ 
       openNew() {
       // this.restform()
       this.submitted = false;
       this.classDialog = true;
-    },
+        },
 
       saveClass(isFormValid) {
        
@@ -322,6 +344,7 @@ export default {
               this.classDialog = false;
               this.submitted = false;
               this.successMsg = true;
+              this.Msg = "تمت اضافة الصف بنجاح";
               this.restform()
                
             })
@@ -336,15 +359,28 @@ export default {
       restform() { 
         this.form={}
 
-      }
-    // editClass(_class) {
-    //   this._class = { ..._class };
-    //   this.productDialog = true;
-    // },
-    // confirmDeleteProduct(_class) {
-    //   this._class = _class;
-    //   this.deleteProductDialog = true;
-    // },
+    },
+      
+      openDelete(data) { 
+            this.form = data;
+            this.deleteconfirm = true;
+            this.deleteMsg = "هل انت متاكد من حذف الصف ";
+        },
+
+           deleteClass() { 
+             this.successMsg = false;
+             this.classesService.delete(this.form.id).then(({ data }) =>
+              {
+                  if (data.code == 200) {
+                  this.deleteconfirm = false;
+                  this.successMsg = true;
+                    this.Msg = data.msg;
+                    this.Classes();
+                  //this.classes = this.classes.filter(val => val.id !== this.form.id);
+              }
+            });
+            this.form = {};
+        },
 
 
   },
@@ -359,7 +395,7 @@ export default {
 }
  .res_image{
   max-width: 100%;
-  height: auto;
+  height: 18vh;
  }
 .inputfile-box {
   position: relative;
@@ -477,4 +513,15 @@ ul.p-listbox-list {
 .p-dialog #successMsg .p-dialog-content {
   padding: 0 1.5rem 5rem 1.5rem;
 }
+
+
+.p-button:enabled:hover {
+    background: #7C3AED;
+    color: #ffffff;
+    border-color: #7C3AED;
+}
+.p-dialog .p-dialog-footer button{
+    width:100%
+}
+
 </style>

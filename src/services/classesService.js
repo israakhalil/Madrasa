@@ -20,7 +20,7 @@ export default class classesService {
     }
 
 
-    deleteItem(id) {
+    delete(id) {
         return globalApp.request().delete(`/classes/${id}/delete`);
     }
 

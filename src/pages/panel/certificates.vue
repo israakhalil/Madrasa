@@ -94,7 +94,7 @@
 
                 <div class="col-12 md:col-12 lg:col-12 mt-0">
                 <span class="text-2xl">  
-                  الصف الاول ثانوي فصل (3) على انتظامه وعدم غيابه خلال شهر  {{certification.month}} متمنيين له دوام التوفيق 
+                  {{certification.text}}
                  </span>
                 </div>
 
@@ -210,6 +210,13 @@
             />
           </div>
           <div class="field">
+            <label for="text" class="mb-3">نص الشهادة    </label>
+            <Textarea
+              id="text"
+              v-model.trim="certification.text"
+            />
+          </div>
+          <!-- <div class="field">
             <label for="name" class="mb-3">اسم الصف كاملا  </label>
             <InputText
               id="name"
@@ -223,7 +230,7 @@
               id="name"
               v-model.trim="certification.month"
             />
-          </div>
+          </div> -->
           <div class="field">
             <label for="name" class="mb-3">التاريخ  </label>
             <InputText
