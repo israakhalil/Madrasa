@@ -28,6 +28,7 @@ use App\Http\Controllers\Procedures\ViolationsController;
 
 Route::group(['prefix' => 'auth', 'namespace' => 'Auth'], function () {
     Route::post('login', [LoginController::class, 'login']);
+    Route::post('forget', [LoginController::class, 'forget']);
 });
 
 // Route::group(['prefix' => 'system/settings'], function () {

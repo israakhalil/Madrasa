@@ -78,19 +78,15 @@ class ClassesController extends  Controller
     }
 
 
-    // public function import(Request $request)
-    // {
-    //     if ($request->hasFile('file_name')) {
-    //         $file = $request->file('file_name');
-    //         if ($file->isValid()) {
-    //             $path = $file->getRealPath();
-    //             Excel::import(new StudentClassesImport(), $path);
-    //             return $this->response_api(true, StatusCodes::OK, Enum::DONE_SUCCESSFULLY, []);
-    //         }
-    //         return $this->response_api(false, StatusCodes::UPLOAD_ERR, Enum::UPLOAD_ERR_NOT_VALID, []);
+    public function delete($id)
+    {
+        $item = ClassesModel::query()->where('id' , '=', $id);
+        $item->delete();
+        return response()->json([
+            'msg' => "تم الحذف بنجاح",
+            'code'=>StatusCodes::OK
+        ]);
 
-    //     }
-    //     return $this->response_api(false, StatusCodes::UPLOAD_ERR, Enum::UPLOAD_ERR_NO_FILE, []);
-    // }
+    }
 
 }

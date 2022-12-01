@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use App\Models\School\Schools as SchoolsModel;
 use App\Http\Resources\SchoolResource;
-
+use Illuminate\Support\Facades\Mail;
 
 class LoginController extends Controller
 {
@@ -27,13 +27,15 @@ class LoginController extends Controller
         $user = User::query()->where('email', $request->email)->first();
         $school=null;
 
-        if($user->school_id != 0){
-
-            $school= SchoolsModel::query()->where('id', $user->school_id)->first();
-
-        }
-
+       
         if (isset($user) && $this->password_check($request->password,$user)) {
+
+            if($user->school_id != 0){
+
+                $school= SchoolsModel::query()->where('id', $user->school_id)->first();
+    
+            }
+    
             $token = $user->createToken('API TOKEN')->plainTextToken;
 
             return $this->sendLoginResponse($request, $user, $token,$school);
@@ -105,12 +107,9 @@ class LoginController extends Controller
 
     protected function sendFailedLoginResponse(Request $request)
     {
-        return response([
-            'status' => false,
-            'code' => StatusCodes::VALIDATION_ERROR,
-            'message' => ('auth.failed'),
-            'data' => [],
-        ])->setStatusCode(StatusCodes::VALIDATION_ERROR);
+        return response()->json(['msg' => "خطأ في ايميل المستخدم او كلمة المرور",
+
+         'status'=>false ]);
     }
 
     public function logout(Request $request)
@@ -136,4 +135,58 @@ class LoginController extends Controller
     {
         return Auth::guard('web');
     }
+
+    public function forget(Request $request)
+    {
+        $request->validate([
+            'email'=>['required', 'string', 'max:255'],
+        ]);
+
+        $user = User::query()->where('email', $request->email)->first();
+
+
+        if(!$user){
+         
+            return response()->json([
+                'msg' => 'تم ارسال  كلمة السر الي الايميل',
+                'status' => 200
+            ]);
+        }
+        else{
+            $random=rand(1111111,9999999);
+            $user->password = Hash::make($random);
+            if($user->save())
+            {
+                $userData =array(
+                    'email'=>$user->email,
+                    'name'=>$user->name,
+                    'password'=>$random );
+         
+                Mail::send('emails.reset' ,$userData, function($message) use($userData) {
+                    $message->from('no-replay@moqsit.com','Password Request');
+                    $message->to($userData['email'], $userData['name']) ;
+                    $message->subject("Reset Password") ;
+                });
+
+                if(Mail::flushMacros()){
+                    return response()->json([
+                        'msg' => 'هناك خطأ',
+                        'status' => 500
+                    ]); 
+                }else{
+                    return response()->json([
+                        'msg' => 'تم ارسال  كلمة السر الي الايميل',
+                        'status' => 200
+                    ]); 
+                }
+        }
+        else{
+            return response()->json([
+                'msg' => 'هناك خطأ',
+                'status' => 500
+            ]); 
+        }
+    }
+    }
+
 }

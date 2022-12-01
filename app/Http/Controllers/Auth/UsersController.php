@@ -49,14 +49,14 @@ class UsersController extends  Controller
         $Permission= Permission::query()->select("id")->whereIn('group', [2,3])->get();
 
         if($id){
-            $user = UsersModel::query()->where('role_id', 2)->where('email', $request->email)->where('id','!=', $id)->first();
+            $user = UsersModel::query()->where('email', $request->email)->where('id','!=', $id)->first();
             if($user){return response()->json(['msg' => "هذا الاايميل موجود سابقا ",'code'=>StatusCodes::EMAIL_ERR]);}
             UsersModel::where('id', $id)->update(['name'=>$data['name'],'password'=>$data['password'],'school_id'=>$data['school_id']]);
             // $this->permissions()->sync($Permission);
             return response()->json(['msg' => "تم الحفظ بنجاح",'code'=>StatusCodes::OK]);
             }
         else{
-            $userNew = UsersModel::query()->where('role_id', 2)-> where('email', $request->email)->first();
+            $userNew = UsersModel::query()-> where('email', $request->email)->first();
             if(isset($userNew)){ return response()->json([ 'msg' => "هذا الاايميل موجود سابقا ", 'code'=>StatusCodes::EMAIL_ERR ]);}
             $item=UsersModel::query()->Create($data);
             $item->permissions()->sync($Permission);
@@ -72,7 +72,7 @@ class UsersController extends  Controller
         }
       
         if($id){
-            $user = UsersModel::query()->where('role_id',  $request->role_id)->where('email', $request->email)->where('id','!=', $id)->first();
+            $user = UsersModel::query()->where('email', $request->email)->where('id','!=', $id)->first();
             if (isset($user)) { return response()->json(['msg' => "هذا الاايميل موجود سابقا ",'code'=>StatusCodes::EMAIL_ERR]);} 
             $item = UsersModel::query()->find($id);
             $item->update($data);
@@ -85,7 +85,7 @@ class UsersController extends  Controller
            
         }
         else{
-            $userNew = UsersModel::query()->where('role_id',  $request->role_id)->where('email', $request->email)->first();
+            $userNew = UsersModel::query()->where('email', $request->email)->first();
             if(isset($userNew)){
                 return response()->json(['msg' => "هذا الاايميل موجود سابقا ",'code'=>StatusCodes::EMAIL_ERR]);
             }
@@ -151,7 +151,7 @@ class UsersController extends  Controller
             return response()->json(['status'=>false,'code'=>StatusCodes::VALIDATION_ERROR, 'msg'=>$validator->errors()->first(), []]);
         }
  
-        $_user = UsersModel::query()->where('role_id',  $user->role_id)->where('email', $data['email'])->where('id','!=', $user->id)->first();
+        $_user = UsersModel::query()->where('email', $data['email'])->where('id','!=', $user->id)->first();
 
         if (isset($_user)) {
             return response()->json([
