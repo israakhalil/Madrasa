@@ -35,7 +35,7 @@ class ViolationsController extends  Controller
                 ViolationsModel::query()->Create((array)$item);
             } catch (\Exception $exception) {
                    return response()->json([
-                       'msg' => "هناك مشكلة",
+                       'msg' => "يجب ادخال جميع الحقول",
                        'code'=>StatusCodes::GENERAL_ERROR
                    ]);         
                    }

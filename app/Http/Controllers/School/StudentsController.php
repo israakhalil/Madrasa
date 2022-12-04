@@ -6,8 +6,10 @@ use App\Constants\StatusCodes;
 use App\Http\Controllers\Controller;
 use App\Models\School\Students as StudentsModel;
 use App\Http\Resources\StudentResource;
+use App\Imports\StudentDetails;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Maatwebsite\Excel\Facades\Excel;
 
 class StudentsController extends  Controller
 {
@@ -42,26 +44,55 @@ class StudentsController extends  Controller
     public function store(Request $request, $id = null)
     {
         $filename=null;
-       
-        if ($request->hasFile('file_name')) {
-            $file = $request->file_name;   
-            $filename=$file->store("Files");
-        }
-          
+        $data = json_decode($request->data);
+        $name=$data->name;
+        $classId= $data->class_id;
+
+        if ($request->hasFile('file_name'))
+        {
+           $file = $request->file('file_name');
+           if ($file->isValid())
+           {
+               $path = $file->getRealPath();
+               Excel::import(new StudentDetails((int)$classId,(string)$name), $path);
+               return response()->json([
+
+                   'code'=>StatusCodes::OK
+               ]);
+             }
+        }else{
             $data = json_decode($request->data);
             $student=new StudentsModel();
-            $student->name=$data->name;
-            $student->class_id= $data->class_id;
-            // $student->phone_1= $data->phone_1;
-            // $student->phone_2= $data->phone_2;
-            // $student->phone_3= $data->phone_3;
-            // $student->date_of_birth=Carbon::parse($data->date_of_birth);
-            $student->attached_id=$filename;
+            $student->name=$name;
+            $student->class_id= $classId;
             $student->save();
+        }
+          
+
 
       
         
     }
+
+
+    // public function import(Request $request)
+    // {
+    //     if ($request->hasFile('file_name'))
+    //      {
+    //         $file = $request->file('file_name');
+    //         if ($file->isValid())
+    //         {
+    //             $path = $file->getRealPath();
+    //             $classId=$request->class_id;
+    //             Excel::import(new StudentClassesImport((int)$classId), $path);
+    //             return response()->json([
+
+    //                 'code'=>StatusCodes::OK
+    //             ]);
+    //           }
+    //      }
+    // }
+
     public function edit(Request  $request, $id = null)
     {
         $data = $request->only(StudentsModel::FILLABLE);
@@ -76,4 +107,14 @@ class StudentsController extends  Controller
      }
 
 
+     public function delete($id)
+     {
+         $item = StudentsModel::query()->where('id' , '=', $id);
+         $item->delete();
+         return response()->json([
+             'msg' => "تم الحذف بنجاح",
+             'code'=>StatusCodes::OK
+         ]);
+ 
+     }
 }

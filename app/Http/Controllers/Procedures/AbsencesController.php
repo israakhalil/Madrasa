@@ -1,7 +1,5 @@
 <?php
 namespace App\Http\Controllers\Procedures;
-
-use App\Constants\Enum;
 use App\Constants\StatusCodes;
 use App\Http\Controllers\Controller;
 use App\Models\Procedures\Absences as AbsencesModel;
@@ -32,7 +30,7 @@ class AbsencesController extends  Controller
                 AbsencesModel::query()->Create((array)$item);
                 } catch (\Exception $exception) {
                     return response()->json([
-                        'msg' => "هناك مشكلة",
+                        'msg' => "يجب ادخال جميع الحقول",
                         'code'=>StatusCodes::GENERAL_ERROR
                     ]);            }
 

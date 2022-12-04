@@ -31,8 +31,8 @@ class DelaysController extends  Controller
                 DelaysModel::query()->Create((array)$item);
             } catch (\Exception $exception) {
                    return response()->json([
-                       'msg' => "هناك مشكلة",
-                       'code'=>StatusCodes::GENERAL_ERROR
+                    'msg' => "يجب ادخال جميع الحقول",
+                    'code'=>StatusCodes::GENERAL_ERROR
                    ]);            }
 
                }

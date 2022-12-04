@@ -4,10 +4,11 @@ namespace App\Imports;
 
 use App\Models\School\Students;
 use Maatwebsite\Excel\Concerns\ToModel;
+use Maatwebsite\Excel\Concerns\WithStartRow;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
 
-class StudentClassesImport implements ToModel
+class StudentClassesImport implements ToModel, WithStartRow
 {
     protected $class_id;
       
@@ -16,11 +17,11 @@ class StudentClassesImport implements ToModel
         $this->class_id = $class_id;
     }
 
-    /**
-    * @param array $row
-    *
-    * @return \Illuminate\Database\Eloquent\Model|null
-    */
+    public function startRow(): int
+    {
+        return 2;
+    }
+      
     public function model(array $row)
     {
         return new Students([
