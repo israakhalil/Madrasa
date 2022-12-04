@@ -13,7 +13,7 @@ export default class studentsService {
         return await globalApp.request().post('/students/edit/'+ (id ? id : ''),data);
     }
  
-    deleteItem(id) {
+    delete(id) {
         return globalApp.request().delete(`/students/${id}/delete`);
     }
 

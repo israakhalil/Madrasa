@@ -1,15 +1,15 @@
 <template>
   <div class="grid">
     <template v-if="!this.error">
-        <div id="right" class="md:col-2 sm:col-12 xs:col-12 lg:col-2 ">
-      <div class="card p-fluid">
-        <div class="grid formgrid">
+        <div id="right" class="md:col-2 sm:col-12 xs:col-12 lg:col-2 " style="height:100vh">
+      <div class="card p-fluid re_quick">
+        <div class="grid formgrid " >
 
-          <div class="col-12 md:col-12 lg:col-12" style="height:40vh" >
+          <div class="col-12 md:col-12 lg:col-12 "   >
             <div class="flex-1 justify-content-center text-center md:text-center" >
               <div class="font-bold text-2xl py-3" style="cursor: pointer" @click="filterClasses">المراحل المدرسية:</div>
             </div>
-            <Listbox v-model="selectedLevel" :options="levels" optionLabel="name" listStyle="max-height:31vh"  @change="filterClasses">
+            <Listbox v-model="selectedLevel" :options="levels" optionLabel="name"  @change="filterClasses">
               <template #option="slotProps">
                 <div class="flex-1 justify-content-right text-right md:text-right px-20">
                   <div class="font-bold text-lg">
@@ -19,26 +19,26 @@
                 </div>
               </template>
             </Listbox>
-          </div>
+       
 
-          <div class="col-12 md:col-12 " style="height:50vh"  >
+          <!-- <div class="col-12 md:col-12 " style="height:50vh"  > -->
             <div class="font-bold  justify-content-center text-center md:text-center text-2xl pt-4 pb-4">الاضافات السريعة:</div>
-            <div class="flex-1 justify-content-center text-center md:text-center re_quick">
+            <div class="flex-1 justify-content-center text-center md:text-center ">
 
               <Button v-if="this.can('ABSENCE_ADD_EDIT')" label="اضافة غياب"  class="p-button-outlined mb-4" @click="this.$router.push({ name: 'quick-index', params: { type: 1 } })"/>
               <Button  v-if="this.can('DELAY_ADD_EDIT')" label="اضافة تاخير" class="p-button-outlined mb-4"  @click="this.$router.push({ name: 'quick-index', params: { type: 2 } })"/>
               <Button v-if="this.can('VIOLATION_ADD_EDIT')" label="اضافة مخالفة سلوكية" class="p-button-outlined mb-4" @click="this.$router.push({ name: 'quick-index', params: { type: 3 } })"/>
-              <Button v-if="this.can('LEAVE_ADD_EDIT')" label="اضافة اذونات" class="p-button-outlined mb-4" @click="this.$router.push({ name: 'quick-index', params: { type: 4 } })"/>
+              <Button v-if="this.can('LEAVE_ADD_EDIT')" label="اضافة استئذان" class="p-button-outlined mb-4" @click="this.$router.push({ name: 'quick-index', params: { type: 4 } })"/>
               <Button v-if="this.can('BOOK_ADD_EDIT')" label="اضافة تسليم كتب" class="p-button-outlined mb-8" @click="this.$router.push({ name: 'quick-index', params: { type: 5 } })"/>
             </div>
-          </div>
-
+          <!-- </div> -->
+        </div>
         </div>
       </div>
     </div>
 
-    <div id="left" class="md:col-10 sm:col-12 xs:col-12">
-      <div class="card p-fluid">
+    <div id="left" class="md:col-10 sm:col-12 xs:col-12" style="height:100vh">
+      <div class="card p-fluid  re_quick">
           <div class="grid formgrid">
             <div
               v-for="(_class, index) in classes"
@@ -391,7 +391,7 @@ export default {
 
 .re_quick{
   overflow-y: scroll;
-  height: 40vh;
+  height: 90vh;
 }
  .res_image{
   max-width: 100%;
@@ -430,7 +430,6 @@ export default {
   appearance: none;
   border-radius: 6px;
 }
-
 
 ::v-deep(.custom-scrolltop) {
   width: 2rem;

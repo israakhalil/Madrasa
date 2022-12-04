@@ -43,7 +43,8 @@
       </div>
       <div class="field col-12 md:col-4">
         <label for="absence_date">تاريخ الغياب </label>
-        <Calendar id="absence_date" :showIcon="true" v-model="item.absence_date"></Calendar>
+        <Calendar  :showIcon="true" v-model="item.absence_date"></Calendar>
+        
       </div>
       <div class="field col-12 md:col-4">
         <label for="absence_type_id"> نوع الغياب</label>
@@ -163,7 +164,10 @@ export default {
       this.successMsg = false;
       this.Msg = null;
       this.items.forEach(item => {
-        item.absence_date = this.formatDate(item.absence_date);
+        if (item.absence_date) {
+          item.absence_date = this.formatDate(item.absence_date);
+
+        }
       });
       const formData = new FormData();
       formData.append("items", JSON.stringify(this.items));

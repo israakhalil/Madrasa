@@ -1,9 +1,12 @@
 <template>
 	<div class="layout-topbar">
-    <div class="layout-topbar-logo">
+    <!-- <div class="layout-topbar-logo">
       <img alt="Logo" :src="this.schoolLogo()"/>
 	  
-    </div>
+    </div> -->
+    <div class="layout-topbar-logo_text">
+		<span> الشعار</span>
+	</div>
 	<div class="layout-topbar-logo_text">
 		<span> {{currentSchool.name}} - {{ currentUser.name}}</span>
 	</div>

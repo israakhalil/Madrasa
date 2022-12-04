@@ -2,7 +2,7 @@
 
     <div class="col-10 md:col-10 mr-10">
             <span class="font-bold text-xl" style="color: var(--primary-color)">
-            الاستئذان
+            الاذونات
             </span>
     </div>
     <div class="col-2 md:col-2">

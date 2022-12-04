@@ -1,25 +1,23 @@
 <template>
-            <div class="grid mt-5 font-bold mr-5">
+        <div class="grid p-fluid mt-5 font-bold mr-5">
           <div class="col-10 md:col-10 justify-content-right mr-10">
             <span class="font-bold text-xl" style="color: var(--primary-color)">
               البيانات الرئيسية
             </span>
           </div>
-          <div class="col-2 md:col-2 justify-content-left">
+          <div class="col-2 md:col-2">
             <Button
-              label="طباعة"
-              icon="pi pi-print"
-              class="p-button-outlined ml-3" />
-            <Button
-              label=" تعديل"
+              width="70%"
+              label=" تعديل بيانات الطالب"
               icon="pi pi-pencil"
-              class="p-button-outlined"
+              class="p-button-outlined ml-10"
+              
               v-if="this.can('STUDENT_ADD_EDIT')"
               @click="openEdit(this.student)"/>
-          <div>
+          
 
             </div>
-          </div>
+          
         </div>
 
         <div class="grid p-fluid mt-5 font-bold mr-5">
@@ -212,3 +210,14 @@ export default {
 
 }
 </script>
+
+<style scoped>
+.p-button:enabled:hover {
+background: #7C3AED;
+color: #ffffff;
+border-color: #7C3AED;
+}
+.p-dialog .p-dialog-footer button{
+width:100%
+}
+</style>

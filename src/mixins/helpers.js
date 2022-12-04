@@ -8,7 +8,7 @@ export default {
         }, 
 
         formatDate(date) {
-            return moment(date).format("DD-MM-YYYY");
+            return moment(date).format("MM/DD/YYYY");
         },
         formatDateForSearch(date) {
             return moment(date).format("YYYY-MM-DD");

@@ -194,7 +194,12 @@ export default {
         this.errorMsg = false; 
         this.successMsg = false;
         this.Msg=null;
-        
+        this.items.forEach(item => {
+        if (item.received_date) {
+          item.received_date = this.formatDate(item.received_date);
+
+        }
+      });
         const formData = new FormData();
         formData.append("items", JSON.stringify(this.items));
   

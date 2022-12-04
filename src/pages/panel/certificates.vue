@@ -1,10 +1,10 @@
 <template>
     <div class="grid">
-          <div id="right" class="md:col-2 sm:col-12 xs:col-12 lg:col-2 ">
+          <div id="right" class="md:col-2 sm:col-12 xs:col-12 lg:col-2 " >
         <div class="card p-fluid">
           <div class="grid formgrid">
   
-            <div class="col-12 md:col-12 lg:col-12" style="height:100vh" >
+            <div class="col-12 md:col-12 lg:col-12" style="height:100vh">
               <div class="flex-1 justify-content-center text-center md:text-center" >
                 <div class="font-bold text-2xl pt-7 " style="cursor: pointer"> الشهادات</div>
               </div>
@@ -23,8 +23,8 @@
               <Card style="cursor: pointer " class="mt-6" @click="getName(2)">
                 <template #content>
                   <div  class="flex-1 justify-content-center text-center md:text-center" >
-                    <i class =" pi pi-id-card fon"   style="font-size: 10rem; "/>
-                    <div class="">
+                    <i class =" pi pi-id-card"   style="font-size: 10rem; "/>
+                    <div class="font-bold text-2xl">
                         <span>النموذج الخاص بالطالبات</span>
                       </div>
                   </div> 
@@ -39,7 +39,7 @@
         </div>
       </div>
   
-      <div id="left" class="md:col-10 sm:col-12 xs:col-12">
+      <div id="left" class="md:col-10 sm:col-12 xs:col-12 " >
 
         <div class="card p-fluid" v-if="type==1">
             
@@ -306,6 +306,11 @@
   </script>
 
 <style lang="scss" scoped>
+
+.re_quick{
+  overflow-y: scroll;
+  height: 90vh;
+}
 .centered {
   position: absolute;
   top: 51%;
@@ -349,6 +354,14 @@
   position: absolute;
 }
 
+.card {
+  border-radius: 0%;
+  /*padding: 0rem;*/
+}
+.grid {
+  margin-left: 0rem;
+  margin-right: 0rem;
+}
 // #left .card {
 //   padding: 50px;
 // }

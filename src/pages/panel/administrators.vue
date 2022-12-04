@@ -1,8 +1,8 @@
 <template>
-  <div class="grid">
+  <div class="grid" >
     <div class="col-12 md:col-12">
       <div class="card">
-        <div class="grid my-2 font-bold mr-10">
+        <div class="grid my-2 font-bold mr-10 ">
           <div class="col-8 md:col-8 py-4">
             <span class="font-bold text-xl">قائمة الاداريين </span>
 
@@ -114,7 +114,7 @@
           </div>
 
         <div class="field">
-          <label for="email"> ايميل المشرف  </label>
+          <label for="email"> ايميل الاداري  </label>
           <InputText
               id="email"
               v-model.trim="form.email"
@@ -331,6 +331,8 @@ export default {
 </script>
 
 <style scoped>
+
+
 .item + .item:before {
   content: ", ";
 }
@@ -360,6 +362,15 @@ a {
 }
 .p-dialog .p-dialog-footer button{
   width:100%
+}
+
+.card {
+  border-radius: 0%;
+  /*padding: 0rem;*/
+}
+.grid {
+  margin-left: 0rem;
+  margin-right: 0rem;
 }
 
 

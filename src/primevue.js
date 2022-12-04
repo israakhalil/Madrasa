@@ -53,7 +53,9 @@ import DataViewLayoutOptions from 'primevue/dataviewlayoutoptions';
 import Listbox from 'primevue/listbox';
 import Toast from 'primevue/toast';
 import Breadcrumb from 'primevue/breadcrumb';
+import VirtualScroller from 'primevue/virtualscroller';
 
+globalApp.app.component('VirtualScroller', VirtualScroller);
 globalApp.app.component('Breadcrumb', Breadcrumb);
 globalApp.app.component('Toast', Toast);
 globalApp.app.component('Listbox', Listbox);

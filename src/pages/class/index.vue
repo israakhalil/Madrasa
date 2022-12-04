@@ -68,12 +68,12 @@
                       {{slotProps.data.name}} 
                       </span> 
                       </div>
-                    </template>
+               </template>
             </Column>
             <Column field="absence_count" header="الغياب">
               
             </Column>
-            <Column field="leave_count" header="الاستئذان">
+            <Column field="leave_count" header="الاذونات">
               
             </Column>
             <Column field="delay_count" header="التأخير الصباحي">
@@ -85,6 +85,12 @@
             <Column field="book_count" header=" تسليم الكتب">
               
             </Column>
+            <Column fheader="  الاجراءات" style="max-width:8rem">
+            <template #body="slotProps">
+                <Button icon="pi pi-trash" class="p-button-rounded p-button-danger ml-2" @click="openDelete(slotProps.data)"/>
+            </template>
+
+        </Column>
             <template #footer>
                 في المجمل هناك  {{students ? students.length : 0 }} طالب.
             </template>
@@ -134,6 +140,39 @@
         </Dialog>
 
         <SuccessMsg :successMsg=successMsg  :Msg=Msg />
+
+        
+    <Dialog
+  id="deleteconfirm"
+  v-model:visible="deleteconfirm"
+  :style="{ width: '450px' }"
+  header=""
+  :modal="true"
+  class="font-bold text-3xl"
+>
+  <div>
+    <div class="justify-content-center text-center md:text-center">
+      <i class="pi pi-times-circle" style="font-size: 5rem; color:red"></i>
+    </div>
+
+    <div class="justify-content-center text-center md:text-center">
+      <span> {{deleteMsg}} </span>
+    </div>
+  </div>
+
+  <template #footer>
+    <div class="grid p-fluid">
+        <div class="col-6 md:col-6">  
+             <Button label="حذف"  class=" p-button-outlined mt-5"   @click="deleteStudent" />
+        </div>
+        <div class="col-6 md:col-6">            
+             <Button label="الغاء"  class="p-button-outlined mt-5" @click="deleteconfirm = false"  />
+        </div>
+    </div>
+        </template>
+
+</Dialog>
+
     </div>
   </div>
 </template>
@@ -168,7 +207,9 @@ export default {
       classesService: null,
       studentsService: null,
       successMsg: false,
-      submitted:false
+      submitted: false,
+      deleteconfirm: false,
+      deleteMsg:false
     };
   },
   validations() {
@@ -235,24 +276,43 @@ uploadFile(e) {
    this.attachment=e.target.files[0]
 
 },
+  restform() {    
+          this.form.name= null,
+      this.form.attached_id = null
+      },
 
-restform() {    
-        this.form.name= null,
-    this.form.attached_id = null
+  onFilter() {
+    this.getStudents()
     },
+  getStudents() {
+    this.filter = { class_id: this.id, name: this.filter_name };
 
-    onFilter() {
-      this.getStudents()
-     },
-    getStudents() {
-      this.filter = { class_id: this.id, name: this.filter_name };
+    this.studentsService.index( this.filter).then(({ data }) => {
+      if (data.code == 200) {
+      this.students = data.data.Students;
+    }
+  });
+    },
+    openDelete(data) { 
+        this.form = data;
+        this.deleteconfirm = true;
+        this.deleteMsg = "هل انت متاكد من الحذف ";
+    },
+    deleteStudent() { 
+        this.successMsg = false;
 
-      this.studentsService.index( this.filter).then(({ data }) => {
-        if (data.code == 200) {
-        this.students = data.data.Students;
-      }
-    });
-}
+        this.studentsService.delete(this.form.id).then(({ data }) => {
+          if (data.code == 200) {
+            // this.students = this.students.filter(val => val.id !== this.form.id);
+            this.deleteconfirm = false;
+            this.successMsg = true;
+                this.Msg = data.msg;
+                this.getStudents()
+                
+        }
+        });
+        this.form = {};
+    },
   },
 
   mounted() {
@@ -307,6 +367,15 @@ a {
     box-shadow 0.2s;
   appearance: none;
   border-radius: 6px;
+}
+
+.p-button:enabled:hover {
+background: #7C3AED;
+color: #ffffff;
+border-color: #7C3AED;
+}
+.p-dialog .p-dialog-footer button{
+width:100%
 }
 
 

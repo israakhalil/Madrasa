@@ -220,7 +220,12 @@ export default {
         this.errorMsg = false; 
         this.successMsg = false;
         this.Msg = null;
-        
+        this.items.forEach(item => {
+        if (item.violation_date) {
+          item.violation_date = this.formatDate(item.violation_date);
+
+        }
+      });
         const formData = new FormData();
         formData.append("items", JSON.stringify(this.items));
   

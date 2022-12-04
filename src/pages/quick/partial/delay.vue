@@ -181,7 +181,12 @@ export default {
         this.errorMsg = false; 
         this.successMsg = false;
         this.Msg = null;
-        
+        this.items.forEach(item => {
+        if (item.delay_date) {
+          item.delay_date = this.formatDate(item.delay_date);
+
+        }
+      });
             const formData = new FormData()
             formData.append('items', JSON.stringify(this.items))
 

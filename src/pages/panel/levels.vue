@@ -1,7 +1,7 @@
 <template>
   <div class="grid">
-    <div class="col-12 md:col-12">
-      <div class="card">
+    <div class="col-12 md:col-12 ">
+      <div class="card ">
         <div class="grid my-2 font-bold mr-10">
           <div class="col-8 md:col-8 py-4">
             <span class="font-bold text-xl">قائمة المراحل الدراسية </span>
@@ -226,6 +226,7 @@ export default {
 </script>
 
 <style scoped>
+
 .p-button:enabled:hover {
   background: #7C3AED;
   color: #ffffff;

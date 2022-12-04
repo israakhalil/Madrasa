@@ -347,5 +347,11 @@ export default {
     background-color: blueviolet;
     color: white;
   }
+
+
+.grid {
+  margin-left: 0rem;
+  margin-right: 0rem;
+}
   </style>
   

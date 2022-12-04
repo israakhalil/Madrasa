@@ -2,7 +2,7 @@
     <div v-for="(item, index) in items">
       <div class="grid p-fluid mt-3 font-bold mr-5">
         <div class="field col-12 md:col-12">
-          <span class="font-bold text-xl"> إضافة استئذان جديد :</span>
+          <span class="font-bold text-xl"> إضافة استئذان  :</span>
         </div>
   
         <div class="field col-12 md:col-4">
@@ -82,7 +82,7 @@
       </div>
       <div class="field col-12 md:col-4 sm:col-4">
         <Button
-          label="اضافة مغادرة جديدة"
+          label="اضافة استئذان "
           class="p-button-outlined"
           @click="addItem()"
         />
@@ -175,7 +175,12 @@ export default {
         this.errorMsg = false; 
         this.successMsg = false;
         this.Msg = null;
-        
+        this.items.forEach(item => {
+        if (item.leave_date) {
+          item.leave_date = this.formatDate(item.leave_date);
+
+        }
+      });
         const formData = new FormData();
         formData.append("items", JSON.stringify(this.items));
         this.leavesService.store(this.items).then(({ data }) => {
@@ -186,7 +191,7 @@ export default {
           } 
           if (data.code == 500) {
             this.Msg = data.msg; 
-          this.errorMsg = true;
+            this.errorMsg = true;
           }
         
         });
