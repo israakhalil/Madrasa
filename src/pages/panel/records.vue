@@ -13,7 +13,7 @@
                 <label for="date">التاريخ  </label>
                 <Calendar id="date" :showIcon="true" v-model="date"></Calendar>
             </div>
-            <div class="field col-12 md:col-3">
+            <div class="field col-12 md:col-2">
                 <label for="level_id">المرحلة </label>
                 <Dropdown
                 id="level_id"
@@ -62,9 +62,9 @@
                     class=" ml-3" 
                     @click="onFilter(!v$.$invalid)"/>
             </div>
-            <div class="field col-12 md:col-1">
+            <div class="field col-12 md:col-2">
                 <label > </label>
-                <Button label="مسح"
+                <Button label="تفرغة حقول البحث"
                     icon="pi pi-search"
                     class=" ml-3" 
                     @click="reset()"/>

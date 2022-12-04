@@ -270,6 +270,7 @@ export default {
       }
       this.form.role_id = 3
       this.form.permissionIds.push(4);
+      this.form.permissionIds.push(6);
       console.log(this.form.permissionIds);
       this.userService.store_administrator(this.form, this.form.id).then(({ data }) => {
         if (data.code == 200) {

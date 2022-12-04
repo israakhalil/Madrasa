@@ -1,9 +1,9 @@
 <template>
   <div class="grid">
-    <template v-if="!this.error">
-        <div id="right" class="md:col-2 sm:col-12 xs:col-12 lg:col-2 " style="height:100vh">
-      <div class="card p-fluid re_quick">
-        <div class="grid formgrid " >
+    <template v-if="!this.error" >
+        <div id="right" class="md:col-2 sm:col-12 xs:col-12 lg:col-2 " >
+      <div class="card p-fluid"  style="height: 87vh;">
+        <div class="grid formgrid  re_quick" >
 
           <div class="col-12 md:col-12 lg:col-12 "   >
             <div class="flex-1 justify-content-center text-center md:text-center" >
@@ -36,9 +36,10 @@
         </div>
       </div>
     </div>
+    
 
-    <div id="left" class="md:col-10 sm:col-12 xs:col-12" style="height:100vh">
-      <div class="card p-fluid  re_quick">
+    <div id="left" class="md:col-10 sm:col-12 xs:col-12">
+      <div class="card p-fluid">
           <div class="grid formgrid">
             <div
               v-for="(_class, index) in classes"
@@ -390,8 +391,16 @@ export default {
 <style lang="scss" scoped>
 
 .re_quick{
-  overflow-y: scroll;
-  height: 90vh;
+  overflow: auto;
+  height: 84vh;
+}
+.phone {
+    height: auto;
+   
+    overflow: hidden;
+    padding: 0;
+    border-radius: 3%;
+    border: 2px solid red;
 }
  .res_image{
   max-width: 100%;
@@ -409,6 +418,15 @@ export default {
 .card {
   border-radius: 0%;
   padding: 0rem;
+}
+
+.card {
+  border-radius: 0%;
+  /*padding: 0rem;*/
+}
+.grid {
+  margin-left: 0rem;
+  margin-right: 0rem;
 }
 .file-box {
   display: inline-block;
@@ -459,7 +477,7 @@ ul.p-listbox-list {
   right: 0;
   position: fixed;
   padding-right: 0%;
-  padding-left: 0%;
+  // padding-left: 0%;
   //    z-index: 1;
 }
 #left {

@@ -123,6 +123,7 @@
                 id="file"
                 class="inputfile"
                 @change="uploadFile"
+                accept=".xlsx"
               />
               <label for="file">
                 <span class="p-input-icon-left">
@@ -277,8 +278,7 @@ uploadFile(e) {
 
 },
   restform() {    
-          this.form.name= null,
-      this.form.attached_id = null
+          this.form= {}
       },
 
   onFilter() {
@@ -376,6 +376,14 @@ border-color: #7C3AED;
 }
 .p-dialog .p-dialog-footer button{
 width:100%
+}
+.card {
+  border-radius: 0%;
+  /*padding: 0rem;*/
+}
+.grid {
+  margin-left: 0rem;
+  margin-right: 0rem;
 }
 
 
