@@ -124,7 +124,7 @@ class="p-fluid font-bold text-lg">
   v-model:visible="deleteconfirm"
   :style="{ width: '450px' }"
   header=""
-  :modal="true"غ
+  :modal="true"
   class="font-bold text-3xl"
 >
   <div>
