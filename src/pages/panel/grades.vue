@@ -1,9 +1,9 @@
 <template>
   <div class="grid">
     <template v-if="!this.error" >
-        <div id="right" class="md:col-2 sm:col-12 xs:col-12 lg:col-2 " >
+        <div id="right" class="md:col-3 sm:col-12 xs:col-12 lg:col-3 " >
       <div class="card p-fluid"  style="height: 87vh;">
-        <div class="grid formgrid  re_quick" >
+        <div class="grid formgrid re_quick"  >
 
           <div class="col-12 md:col-12 lg:col-12 "   >
             <div class="flex-1 justify-content-center text-center md:text-center" >
@@ -23,13 +23,13 @@
 
           <!-- <div class="col-12 md:col-12 " style="height:50vh"  > -->
             <div class="font-bold  justify-content-center text-center md:text-center text-2xl pt-4 pb-4">الاضافات السريعة:</div>
-            <div class="flex-1 justify-content-center text-center md:text-center ">
+            <div class="flex-1 justify-content-center text-center md:text-center responsive-width ">
 
               <Button v-if="this.can('ABSENCE_ADD_EDIT')" label="اضافة غياب"  class="p-button-outlined mb-4" @click="this.$router.push({ name: 'quick-index', params: { type: 1 } })"/>
-              <Button  v-if="this.can('DELAY_ADD_EDIT')" label="اضافة تاخير" class="p-button-outlined mb-4"  @click="this.$router.push({ name: 'quick-index', params: { type: 2 } })"/>
-              <Button v-if="this.can('VIOLATION_ADD_EDIT')" label="اضافة مخالفة سلوكية" class="p-button-outlined mb-4" @click="this.$router.push({ name: 'quick-index', params: { type: 3 } })"/>
-              <Button v-if="this.can('LEAVE_ADD_EDIT')" label="اضافة استئذان" class="p-button-outlined mb-4" @click="this.$router.push({ name: 'quick-index', params: { type: 4 } })"/>
-              <Button v-if="this.can('BOOK_ADD_EDIT')" label="اضافة تسليم كتب" class="p-button-outlined mb-8" @click="this.$router.push({ name: 'quick-index', params: { type: 5 } })"/>
+              <Button  v-if="this.can('DELAY_ADD_EDIT')"  label="اضافة تاخير" class="p-button-outlined mb-4"  @click="this.$router.push({ name: 'quick-index', params: { type: 2 } })"/>
+              <Button v-if="this.can('VIOLATION_ADD_EDIT')"  label="اضافة مخالفة سلوكية" class="p-button-outlined mb-4" @click="this.$router.push({ name: 'quick-index', params: { type: 3 } })"/>
+              <Button v-if="this.can('LEAVE_ADD_EDIT')"  label="اضافة استئذان" class="p-button-outlined mb-4" @click="this.$router.push({ name: 'quick-index', params: { type: 4 } })"/>
+              <Button v-if="this.can('BOOK_ADD_EDIT')"  label="اضافة تسليم كتب" class="p-button-outlined mb-8" @click="this.$router.push({ name: 'quick-index', params: { type: 5 } })"/>
             </div>
           <!-- </div> -->
         </div>
@@ -38,12 +38,12 @@
     </div>
     
 
-    <div id="left" class="md:col-10 sm:col-12 xs:col-12">
-      <div class="card p-fluid">
+    <div id="left" class="md:col-9 sm:col-12 xs:col-12" style="height: 87vh;">
+      <div class="card p-fluid re_quick">
           <div class="grid formgrid">
             <div
               v-for="(_class, index) in classes"
-              class="md:col-3 mb-15 sm:col-4 xs:col-6 lg:mb-8">
+              class="md:col-4 mb-6 sm:col-4 xs:col-6 lg:mb-8">
               
                 <Card >
                 <template #header>
@@ -389,7 +389,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
+// @media screen and (max-width:  768px) {
+//   .responsive-width {
+//     font-size: 3vw;
+// }
+// }
+// .responsive-width {
+//     font-size: 3vw;
+// }
 .re_quick{
   overflow: auto;
   height: 84vh;
@@ -469,7 +476,7 @@ ul.p-listbox-list {
   list-style-type: disc !important;
 }
 #right .p-fluid .p-button {
-  width: 70%;
+  width: 85%;
   //   display: flex;
 }
 
@@ -486,7 +493,7 @@ ul.p-listbox-list {
 }
 
 #left .card {
-  padding: 50px;
+  padding: 30px;
 }
 
 #left .p-card {

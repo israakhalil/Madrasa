@@ -1,0 +1,54 @@
+
+    /* @media print{@page {direction: rtl}} */
+   table {
+        border-collapse: collapse;
+        width: 100%;
+        direction:rtl;
+        padding-top: 20px;
+      }
+      
+    th, td {
+        text-align: center !important;
+        direction:rtl;
+      }
+    
+      td:last-child {     display:none; }
+      th:last-child {     display:none; }
+
+      .name{
+        text-align: right;
+        display:block;
+        padding: 8px;
+        padding-top: 20px;
+        font-size: 25px;
+        font-weight: 700;
+
+
+      }
+
+      .div-right{
+        text-align: right;
+        margin-bottom: 2rem;
+      }
+
+      .button-dispaly{
+        display:none;
+      }
+
+      .mr-5{
+        text-align: right;
+       /* padding-top: 1rem; */
+      } 
+
+      .text-xl{
+        font-size: 1.1rem !important;
+    font-family: Tajawal;
+      }
+
+      .student_print_show{
+        display:block;
+      }
+
+      .student_print_hide{
+        display:none;
+      }

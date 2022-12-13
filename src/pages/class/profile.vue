@@ -4,7 +4,7 @@
       <div class="card">
         <div class="grid p-fluid mt-3 font-bold mr-5">
 
-          <div class="col-12 md:col-12 justify-content-right">
+          <div class="col-11 md:col-11 justify-content-right">
             <span class="font-bold text-xl">المراحل المدرسية <i class="pi pi-chevron-right"></i>
               {{ this.class.level_name }} <i class="pi pi-chevron-right"></i>
               <span style="cursor: pointer"
@@ -14,39 +14,50 @@
               </span>
             </span>
           </div>
-        </div>
-        <Student :id="id" />
-        <hr/>
+          <div class="col-1 md:col-1 ">
+            <Button 
+              width="70%"
+              label="طباعة"
+              class="p-button-outlined align-left"
+              @click="printall"
+              />
+            </div>
 
+        </div>
+        <div id="printall">
+        <Student :id="id" />
+        <hr class="student_print_hide"/>
+
+       
         <div class="grid p-fluid mt-5 font-bold mr-5">
             <span class="font-bold text-xl">البيانات المسجلة</span>
         </div>
 
-        <div v-if="this.can('ABSENCE_ADD_EDIT')" class="grid p-fluid mt-4 font-bold mr-5">
+        <div v-if="this.can('ABSENCE_ADD_EDIT')" class="grid p-fluid mt-5 font-bold mr-5">
         
-           <AbsenceStudent  :student_id="id" :class_id="class_id"/>
+           <AbsenceStudent  :student_id="id" :class_id="class_id" :student_name="this.student.name"/>
         </div>
 
         <div v-if="this.can('DELAY_ADD_EDIT')" class="grid p-fluid mt-5 font-bold mr-5">
         
-        <DelayStudent  :student_id="id" :class_id="class_id" />
+        <DelayStudent  :student_id="id" :class_id="class_id" :student_name="this.student.name" />
         </div>
    
         <div v-if="this.can('LEAVE_ADD_EDIT')" class="grid p-fluid mt-5 font-bold mr-5">
             
-            <LeaveStudent  :student_id="id" :class_id="class_id"/>
+            <LeaveStudent  :student_id="id" :class_id="class_id" :student_name="this.student.name" />
         </div>
 
         <div v-if="this.can('VIOLATION_ADD_EDIT')"  class="grid p-fluid mt-5 font-bold mr-5">
             
-            <ViolationStudent  :student_id="id" :class_id="class_id" />
+            <ViolationStudent  :student_id="id" :class_id="class_id" :student_name="this.student.name" />
         </div>
 
         <div v-if="this.can('BOOK_ADD_EDIT')" class="grid p-fluid mt-5 font-bold mr-5">
             
-            <BookStudent  :student_id="id" :class_id="class_id" />
+            <BookStudent  :student_id="id" :class_id="class_id" :student_name="this.student.name" />
         </div>
-
+      </div>
       </div>
     </div>
   </div>
@@ -82,7 +93,10 @@ export default {
                     this.student = data.data.Students[0];
                 }
             });
-        },
+      },
+      printall() {
+        this.$htmlToPaper('printall');
+      },
 
     },
     mounted() {

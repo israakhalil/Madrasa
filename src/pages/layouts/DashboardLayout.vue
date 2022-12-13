@@ -51,7 +51,7 @@ export default {
 
               },
                 {
-                   label:'المراحل',
+                   label:'الصفوف',
                    icon:'pi pi-fw pi-sitemap',
                    to: '/grades',
                   visible: () => (authorize.methods.can('GRADE_VIEW_ALL'))

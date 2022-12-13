@@ -328,9 +328,9 @@
 //     -webkit-box-shadow: none;
 // }
 
-// ::-webkit-scrollbar-thumb:window-inactive {
-//     background: #9fb6c3;
-// }
+::-webkit-scrollbar-thumb:window-inactive {
+    background: #9fb6c3;
+}
 
 ::-webkit-scrollbar {
     width: 15px;

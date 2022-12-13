@@ -11,8 +11,9 @@
               <Card style="cursor: pointer " class="mt-6" @click="getName(1)">
                 <template #content>
                   <div  class="flex-1 justify-content-center text-center md:text-center" >
-                    <i class =" pi pi-id-card"   style="font-size: 10rem; "/>
+                    <i class =" pi pi-id-card"   style="font-size: 16vh; "/>
                     <div class="font-bold text-2xl">
+                     
                         <span>النموذج الخاص بالطلاب</span>
                       </div>
                   </div> 
@@ -23,7 +24,7 @@
               <Card style="cursor: pointer " class="mt-6" @click="getName(2)">
                 <template #content>
                   <div  class="flex-1 justify-content-center text-center md:text-center" >
-                    <i class =" pi pi-id-card"   style="font-size: 10rem; "/>
+                    <i class =" pi pi-id-card"   style="font-size: 16vh; "/>
                     <div class="font-bold text-2xl">
                         <span>النموذج الخاص بالطالبات</span>
                       </div>
@@ -44,21 +45,21 @@
         <div class="card p-fluid" v-if="type==1">
             
           <div class="grid mt-2 font-bold mr-5">
-              <div class="col-8 md:col-8 justify-content-right">
+              <div class="col-6 md:col-6 lg:col-6 justify-content-right">
                 <span class="font-bold text-xl" style="color: var(--primary-color)">
                   النموذج الخاص بالطلاب
                 </span>
               </div>
-              <div class="col-4 md:col-4 justify-content-left">
+              <div class="col-6 md:col-6 lg:col-6 justify-content-left">
                 <div class="grid">
-                  <div class="field col-5">
+                  <div class="field col-8 md:col-8 lg:col-8">
                     <Button
                   label="ادخال بيانات الشهادة"
                   
                   class="p-button-outlined ml-3" 
                   @click="openNew"/>
                 </div>
-                <div class="field col-5">
+                <div class="field col-4 md:col-4 lg:col-4">
                   <Button
                   label="طباعة"
                   icon="pi pi-print"
@@ -99,14 +100,14 @@
                 </div>
 
                 <div class="col-12 md:col-12 lg:col-12 mt-4">
-                  <div class="grid justify-content-center text-center">
+                  <div class="grid grid1 justify-content-center text-center">
                     <div class="field col-3" style="border-bottom: 4px ridge;" > {{certification.date}} </div>
                     <div class="field col-3">  </div>
                     <div class="field col-3">  </div>
                     <div class="field col-3 " style="border-bottom: 4px ridge;">{{certification.sign}}  </div>
                   </div>
 
-                  <div class="grid justify-content-center text-center">
+                  <div class="grid grid1 justify-content-center text-center">
                     <div class="field col-3" > التاريخ </div>
                     <div class="field col-3">  </div>
                     <div class="field col-3">  </div>
@@ -120,21 +121,21 @@
         <div class="card p-fluid" v-if="type==2">
             
           <div class="grid mt-2 font-bold mr-5">
-              <div class="col-8 md:col-8 justify-content-right">
+              <div class="col-6 md:col-6 lg:col-6 justify-content-right">
                 <span class="font-bold text-xl" style="color: var(--primary-color)">
                   النموذج الخاص بالطالبات
                 </span>
               </div>
-              <div class="col-4 md:col-4 justify-content-left">
+              <div class="col-6 md:col-6 lg:col-6 justify-content-left">
                 <div class="grid">
-                  <div class="field col-5">
+                  <div class="field col-8 md:col-8 lg:col-8">
                     <Button
                   label="ادخال بيانات الشهادة"
                   
                   class="p-button-outlined ml-3" 
                   @click="openNew"/>
                 </div>
-                <div class="field col-5">
+                <div class="field col-4 md:col-4 lg:col-4">
                   <Button
                   label="طباعة"
                   icon="pi pi-print"
@@ -171,19 +172,19 @@
 
                 <div class="col-12 md:col-12 lg:col-12 mt-0">
                 <span class="text-2xl">  
-                 {{certification.class_name}} على انتظامه وعدم غيابه خلال شهر  {{certification.month}} متمنيين له دوام التوفيق 
+                  {{certification.text}}
                  </span>
                 </div>
 
                 <div class="col-12 md:col-12 lg:col-12 mt-4">
-                  <div class="grid justify-content-center text-center">
+                  <div class="grid grid1 justify-content-center text-center">
                     <div class="field col-3" style="border-bottom: 4px ridge;" > {{certification.date}} </div>
                     <div class="field col-3">  </div>
                     <div class="field col-3">  </div>
                     <div class="field col-3 " style="border-bottom: 4px ridge;">{{certification.sign}}  </div>
                   </div>
 
-                  <div class="grid justify-content-center text-center">
+                  <div class="grid grid1 justify-content-center text-center">
                     <div class="field col-3" > التاريخ </div>
                     <div class="field col-3">  </div>
                     <div class="field col-3">  </div>

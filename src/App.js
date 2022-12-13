@@ -25,6 +25,7 @@ const options = {
 
     'themes/lara-light-purple/_tajawal.scss',
     '/themes/lara-light-purple/landscape.css',
+    '/themes/lara-light-purple/absence.css',
   ],
   timeout: 1000, // default timeout before the print window appears
   autoClose: true, // if false, the window will not close after printing

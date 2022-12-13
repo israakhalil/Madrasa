@@ -1,11 +1,11 @@
 <template>
 
-    <div class="col-10 md:col-10 mr-10">
+    <div class="col-9 md:col-9 div-right">
             <span class="font-bold text-xl" style="color: var(--primary-color)">
             المخالفات السلوكية
             </span>
     </div>
-    <div class="col-2 md:col-2">
+    <div class="col-2 md:col-2 button-dispaly" >
     <Button 
         width="70%"
         label=" اضافة مخالفة"
@@ -15,23 +15,38 @@
         v-if="this.can('VIOLATION_ADD_EDIT')"
         />
     </div>
-    <div class="col-12 md:col-12 mr-10">
+    <div class="col-1 md:col-1 button-dispaly">
+    <Button 
+            width="70%"
+            label="طباعة"
+            class="p-button-outlined align-left"
+            @click="printViolations"
+            v-if="this.can('VIOLATION_ADD_EDIT')"
+            />
+    </div>
+    <div class="col-12 md:col-12 mr-10" id="printViolations">
+      <!-- <div hidden class="name">  الطالب : {{student_name}}</div> -->
+
     <DataTable  :value="student_violations" class="p-datatable-lg font-bold" showGridlines  responsiveLayout="scroll">
     <Column field="id_number" header="الرقم ">
         <template #body="slotProps">
                 {{slotProps.index+1}}
             </template>
             </Column>
-
+    <Column field="violation_day" header="يوم المخالفة">
+    <template #body="slotProps">
+        {{getDay(slotProps.data.violation_date)}}
+    </template>
+      </Column>
     <Column field="violation_date" header="تاريخ المخالفة">
     </Column>
     <Column field="action_performed" header=" الاجراء المنفذ">
         
     </Column>
-    <Column field="violation_procedure_id" header="نوع الاجراء">
+    <Column field="violation_procedure_name" header="نوع الاجراء">
         
     </Column>
-    <Column field="violation_degree_id" header="درجة المخالفة">
+    <Column field="violation_degree_name" header="درجة المخالفة">
         
     </Column>
     <Column field="student_signature" header="توقيع الطالب">
@@ -178,7 +193,7 @@ export default {
 setup () {
     return { v$: useVuelidate() }
 },
-props: ["student_id",'class_id'],
+props: ["student_id",'class_id','student_name'],
 
 
 data() {
@@ -291,7 +306,10 @@ methods: {
             this.student_violations = data.data.violations;
         }
     });
-    }
+  },
+  printViolations () {
+        this.$htmlToPaper('printViolations');
+      },
 
 },
 

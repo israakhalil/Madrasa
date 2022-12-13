@@ -1,3 +1,4 @@
+
 .centered {
     position: absolute;
     top:43%;
@@ -43,13 +44,13 @@
     color: #ffffff;
 } */
 
-.grid {
+ .grid1 {
     display: flex;
     flex-wrap: wrap;
     margin-right: -0.5rem;
     margin-left: -0.5rem;
     margin-top: -0.5rem;
-}
+} 
 
 .grid > .col, .grid > [class*=col] {
     box-sizing: border-box;

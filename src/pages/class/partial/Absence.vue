@@ -1,11 +1,12 @@
 <template>
-
-        <div class="col-10 md:col-10 mr-10">
-                <span class="font-bold text-xl" style="color: var(--primary-color)">
+<div class="col-12 md:col-12 mt-5" id="printAbsence">
+    <div class="grid mt-5">
+        <div class="col-9 md:col-9 div-right" >
+                <span class="font-bold text-xl " style="color: var(--primary-color)">
                 الغياب
                 </span>
         </div>
-        <div class="col-2 md:col-2">
+        <div class="col-2 md:col-2 button-dispaly">
         <Button 
             width="70%"
             label=" اضافة غياب"
@@ -15,14 +16,31 @@
             v-if="this.can('ABSENCE_ADD_EDIT')"
             />
         </div>
-        <div class="col-12 md:col-12 mr-10">
-        <DataTable  :value="student_absences" class="p-datatable-lg font-bold" showGridlines  responsiveLayout="scroll">
+        <div class="col-1 md:col-1 button-dispaly">
+        <Button 
+            width="70%"
+            label="طباعة"
+            class="p-button-outlined align-left"
+            @click="printAbsence"
+            v-if="this.can('ABSENCE_ADD_EDIT')"
+            />
+        </div>
+    </div>
+  
+     <div class="col-12 md:col-12 mr-10" >
+         <!-- <div hidden class="name"> غياب الطالب : {{student_name}}</div> -->
+        <DataTable  :value="student_absences"  class="table td p-datatable-lg font-bold"   showGridlines  responsiveLayout="scroll">
         <Column field="id_number" header="الرقم ">
             <template #body="slotProps">
                     {{slotProps.index+1}}
                 </template>
                 </Column>
-
+                
+        <Column field="absence_day" header="يوم الغياب">
+            <template #body="slotProps">
+                {{getDay(slotProps.data.absence_date)}}
+            </template>
+        </Column>
         <Column field="absence_date" header="تاريخ الغياب">
         </Column>
         <Column field="absence_reason" header="سبب الغياب">
@@ -46,6 +64,8 @@
         </DataTable>
    
     </div>
+</div>
+
 
     <Dialog v-model:visible="AbsenceDialog" :style="{width: '450px'}" :header="header" :modal="true" 
     class="p-fluid font-bold text-lg">
@@ -144,7 +164,7 @@ export default {
     setup () {
         return { v$: useVuelidate() }
     },
-    props: ["student_id",'class_id'],
+    props: ["student_id",'class_id','student_name'],
 
     data() {
         return {
@@ -243,7 +263,13 @@ export default {
                 this.student_absences = data.data.absences;
             }
         });
-        }
+        },
+        printAbsence () {
+      // Pass the element id here
+        this.$htmlToPaper('printAbsence');
+    
+
+      },
 
     },
 

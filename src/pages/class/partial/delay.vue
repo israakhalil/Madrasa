@@ -1,11 +1,11 @@
 <template>
 
-    <div class="col-10 md:col-10 mr-10">
+    <div class="col-9 md:col-9 div-right">
             <span class="font-bold text-xl" style="color: var(--primary-color)">
             التاخير
             </span>
     </div>
-    <div class="col-2 md:col-2">
+    <div class="col-2 md:col-2 button-dispaly">
     <Button 
         width="70%"
         label=" اضافة تاخير"
@@ -15,14 +15,29 @@
         v-if="this.can('DELAY_ADD_EDIT')"
         />
     </div>
-    <div class="col-12 md:col-12 mr-10">
+    <div class="col-1 md:col-1 button-dispaly">
+        <Button 
+            width="70%"
+            label="طباعة"
+            class="p-button-outlined align-left"
+            @click="prinDelays"
+            v-if="this.can('DELAY_ADD_EDIT')"
+            />
+        </div>
+    <div class="col-12 md:col-12 mr-10" id="prinDelays">
+        <!-- <div hidden class="name">  الطالب : {{student_name}}</div> -->
+
     <DataTable  :value="student_delays" class="p-datatable-lg font-bold" showGridlines  responsiveLayout="scroll">
     <Column field="id_number" header="الرقم ">
         <template #body="slotProps">
                 {{slotProps.index+1}}
             </template>
             </Column>
-
+    <Column field="delay_day" header="يوم التاخير">
+    <template #body="slotProps">
+        {{getDay(slotProps.data.delay_date)}}
+    </template>
+      </Column>
     <Column field="delay_date" header="تاريخ التاخير">
     </Column>
     <Column field="delay_reason" header="سبب التاخير">
@@ -138,7 +153,7 @@ export default {
 setup () {
     return { v$: useVuelidate() }
 },
-props: ["student_id",'class_id'],
+props: ["student_id",'class_id','student_name'],
 
 data() {
     return {
@@ -227,7 +242,10 @@ methods: {
             this.student_delays = data.data.delays;
         }
     });
-    }
+    },
+    printDelays () {
+        this.$htmlToPaper('prinDelays');
+      },
 
 },
 

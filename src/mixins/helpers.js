@@ -1,4 +1,5 @@
 import moment from "moment";
+import 'moment/min/locales.min'
 export default {
 
 
@@ -26,6 +27,34 @@ export default {
         getConstant(arr, value){
             let obj= arr.find((item)=>item.id==value )
             return obj.name
+        },
+
+        getDay(date) {
+            var day = moment(date, "YYYY-MM-DD HH:mm:ss").locale("ar").format('dddd')
+            //let day = dt.format('dddd');
+            // Thursday
+            if (day == 'Thursday') {
+                return "الخميس"
+            }
+            else if (day == "Wednesday") {
+                return "الاربعاء"
+            }
+            else if(day == 'Tuesday') {
+                return 'الثلاثاء'
+            }
+            else if (day == 'Monday') {
+                return "الاثنين"
+            }
+            else if (day == "Sunday") {
+                return 'الاحد'
+            }
+            else if (day == 'Saturday') {
+                return 'السبت'
+            }
+            else if (day == 'Friday') {
+                return 'الجمعة'
+            }
+            // return day
         }
  
     }

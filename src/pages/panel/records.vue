@@ -9,7 +9,7 @@
             </div>
 
             <div class="grid p-fluid mt-3 font-bold mr-5">
-            <div class="field col-12 md:col-3">
+            <div class="field col-12 md:col-2">
                 <label for="date">التاريخ  </label>
                 <Calendar id="date" :showIcon="true" v-model="date"></Calendar>
             </div>
@@ -62,7 +62,7 @@
                     class=" ml-3" 
                     @click="onFilter(!v$.$invalid)"/>
             </div>
-            <div class="field col-12 md:col-2">
+            <div class="field col-12 md:col-3">
                 <label > </label>
                 <Button label="تفرغة حقول البحث"
                     icon="pi pi-search"

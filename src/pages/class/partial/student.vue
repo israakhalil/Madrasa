@@ -1,17 +1,16 @@
 <template>
         <div class="grid p-fluid mt-5 font-bold mr-5">
-          <div class="col-10 md:col-10 justify-content-right mr-10">
+          <div class="col-9 md:col-9 justify-content-right mr-10">
             <span class="font-bold text-xl" style="color: var(--primary-color)">
               البيانات الرئيسية
             </span>
           </div>
-          <div class="col-2 md:col-2">
+          <div class="col-3 md:col-3 button-dispaly">
             <Button
               width="70%"
               label=" تعديل بيانات الطالب"
               icon="pi pi-pencil"
-              class="p-button-outlined ml-10"
-              
+              class="p-button-outlined ml-10"            
               v-if="this.can('STUDENT_ADD_EDIT')"
               @click="openEdit(this.student)"/>
           
@@ -20,12 +19,13 @@
           
         </div>
 
-        <div class="grid p-fluid mt-5 font-bold mr-5">
+        <div class="grid p-fluid mt-5 font-bold mr-5 student_print_hide">
       <div class="field col-12 md:col-2">
         <label for="name">اسم الطالب </label>
         <InputText
           id="name" disabled
           v-model.trim="student.name"
+         
         />
       </div>
       <div class="field col-12 md:col-2">
@@ -68,10 +68,20 @@
          </div>
 
 
+         <div class="col-12 md:col-12 mt-5" >
+            <DataTable  :value="student1" class="p-datatable-lg font-bold student_print_show" showGridlines  responsiveLayout="scroll">
+                <Column field="name" header="اسم الطالب"></Column>
+                <Column field="id_number" header="رقم الهوية"> </Column>
+                <Column field="date_of_birth" header="تاريخ الميلاد"></Column>
+                <Column field="phone_1" header=" هاتف ولي الامر (الاول)"></Column>
+                <Column field="phone_2" header=" هاتف ولي الامر (الثاني)"></Column>
+                <Column  header="  الاجراءات" style="max-width:8rem"></Column>
+            </DataTable>
+      </div>
          <Dialog v-model:visible="StudentEditDialog" :style="{width: '450px'}" 
         header="تعديل بيانات الطالب" :modal="true" 
-    class="p-fluid font-bold text-lg">
-<form @submit.prevent="save(!v$.$invalid)">
+            class="p-fluid font-bold text-lg">
+        <form @submit.prevent="save(!v$.$invalid)">
 
 
         <div class="field">
@@ -175,7 +185,8 @@ export default {
         getStudents() {
             this.studentsService.index({ id: this.id }).then(({ data }) => {
                 if (data.code == 200) {
-                    this.student = data.data.Students[0];
+                  this.student = data.data.Students[0];
+                    this.student1=  data.data.Students
                 }
             });
         },
@@ -219,5 +230,8 @@ border-color: #7C3AED;
 }
 .p-dialog .p-dialog-footer button{
 width:100%
+}
+.student_print_show{
+  display: none;
 }
 </style>

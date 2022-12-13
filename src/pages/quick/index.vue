@@ -16,13 +16,13 @@
              <div v-if="this.can('DELAY_ADD_EDIT')" class="field col-12 md:col-2 sm:col-4">
                 <Button label="اضافة تاخير" class="p-button-outlined"  :class="[type==2?'x':'']"  @click="this.$router.push({ name: 'quick-index', params: { type: 2 } })"/>
              </div>
-             <div v-if="this.can('VIOLATION_ADD_EDIT')" class="field col-12 md:col-2 sm:col-4">
+             <div v-if="this.can('VIOLATION_ADD_EDIT')" class="field col-12 md:col-3 sm:col-4">
                 <Button label="اضافة مخالفة سلوكية" class="p-button-outlined" :class="[type==3?'x':'']" @click="this.$router.push({ name: 'quick-index', params: { type: 3 } })"/>
              </div>
              <div v-if="this.can('LEAVE_ADD_EDIT')" class="field col-12 md:col-2 sm:col-4">
                 <Button label="اضافة استئذان" class="p-button-outlined" :class="[type==4?'x':'']" @click="this.$router.push({ name: 'quick-index', params: { type: 4 } })"/>
              </div>
-             <div v-if="this.can('BOOK_ADD_EDIT')" class="field col-12 md:col-2 sm:col-4">
+             <div v-if="this.can('BOOK_ADD_EDIT')" class="field col-12 md:col-3 sm:col-4">
                 <Button label="اضافة تسليم كتب" class="p-button-outlined" :class="[type==5?'x':'']" @click="this.$router.push({ name: 'quick-index', params: { type: 5 } })"/>
              </div>
             </div>
