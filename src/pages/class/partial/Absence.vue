@@ -1,6 +1,6 @@
 <template>
-<div class="col-12 md:col-12 mt-5" id="printAbsence">
-    <div class="grid mt-5">
+<div class="col-12 md:col-12" id="printAbsence">
+    <div class="grid">
         <div class="col-9 md:col-9 div-right" >
                 <span class="font-bold text-xl " style="color: var(--primary-color)">
                 الغياب

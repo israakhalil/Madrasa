@@ -1,7 +1,7 @@
 <template>
-    <div class="grid">
-      <div class="col-12 md:col-12">
-        <div class="card">
+    <div class="grid list_container" style="height: 87vh; padding:0rem;">
+      <div class="col-12 md:col-12 re_quick">
+        <div class="card list_container2">
           <div class="grid p-fluid mt-3 font-bold mr-5">
               <div class="col-12 md:col-12 justify-content-right">
                 <span class="font-bold text-xl ">المراحل المدرسية <i class="pi pi-chevron-right"></i> <span style="color: var(--primary-color)">{{this.name}}</span></span>
@@ -207,6 +207,15 @@ export default {
 .p-button.p-button-outlined:enabled:hover {
     background-color: blueviolet;
     color: white;
+}
+::-webkit-scrollbar {
+    width: 14px !important;
+
+  }
+
+  .grid {
+  margin-left: 0rem;
+  margin-right: 0rem;
 }
   </style>
   

@@ -1,7 +1,7 @@
 <template>
-  <div class="grid">
-    <div class="col-12 md:col-12">
-      <div class="card">
+  <div class="grid list_container" style="height: 87vh">
+    <div class="col-12 md:col-12 re_quick">
+      <div class="card list_container2">
         <div class="grid p-fluid mt-3 font-bold mr-5">
 
           <div class="col-11 md:col-11 justify-content-right">
@@ -131,4 +131,12 @@ export default {
   background-color: blueviolet;
   color: white;
 }
+.grid {
+  margin-left: 0rem;
+  margin-right: 0rem;
+}
+::-webkit-scrollbar {
+    width: 14px !important;
+
+  }
 </style>

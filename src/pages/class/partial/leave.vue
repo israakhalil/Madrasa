@@ -1,5 +1,6 @@
 <template>
-
+<div class="col-12 md:col-12" id="printLeaves">
+    <div class="grid">
     <div class="col-9 md:col-9 div-right">
             <span class="font-bold text-xl" style="color: var(--primary-color)">
             الاذونات
@@ -24,7 +25,8 @@
             v-if="this.can('LEAVE_ADD_EDIT')"
             />
     </div>
-    <div class="col-12 md:col-12 mr-10" id="printLeaves">
+    </div>
+    <div class="col-12 md:col-12 mr-10" >
         <!-- <div hidden class="name">  الطالب : {{student_name}}</div> -->
 
     <DataTable  :value="student_leaves" class="p-datatable-lg font-bold" showGridlines  responsiveLayout="scroll">
@@ -61,7 +63,7 @@
     </DataTable>
 
 </div>
-
+</div>
 <Dialog v-model:visible="LeaveDialog" :style="{width: '450px'}" :header="header" :modal="true" 
 class="p-fluid font-bold text-lg">
 

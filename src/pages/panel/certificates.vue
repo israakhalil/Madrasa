@@ -1,10 +1,10 @@
 <template>
-    <div class="grid">
-          <div id="right" class="md:col-2 sm:col-12 xs:col-12 lg:col-2 " >
-        <div class="card p-fluid">
-          <div class="grid formgrid">
+    <div class="grid"  style="height: 87vh;">
+          <div id="right" class="md:col-3 sm:col-12 xs:col-12 lg:col-3 " >
+        <div class="card p-fluid re_quick list_container" >
+          <div class="grid formgrid ">
   
-            <div class="col-12 md:col-12 lg:col-12" style="height:100vh">
+            <div class="col-12 md:col-12 lg:col-12 list_container2">
               <div class="flex-1 justify-content-center text-center md:text-center" >
                 <div class="font-bold text-2xl pt-7 " style="cursor: pointer"> الشهادات</div>
               </div>
@@ -40,11 +40,11 @@
         </div>
       </div>
   
-      <div id="left" class="md:col-10 sm:col-12 xs:col-12 " >
+      <div id="left" class="md:col-9 sm:col-12 xs:col-12 " >
 
-        <div class="card p-fluid" v-if="type==1">
+        <div class="card p-fluid " v-if="type==1">
             
-          <div class="grid mt-2 font-bold mr-5">
+          <div class="grid mt-2 font-bold mr-5" >
               <div class="col-6 md:col-6 lg:col-6 justify-content-right">
                 <span class="font-bold text-xl" style="color: var(--primary-color)">
                   النموذج الخاص بالطلاب
@@ -118,9 +118,9 @@
             </div>
         </div>
 
-        <div class="card p-fluid" v-if="type==2">
+        <div class="card p-fluid " v-if="type==2">
             
-          <div class="grid mt-2 font-bold mr-5">
+          <div class="grid mt-2 font-bold mr-5 ">
               <div class="col-6 md:col-6 lg:col-6 justify-content-right">
                 <span class="font-bold text-xl" style="color: var(--primary-color)">
                   النموذج الخاص بالطالبات
@@ -308,10 +308,10 @@
 
 <style lang="scss" scoped>
 
-.re_quick{
-  overflow-y: scroll;
-  height: 90vh;
-}
+// .re_quick{
+//   overflow-y: scroll;
+//   height: 90vh;
+// }
 .centered {
   position: absolute;
   top: 51%;
@@ -383,5 +383,7 @@
 //   background-size: 100% 100%;
   
 // }
-
+::-webkit-scrollbar {
+    width: 14px;
+  }
 </style>

@@ -1,6 +1,7 @@
 <template>
-
-    <div class="col-9 md:col-9 div-right">
+<div class="col-12 md:col-12" id="printDelays">
+    <div class="grid">
+        <div class="col-9 md:col-9 div-right">
             <span class="font-bold text-xl" style="color: var(--primary-color)">
             التاخير
             </span>
@@ -20,13 +21,14 @@
             width="70%"
             label="طباعة"
             class="p-button-outlined align-left"
-            @click="prinDelays"
+            @click="printDelays"
             v-if="this.can('DELAY_ADD_EDIT')"
             />
         </div>
-    <div class="col-12 md:col-12 mr-10" id="prinDelays">
-        <!-- <div hidden class="name">  الطالب : {{student_name}}</div> -->
+    </div>
 
+   
+     <div class="col-12 md:col-12 mr-10" >
     <DataTable  :value="student_delays" class="p-datatable-lg font-bold" showGridlines  responsiveLayout="scroll">
     <Column field="id_number" header="الرقم ">
         <template #body="slotProps">
@@ -61,7 +63,7 @@
     </DataTable>
 
 </div>
-
+</div>
 <Dialog v-model:visible="DelayDialog" :style="{width: '450px'}" :header="header" :modal="true" 
 class="p-fluid font-bold text-lg">
 
@@ -244,7 +246,7 @@ methods: {
     });
     },
     printDelays () {
-        this.$htmlToPaper('prinDelays');
+        this.$htmlToPaper('printDelays');
       },
 
 },

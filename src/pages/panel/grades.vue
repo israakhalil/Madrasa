@@ -2,10 +2,10 @@
   <div class="grid">
     <template v-if="!this.error" >
         <div id="right" class="md:col-3 sm:col-12 xs:col-12 lg:col-3 " >
-      <div class="card p-fluid"  style="height: 87vh;">
+      <div class="card p-fluid list_container"  style="height: 87vh;">
         <div class="grid formgrid re_quick"  >
 
-          <div class="col-12 md:col-12 lg:col-12 "   >
+          <div class="col-12 md:col-12 lg:col-12 list_container2"   >
             <div class="flex-1 justify-content-center text-center md:text-center" >
               <div class="font-bold text-2xl py-3" style="cursor: pointer" @click="filterClasses">المراحل المدرسية:</div>
             </div>
@@ -38,9 +38,9 @@
     </div>
     
 
-    <div id="left" class="md:col-9 sm:col-12 xs:col-12" style="height: 87vh;">
-      <div class="card p-fluid re_quick">
-          <div class="grid formgrid">
+    <div id="left" class="md:col-9 sm:col-12 xs:col-12 list_container" style="height: 87vh;">
+      <div class="card p-fluid re_quick ">
+          <div class="grid formgrid list_container2">
             <div
               v-for="(_class, index) in classes"
               class="md:col-4 mb-6 sm:col-4 xs:col-6 lg:mb-8">
@@ -397,10 +397,7 @@ export default {
 // .responsive-width {
 //     font-size: 3vw;
 // }
-.re_quick{
-  overflow: auto;
-  height: 84vh;
-}
+
 .phone {
     height: auto;
    
@@ -548,4 +545,20 @@ ul.p-listbox-list {
     width:100%
 }
 
+
+// .list_container {
+//   direction: ltr;
+//   overflow:auto;
+// }
+// .list_container2 {
+//   direction: rtl;
+//   overflow:auto;
+// }
+// .re_quick{
+//   overflow: auto;
+//   height: 80vh;
+// }
+::-webkit-scrollbar {
+    width: 14px;
+  }
 </style>

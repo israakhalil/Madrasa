@@ -1,7 +1,7 @@
 <template>
-  <div class="grid" >
-    <div class="col-12 md:col-12">
-      <div class="card">
+  <div class="grid list_container" style="height: 87vh; padding:0rem;" >
+    <div class="col-12 md:col-12 re_quick">
+      <div class="card list_container2">
         <div class="grid my-2 font-bold mr-10 ">
           <div class="col-6 md:col-6 py-4">
             <span class="font-bold text-xl">قائمة الاداريين </span>
@@ -374,5 +374,8 @@ a {
   margin-right: 0rem;
 }
 
+::-webkit-scrollbar {
+    width: 14px !important;
 
+  }
 </style>

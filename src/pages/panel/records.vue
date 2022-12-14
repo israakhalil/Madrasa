@@ -1,8 +1,8 @@
 <template>
-    <div class="grid">
-      <div class="col-12 md:col-12">
-        <div class="card">
-            <div class="grid p-fluid mt-3 font-bold mr-5">
+    <div class="grid list_container" style="height: 87vh; padding:0rem;">
+      <div class="col-12 md:col-12 re_quick" >
+        <div class="card  list_container2">
+            <div class="grid p-fluid mt-3 font-bold mr-5  ">
                 <div class="col-12 md:col-12 justify-content-right">
                     <span class="font-bold text-xl">السجلات المدرسية</span>
                 </div>
@@ -71,85 +71,85 @@
             </div>
            
 
-    </div>
-    <template v-if="filter.type==1 || filter.type==0 ">
-        <div class="grid p-fluid mt-4 font-bold mr-5">    
-                <div class="col-12 md:col-12 mr-10">
-                    <DataTable  :value="absences" class="p-datatable-lg font-bold" showGridlines  responsiveLayout="scroll">
-                        <Column field="id_number" header="الرقم ">
-                            <template #body="slotProps">
-                                    {{slotProps.index+1}}
-                            </template>
-                        </Column>
-                        <Column field="student_name" header="اسم الطالب"></Column>
-                        <Column field="absence_date" header="تاريخ الغياب"></Column>
-                        <Column field="absence_reason" header="سبب الغياب"></Column>
-                        <Column field="absence_type_name" header="نوع الغياب"></Column>
-                        <Column field="teacher_signature" header=" توقيع المعلم"></Column>
-                    </DataTable>   
-                </div>
             </div>
-    </template>
-
-    <template v-if="filter.type==2 || filter.type==0 ">
-  
-            <div class="grid p-fluid mt-5 font-bold mr-5">
-                <div class="col-12 md:col-12 mr-10">
-                    <DataTable  :value="delays" class="p-datatable-lg font-bold" showGridlines  responsiveLayout="scroll">
-                        <Column field="id_number" header="الرقم ">
-                            <template #body="slotProps">
-                                    {{slotProps.index+1}}
-                            </template>
-                        </Column>
-                        <Column field="student_name" header="اسم الطالب"></Column>
-                        <Column field="delay_date" header="تاريخ التاخير"></Column>
-                        <Column field="delay_reason" header="سبب التاخير"></Column>
-                        <Column field="delay_amount" header="مقدار التاخير"></Column>
-                        <Column field="student_signature" header=" توقيع الطالب"></Column>
-                    </DataTable>
-                </div>
-            </div>
-        </template>  
-        <template v-if="filter.type==3 || filter.type==0 ">
-            <div class="grid p-fluid mt-5 font-bold mr-5"> 
-                <div class="col-12 md:col-12 mr-10">
-                    <DataTable  :value="violations" class="p-datatable-lg font-bold" showGridlines  responsiveLayout="scroll">
-                        <Column field="id_number" header="الرقم ">
-                            <template #body="slotProps">
-                                    {{slotProps.index+1}}
-                                </template>
-                        </Column>
-                        <Column field="student_name" header="اسم الطالب"></Column>
-                        <Column field="violation_date" header="تاريخ المخالفة"></Column>
-                        <Column field="action_performed" header=" الاجراء المنفذ"></Column>
-                        <Column field="violation_procedure_id" header="نوع الاجراء"></Column>
-                        <Column field="violation_degree_id" header="درجة المخالفة"></Column>
-                        <Column field="student_signature" header="توقيع الطالب"></Column>
-                        <Column field="suprvisore_signature" header=" توقيع الاداري"></Column>
-                    </DataTable>
-
-                </div>
-            </div>
-        </template>      
-        <template v-if="filter.type==4 || filter.type==0 ">
-   
-            <div class="grid p-fluid mt-5 font-bold mr-5">         
-                <div class="col-12 md:col-12 mr-10">
-                    <DataTable  :value="leaves" class="p-datatable-lg font-bold" showGridlines  responsiveLayout="scroll">
-                        <Column  header="الاستئذان ">
-                            <template #body="slotProps">
-                                    {{slotProps.index+1}}
-                                </template>
+            <template v-if="filter.type==1 || filter.type==0 ">
+                <div class="grid p-fluid mt-4 font-bold mr-5">    
+                        <div class="col-12 md:col-12 mr-10">
+                            <DataTable  :value="absences" class="p-datatable-lg font-bold" showGridlines  responsiveLayout="scroll">
+                                <Column field="id_number" header="الرقم ">
+                                    <template #body="slotProps">
+                                            {{slotProps.index+1}}
+                                    </template>
                                 </Column>
-                         <Column field="student_name" header="اسم الطالب"></Column>
-                        <Column field="leave_date" header="تاريخ الاستئذان"></Column>
-                        <Column field="leave_reason" header="سبب الاستئذان"></Column>
-                        <Column field="leave_time" header="وقت الاستئذان"></Column>
-                        <Column field="student_signature" header=" توقيع الطالب"></Column>
-                    </DataTable>
+                                <Column field="student_name" header="اسم الطالب"></Column>
+                                <Column field="absence_date" header="تاريخ الغياب"></Column>
+                                <Column field="absence_reason" header="سبب الغياب"></Column>
+                                <Column field="absence_type_name" header="نوع الغياب"></Column>
+                                <Column field="teacher_signature" header=" توقيع المعلم"></Column>
+                            </DataTable>   
+                        </div>
+                    </div>
+            </template>
+
+            <template v-if="filter.type==2 || filter.type==0 ">
+    
+                <div class="grid p-fluid mt-5 font-bold mr-5">
+                    <div class="col-12 md:col-12 mr-10">
+                        <DataTable  :value="delays" class="p-datatable-lg font-bold" showGridlines  responsiveLayout="scroll">
+                            <Column field="id_number" header="الرقم ">
+                                <template #body="slotProps">
+                                        {{slotProps.index+1}}
+                                </template>
+                            </Column>
+                            <Column field="student_name" header="اسم الطالب"></Column>
+                            <Column field="delay_date" header="تاريخ التاخير"></Column>
+                            <Column field="delay_reason" header="سبب التاخير"></Column>
+                            <Column field="delay_amount" header="مقدار التاخير"></Column>
+                            <Column field="student_signature" header=" توقيع الطالب"></Column>
+                        </DataTable>
+                    </div>
                 </div>
-            </div>
-        </template>    
+            </template>  
+            <template v-if="filter.type==3 || filter.type==0 ">
+                <div class="grid p-fluid mt-5 font-bold mr-5"> 
+                    <div class="col-12 md:col-12 mr-10">
+                        <DataTable  :value="violations" class="p-datatable-lg font-bold" showGridlines  responsiveLayout="scroll">
+                            <Column field="id_number" header="الرقم ">
+                                <template #body="slotProps">
+                                        {{slotProps.index+1}}
+                                    </template>
+                            </Column>
+                            <Column field="student_name" header="اسم الطالب"></Column>
+                            <Column field="violation_date" header="تاريخ المخالفة"></Column>
+                            <Column field="action_performed" header=" الاجراء المنفذ"></Column>
+                            <Column field="violation_procedure_id" header="نوع الاجراء"></Column>
+                            <Column field="violation_degree_id" header="درجة المخالفة"></Column>
+                            <Column field="student_signature" header="توقيع الطالب"></Column>
+                            <Column field="suprvisore_signature" header=" توقيع الاداري"></Column>
+                        </DataTable>
+
+                    </div>
+                </div>
+            </template>      
+            <template v-if="filter.type==4 || filter.type==0 ">
+    
+                <div class="grid p-fluid mt-5 font-bold mr-5">         
+                    <div class="col-12 md:col-12 mr-10">
+                        <DataTable  :value="leaves" class="p-datatable-lg font-bold" showGridlines  responsiveLayout="scroll">
+                            <Column  header="الاستئذان ">
+                                <template #body="slotProps">
+                                        {{slotProps.index+1}}
+                                    </template>
+                                    </Column>
+                            <Column field="student_name" header="اسم الطالب"></Column>
+                            <Column field="leave_date" header="تاريخ الاستئذان"></Column>
+                            <Column field="leave_reason" header="سبب الاستئذان"></Column>
+                            <Column field="leave_time" header="وقت الاستئذان"></Column>
+                            <Column field="student_signature" header=" توقيع الطالب"></Column>
+                        </DataTable>
+                    </div>
+                </div>
+            </template>    
  
         <template v-if="filter.type==5 || filter.type==0 ">
             <div class="grid p-fluid mt-5 font-bold mr-5">
@@ -332,12 +332,12 @@ export default {
   .card {
     border-radius: 0%;
   }
-  .grid {
+  /* .grid {
     margin-left: -0.035rem;
   }
   .md\:col-12 {
     padding: 0.5rem 0.5rem 0.5rem 0rem;
-  }
+  } */
   
   .x {
     background-color: blueviolet;
@@ -353,5 +353,10 @@ export default {
   margin-left: 0rem;
   margin-right: 0rem;
 }
+
+::-webkit-scrollbar {
+    width: 14px !important;
+
+  }
   </style>
   
