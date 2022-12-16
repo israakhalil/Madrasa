@@ -40,6 +40,8 @@
         {{getDay(slotProps.data.leave_date)}}
     </template>
       </Column>
+      <Column field="hijri_date" header="تاريخ الهجري">
+        </Column>
     <Column field="leave_date" header="تاريخ الاستئذان">
     </Column>
     <Column field="leave_reason" header="سبب الاستئذان">
@@ -52,7 +54,7 @@
         
     </Column>
 
-    <Column  header="  الاجراءات" style="max-width:8rem">
+    <Column  header="  الاجراءات" style="max-width:10rem">
         <template #body="slotProps">
             <!-- <Button icon="pi pi-download" class="p-button-rounded p-button-help ml-2" /> -->
             <Button   v-if="this.can('LEAVE_ADD_EDIT')" icon="pi pi-pencil" class="p-button-rounded p-button-success ml-2" @click="openEdit(slotProps.data)"/>
@@ -66,13 +68,55 @@
 </div>
 <Dialog v-model:visible="LeaveDialog" :style="{width: '450px'}" :header="header" :modal="true" 
 class="p-fluid font-bold text-lg">
+<div class="field col">
+    <label for="">تاريخ الاستئذان / هجري </label>           
+           
+            <div class="grid">
+                <div class="col-3">       
+                        <Dropdown
+                        v-model="form.day"
+                        :options="days"
+                        optionLabel="name"
+                        placeholder="يوم"
+                        option-value="id"
+                        :class="{ 'p-invalid':v$.form.day.$invalid && submitted }"
+                        />
+                </div>
+                <div class="col-5">
+                    <Dropdown
+                        v-model="form.month"
+                        :options="hijri_months"
+                        optionLabel="name"
+                        ref="monthName"
+                        placeholder="شهر"
+                        option-value="id"
+                        :class="{ 'p-invalid':v$.form.month.$invalid && submitted }"
+                        />
+                </div>
+                <div class="col-4">
+                    <Dropdown
+                        v-model="form.year"
+                        
+                        :options="years"
+                        optionLabel="name"
+                        placeholder="سنة"
+                        option-value="id"
+                        :class="{ 'p-invalid':v$.form.year.$invalid && submitted }"
+                        />
+                </div>
+            </div>
 
+            <small class="p-error" v-if="v$.form.day.$invalid && submitted">يرجى اختيار  يوم , </small>
+            <small class="p-error" v-if="v$.form.month.$invalid && submitted">يرجى اختيار  شهر ,  </small> 
+            <small class="p-error" v-if="v$.form.year.$invalid && submitted">يرجى اختيار  سنة  </small>
+
+          </div>
     <div class="field">
-        <label for="leave_date">تاريخ الاستئذان </label>
+        <label for="leave_date">تاريخ الاستئذان / ميلادي</label>
         <Calendar id="leave_date" :showIcon="true" 
         v-model="form.leave_date"
         :class="{ 'p-invalid':v$.form.leave_date.$invalid && submitted }"></Calendar>
-        <small class="p-error" v-if="v$.form.leave_date.$invalid && submitted">يرجى اختبار  تاريخ  </small>
+        <small class="p-error" v-if="v$.form.leave_date.$invalid && submitted">يرجى اختيار  تاريخ  </small>
 
       </div>
       <div class="field">
@@ -157,6 +201,7 @@ class="p-fluid font-bold text-lg">
 import LeavesService from "@/services/leavesService";
 import { useVuelidate } from "@vuelidate/core";
 import { required } from "@vuelidate/validators";
+import { hijri_months } from "@/services/constants.js";
 
 export default {
 setup () {
@@ -179,6 +224,9 @@ data() {
         submitted: false,
         
         leavesService: null,
+        days: Array.from({ length: 31 }, (_, i) => ({ id: String((i+1)), name: (i+1) })),
+            hijri_months: [],
+            years: Array.from({ length: 10 }, (_, i) => ({ id: String((i+1444)), name: (i+1444) })),
     }  
 },
 validations() {
@@ -187,7 +235,10 @@ validations() {
         leave_date: { required },
         leave_reason: { required },
         leave_time: { required },
-        student_signature: { required },
+            student_signature: { required },
+            day: { required },
+                month:{ required },
+            year:{ required },
     }
     }
   },
@@ -206,6 +257,10 @@ methods: {
         this.header="تعديل استئذان"
         this.form = { ...data };  
         this.LeaveDialog = true;
+        let hijri = this.form.hijri_date.split(',');
+        this.form.day = hijri[0].trim();
+        this.form.month = hijri[1].trim();
+        this.form.year = hijri[2];
     },
     openDelete(data) { 
         this.form = data;
@@ -220,7 +275,9 @@ methods: {
         }   
         this.form.class_id = this.class_id;
         this.form.student_id = this.student_id;
-        this.form.leave_date=this.formatDate(this.form.leave_date)
+        this.form.leave_date = this.formatDate(this.form.leave_date);
+        this.form.hijri_date = this.form.day + ' ,' + this.form.month+' ,'+this.form.year;
+
 
         this.leavesService.save(this.form, this.form.id).then(({ data }) => {
             if (data.code == 200) {
@@ -239,10 +296,9 @@ methods: {
             this.successMsg = true;
                 this.Msg = data.msg;
                 this.student_leaves = this.student_leaves.filter(val => val.id !== this.form.id);
-
+                this.form={}
         }
         });
-        this.form = {};
     },
 
     getLeaves() {
@@ -261,6 +317,7 @@ methods: {
 
 mounted() { 
     this.getLeaves();
+    this.hijri_months = hijri_months;
 }
 };
 </script>

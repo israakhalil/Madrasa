@@ -41,6 +41,8 @@
                 {{getDay(slotProps.data.absence_date)}}
             </template>
         </Column>
+          <Column field="hijri_date" header="تاريخ الهجري">
+        </Column>
         <Column field="absence_date" header="تاريخ الغياب">
         </Column>
         <Column field="absence_reason" header="سبب الغياب">
@@ -53,7 +55,7 @@
             
         </Column>
 
-        <Column fheader="  الاجراءات" style="max-width:8rem">
+        <Column header="  الاجراءات" style="max-width:8rem">
             <template #body="slotProps">
                 <!-- <Button icon="pi pi-download" class="p-button-rounded p-button-help ml-2" /> -->
                 <Button v-if="this.can('ABSENCE_ADD_EDIT')" icon="pi pi-pencil" class="p-button-rounded p-button-success ml-2" @click="openEdit(slotProps.data)"/>
@@ -67,22 +69,68 @@
 </div>
 
 
-    <Dialog v-model:visible="AbsenceDialog" :style="{width: '450px'}" :header="header" :modal="true" 
-    class="p-fluid font-bold text-lg">
+    <Dialog v-model:visible="AbsenceDialog" :style="{width: '450px' }" :header="header" :modal="true" 
+    class="p-fluid font-bold text-lg " >
+    <!-- <div class="re_quick"> -->
+        <div class="field col">
+            <label>تاريخ الغياب / هجري </label>
+           
+            <div class="grid">
+                <div class="col-3">       
+                        <Dropdown
+                        v-model="form.day"
+                        :options="days"
+                        optionLabel="name"
+                        placeholder="يوم"
+                        option-value="id"
+                        :class="{ 'p-invalid':v$.form.day.$invalid && submitted }"
+                        />
+                </div>
+                <div class="col-5">
+                    <Dropdown
+                        v-model="form.month"
+                        :options="hijri_months"
+                        optionLabel="name"
+                        ref="monthName"
+                        placeholder="شهر"
+                        option-value="id"
+                        :class="{ 'p-invalid':v$.form.month.$invalid && submitted }"
+                        />
+                </div>
+                <div class="col-4">
+                    <Dropdown
+                        v-model="form.year"
+                        
+                        :options="years"
+                        optionLabel="name"
+                        placeholder="سنة"
+                        option-value="id"
+                        :class="{ 'p-invalid':v$.form.year.$invalid && submitted }"
+                        />
+                </div>
+            </div>
 
-        <div class="field">
-            <label for="absence_date">تاريخ الغياب </label>
-            <Calendar id="absence_date" :showIcon="true" 
-            v-model="form.absence_date"
-            :class="{ 'p-invalid':v$.form.absence_date.$invalid && submitted }"></Calendar>
-            <small class="p-error" v-if="v$.form.absence_date.$invalid && submitted">يرجى اختبار  تاريخ  </small>
+           
+            <small class="p-error" v-if="v$.form.day.$invalid && submitted">يرجى اختيار  يوم , </small>
+            <small class="p-error" v-if="v$.form.month.$invalid && submitted">يرجى اختيار  شهر ,  </small> 
+            <small class="p-error" v-if="v$.form.year.$invalid && submitted">يرجى اختيار  سنة  </small>
 
           </div>
+        <div class="field">
+            <label for="absence_date">تاريخ الغياب / ميلادي</label>
+            <Calendar id="absence_date" :showIcon="true" 
+            v-model="form.absence_date"
+            
+            :class="{ 'p-invalid':v$.form.absence_date.$invalid && submitted }"></Calendar>
+            <small class="p-error" v-if="v$.form.absence_date.$invalid && submitted">يرجى اختيار  تاريخ  </small>
+
+          </div>
+
+
           <div class="field">
             <label for="absence_type_id"> نوع الغياب</label>
             <Dropdown
             id="absence_type_id"
-            :filter=true
             v-model="form.absence_type_id"
             :options="absence_types"
             optionLabel="name"
@@ -90,7 +138,7 @@
             option-value="id"
             :class="{ 'p-invalid':v$.form.absence_type_id.$invalid && submitted }"
             />
-            <small class="p-error" v-if="v$.form.absence_type_id.$invalid && submitted">يرجى  اختبار نوع الغياب </small>
+            <small class="p-error" v-if="v$.form.absence_type_id.$invalid && submitted">يرجى  اختيار نوع الغياب </small>
           </div>
           <div class="field">
             <label for="absence_reason"> سبب الغياب </label>
@@ -116,6 +164,8 @@
             <Button label="تعديل" v-if="form.id" class="mt-5" type="submit" @click="save(!v$.$invalid)"  />
             <Button label="حفظ" v-if="form.id==null" class="mt-5" type="submit" @click="save(!v$.$invalid)"  />
           </div>
+    <!-- </div> -->
+
         </Dialog>
 
         <Dialog
@@ -159,6 +209,7 @@ import AbsencesService from "@/services/absencesService";
 import ConstantsService from "@/services/constantsService";
 import { useVuelidate } from "@vuelidate/core";
 import { required } from "@vuelidate/validators";
+import {hijri_months} from "@/services/constants.js";
 
 export default {
     setup () {
@@ -183,6 +234,10 @@ export default {
             
             absencesService: null,
             constantsService:null,
+            days: Array.from({ length: 31 }, (_, i) => ({ id: String((i+1)), name: (i+1) })),
+            hijri_months: [],
+            years: Array.from({ length: 10 }, (_, i) => ({ id: String((i+1444)), name: (i+1444) })),
+
         }  
     },
     validations() {
@@ -191,7 +246,10 @@ export default {
             absence_date: { required },
             absence_type_id: { required },
             absence_reason: { required },
-            teacher_signature: { required },
+                teacher_signature: { required },
+                day: { required },
+                month:{ required },
+            year:{ required },
         }
         }
       },
@@ -212,6 +270,10 @@ export default {
             this.header="تعديل غياب"
             this.form = { ...data };  
             this.AbsenceDialog = true;
+            let hijri = this.form.hijri_date.split(',');
+            this.form.day = hijri[0].trim();
+            this.form.month = hijri[1].trim();
+            this.form.year = hijri[2];
             this.getAbsenceType();
         },
         openDelete(data) { 
@@ -233,7 +295,9 @@ export default {
             }   
             this.form.student_id = this.student_id
             this.form.class_id = this.class_id;
-            this.form.absence_date=this.formatDate(this.form.absence_date)
+            this.form.hijri_date = this.form.day + ' ,' + this.form.month+' ,'+this.form.year;
+                //console.log(this.$refs.monthName.label);
+           this.form.absence_date = this.formatDate(this.form.absence_date)
             this.absencesService.save(this.form, this.form.id).then(({ data }) => {
                 if (data.code == 200) {
                 this.AbsenceDialog = false;
@@ -250,10 +314,10 @@ export default {
                 this.successMsg = true;
                 this.Msg = data.msg;
                 this.student_absences = this.student_absences.filter(val => val.id !== this.form.id);
-
+                this.form={}
             }
             });
-            this.form = {};
+          
         },
 
         getAbsences() {
@@ -261,6 +325,7 @@ export default {
             this.absencesService.index(this.query).then(({ data }) => {
             if (data.code == 200) {
                 this.student_absences = data.data.absences;
+
             }
         });
         },
@@ -275,6 +340,7 @@ export default {
 
     mounted() { 
         this.getAbsences();
+        this.hijri_months = hijri_months;
         // this.query = { student_id: this.student_id };
         // this.absencesService.index(this.query).then(({ data }) => {
         //     if (data.code == 200) {
@@ -294,4 +360,13 @@ export default {
 .p-dialog .p-dialog-footer button{
     width:100%
 }
+::-webkit-scrollbar {
+    width: 10px !important;
+
+  }
+  /* .re_quick{
+    overflow: auto;
+    height: 75vh;
+    padding: 10px;
+  } */
 </style>

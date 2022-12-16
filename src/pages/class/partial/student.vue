@@ -158,7 +158,8 @@ export default {
 },
     data() {
         return {
-            student: [],
+          student: [],
+          student1:[],
             StudentEditDialog: false,
             student_profile: {},
             submitted: false,

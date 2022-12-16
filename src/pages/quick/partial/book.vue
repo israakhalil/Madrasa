@@ -49,6 +49,44 @@
             required="true"
           />
         </div>
+        <div class="field col">
+            <label>تاريخ التسليم / هجري </label>
+           
+            <div class="grid">
+                <div class="col-3">       
+                        <Dropdown
+                        v-model="item.day"
+                        :options="days"
+                        optionLabel="name"
+                        placeholder="يوم"
+                        option-value="id"
+                       
+                        />
+                </div>
+                <div class="col-5">
+                    <Dropdown
+                        v-model="item.month"
+                        :options="hijri_months"
+                        optionLabel="name"
+                        ref="monthName"
+                        placeholder="شهر"
+                        option-value="id"
+                      
+                        />
+                </div>
+                <div class="col-4">
+                    <Dropdown
+                        v-model="item.year"
+                        
+                        :options="years"
+                        optionLabel="name"
+                        placeholder="سنة"
+                        option-value="id"
+                        
+                        />
+                </div>
+            </div>
+          </div>
         <div class="field col-12 md:col-4">
           <label for="received_date">تاريخ الاستلام </label>
           <Calendar :showIcon="true" v-model="item.received_date"></Calendar>
@@ -57,7 +95,6 @@
           <label for="is_delivered"> التسليم</label>
           <Dropdown
             id="is_delivered"
-            :filter=true
             v-model="item.is_delivered"
             :options="delivered_options"
             optionLabel="name"
@@ -104,10 +141,8 @@
 </template>
   
   <script>
-  // import LevelsService from "@/services/levelsService";
-  // import ClassesService from "@/services/classesService";
-  // import StudentsService from "@/services/studentsService";
-  import BooksService from "@/services/booksService";
+import BooksService from "@/services/booksService";
+import {hijri_months} from "@/services/constants.js";
 export default {
   props: { levels:Array, classes:Array ,students:Array },
 
@@ -123,9 +158,6 @@ export default {
           book_name: null,
           is_delivered: null,
           student_signature: null,
-  
-          // classes: [],
-          // students: [],
         },
         items: [],
         Msg: null,
@@ -140,13 +172,13 @@ export default {
 						id: '2',
 						name: 'لم يتم التسليم'
 					}],
-        // levelsService: null,
-        // classesService: null,
-        // studentsService: null,
         booksService: null,
   
         errorMsg: false,
         successMsg: false,
+        days: Array.from({ length: 31 }, (_, i) => ({ id: String((i+1)), name: (i+1) })),
+            hijri_months: [],
+            years: Array.from({ length: 10 }, (_, i) => ({ id: String((i+1444)), name: (i+1444) })),
       };
     },
     created() {
@@ -197,6 +229,8 @@ export default {
         this.items.forEach(item => {
         if (item.received_date) {
           item.received_date = this.formatDate(item.received_date);
+          item.hijri_date = item.day + ' ,' + item.month+' ,'+item.year;
+
 
         }
       });
@@ -224,7 +258,10 @@ export default {
             item.received_date= null,
             item.book_name= null,
             item.is_delivered= null,
-            item.student_signature= null
+          item.student_signature = null,
+          item.day = null,
+          item.month = null,
+          item.year= null
           });
     },
   },
@@ -232,6 +269,7 @@ export default {
     mounted() {
       // this.getLevels();
       this.items.push(Object.assign({}, this.newItem));
+      this.hijri_months = hijri_months;
     },
   };
   </script>

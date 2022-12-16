@@ -40,6 +40,8 @@
                 {{getDay(slotProps.data.received_date)}}
             </template>
       </Column>
+      <Column field="hijri_date" header="تاريخ الهجري">
+        </Column>
     <Column field="received_date" header="تاريخ التسليم">
     </Column>
     <Column field="book_name" header=" اسم الكتاب">
@@ -68,15 +70,58 @@
 
 <Dialog v-model:visible="BookDialog" :style="{width: '450px'}" :header="header" :modal="true" 
 class="p-fluid font-bold text-lg">
+<div class="field col">
+    <label>تاريخ التسليم / هجري </label>           
+            <div class="grid">
+                <div class="col-3">       
+                        <Dropdown
+                        v-model="form.day"
+                        :options="days"
+                        optionLabel="name"
+                        placeholder="يوم"
+                        option-value="id"
+                        :class="{ 'p-invalid':v$.form.day.$invalid && submitted }"
+                        />
+                </div>
+                <div class="col-5">
+                    <Dropdown
+                        v-model="form.month"
+                        :options="hijri_months"
+                        optionLabel="name"
+                        ref="monthName"
+                        placeholder="شهر"
+                        option-value="id"
+                        :class="{ 'p-invalid':v$.form.month.$invalid && submitted }"
+                        />
+                </div>
+                <div class="col-4">
+                    <Dropdown
+                        v-model="form.year"
+                        
+                        :options="years"
+                        optionLabel="name"
+                        placeholder="سنة"
+                        option-value="id"
+                        :class="{ 'p-invalid':v$.form.year.$invalid && submitted }"
+                        />
+                </div>
+            </div>
 
+           
+            <small class="p-error" v-if="v$.form.day.$invalid && submitted">يرجى اختيار  يوم , </small>
+            <small class="p-error" v-if="v$.form.month.$invalid && submitted">يرجى اختيار  شهر ,  </small> 
+            <small class="p-error" v-if="v$.form.year.$invalid && submitted">يرجى اختيار  سنة  </small>
+
+          </div>
     <div class="field">
-        <label for="received_date">تاريخ التسليم </label>
+        <label for="received_date">تاريخ التسليم  / ميلادي</label>
         <Calendar id="received_date" :showIcon="true" 
         v-model="form.received_date"
         :class="{ 'p-invalid':v$.form.received_date.$invalid && submitted }"></Calendar>
-        <small class="p-error" v-if="v$.form.received_date.$invalid && submitted">يرجى اختبار  تاريخ  </small>
+        <small class="p-error" v-if="v$.form.received_date.$invalid && submitted">يرجى اختيار  تاريخ  </small>
 
       </div>
+      
       <div class="field">
         <label for="book_name">اسم الكتاب </label>
         <InputText
@@ -90,7 +135,6 @@ class="p-fluid font-bold text-lg">
         <label for="is_delivered">  التسليم </label>
         <Dropdown
             id="is_delivered"
-            :filter=true
             v-model="form.is_delivered"
             :options="delivered_options"
             optionLabel="name"
@@ -159,7 +203,7 @@ class="p-fluid font-bold text-lg">
 import BooksService from "@/services/booksService";
 import { useVuelidate } from "@vuelidate/core";
 import { required } from "@vuelidate/validators";
-
+import {hijri_months} from "@/services/constants.js";
 export default {
 setup () {
     return { v$: useVuelidate() }
@@ -188,7 +232,10 @@ data() {
         {
             id: '2',
             name: 'لم يتم التسليم'
-        }],
+            }],
+            days: Array.from({ length: 31 }, (_, i) => ({ id: String((i+1)), name: (i+1) })),
+            hijri_months: [],
+            years: Array.from({ length: 10 }, (_, i) => ({ id: String((i+1444)), name: (i+1444) })),
     }  
 },
 validations() {
@@ -197,7 +244,10 @@ validations() {
         received_date: { required },
         book_name: { required },
         is_delivered: { required },
-        student_signature: { required },
+            student_signature: { required },
+            day: { required },
+                month:{ required },
+            year:{ required },
     }
     }
   },
@@ -215,6 +265,10 @@ methods: {
     openEdit(data) {
         this.header="تعديل تسليم كتاب"
         this.form = { ...data };  
+        let hijri = this.form.hijri_date.split(',');
+        this.form.day = hijri[0].trim();
+        this.form.month = hijri[1].trim();
+        this.form.year = hijri[2];
         this.BookDialog = true;
     },
     openDelete(data) { 
@@ -231,6 +285,7 @@ methods: {
         this.form.class_id = this.class_id;
         this.form.student_id = this.student_id
         this.form.received_date=this.formatDate(this.form.received_date)
+        this.form.hijri_date = this.form.day + ' ,' + this.form.month+' ,'+this.form.year;
 
         this.booksService.save(this.form, this.form.id).then(({ data }) => {
             if (data.code == 200) {
@@ -248,10 +303,10 @@ methods: {
             this.successMsg = true;
                 this.Msg = data.msg;
                 this.student_books = this.student_books.filter(val => val.id !== this.form.id);
-
+                this.form={}
         }
         });
-        this.form = {};
+      
     },
 
     getBooks() {
@@ -271,6 +326,7 @@ methods: {
 
 mounted() { 
     this.getBooks();
+    this.hijri_months = hijri_months;
 }
 };
 </script>

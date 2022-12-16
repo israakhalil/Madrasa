@@ -41,6 +41,45 @@
             option-value="id"
           />
         </div>
+        <div class="field col">
+            <label>تاريخ المخالفة / هجري </label>
+           
+            <div class="grid">
+                <div class="col-3">       
+                        <Dropdown
+                        v-model="item.day"
+                        :options="days"
+                        optionLabel="name"
+                        placeholder="يوم"
+                        option-value="id"
+                       
+                        />
+                </div>
+                <div class="col-5">
+                    <Dropdown
+                        v-model="item.month"
+                        :options="hijri_months"
+                        optionLabel="name"
+                        ref="monthName"
+                        placeholder="شهر"
+                        option-value="id"
+                      
+                        />
+                </div>
+                <div class="col-4">
+                    <Dropdown
+                        v-model="item.year"
+                        
+                        :options="years"
+                        optionLabel="name"
+                        placeholder="سنة"
+                        option-value="id"
+                        
+                        />
+                </div>
+            </div>
+          </div>
+
         <div class="field col-12 md:col-4">
           <label for="violation_date">تاريخ المخالفة </label>
           <Calendar :showIcon="true" v-model="item.violation_date"></Calendar>
@@ -124,11 +163,9 @@
 </template>
   
   <script>
-  // import LevelsService from "@/services/levelsService";
-  // import ClassesService from "@/services/classesService";
-  // import StudentsService from "@/services/studentsService";
   import ConstantsService from "@/services/constantsService";
-  import ViolationsService from "@/services/violationsService";
+import ViolationsService from "@/services/violationsService";
+import {hijri_months} from "@/services/constants.js";
 export default {
   props: { levels:Array, classes:Array ,students:Array },
 
@@ -145,31 +182,23 @@ export default {
         violation_degree_id: null,
         supervisor_signature: null,
         student_signature: null,
-  
-          // classes: [],
-          // students: [],
 
         },
         items: [],
         Msg: null,
           violation_procedures: [],
           violation_degrees:[],
-        // levels: [],
-  
-        // levelsService: null,
-        // classesService: null,
-        // studentsService: null,
         constantsService: null,
         violationsService: null,
   
         errorMsg: false,
         successMsg: false,
+        days: Array.from({ length: 31 }, (_, i) => ({ id: String((i+1)), name: (i+1) })),
+            hijri_months: [],
+            years: Array.from({ length: 10 }, (_, i) => ({ id: String((i+1444)), name: (i+1444) })),
       };
     },
     created() {
-      // this.levelsService = new LevelsService();
-      // this.classesService = new ClassesService();
-      // this.studentsService = new StudentsService();
       this.constantsService = new ConstantsService();
       this.violationsService = new ViolationsService();
     },
@@ -187,25 +216,6 @@ export default {
     getStudents(item) {
       item.students=this.students.filter((std) => { return std.class_id == item.class_id });
     },
-      // getLevels() {
-      //   this.levelsService.index().then(({ data }) => {
-      //     if (data.code == 200) {
-      //       this.levels = data.data.Levels;
-      //     }
-      //   });
-      // },
-      // getClasses(item) {
-      //   this.query = { level_id: item.level_id };
-      //   this.classesService.index(this.query).then(({ data }) => {
-      //     item.classes = data.data.Classes;
-      //   });
-      // },
-      // getStudents(item) {
-      //   this.query = { class_id: item.class_id };
-      //   this.studentsService.index(this.query).then(({ data }) => {
-      //     item.students = data.data.Students;
-      //   });
-      // },
       getViolationProcedures() {
         this.constantsService.fetchViolationProcedures().then(({ data }) => {
           this.violation_procedures = data.data.violationProcedures;
@@ -223,6 +233,7 @@ export default {
         this.items.forEach(item => {
         if (item.violation_date) {
           item.violation_date = this.formatDate(item.violation_date);
+          item.hijri_date = item.day + ' ,' + item.month+' ,'+item.year;
 
         }
       });
@@ -251,7 +262,10 @@ export default {
             item.violation_procedure_id= null,
             item.violation_degree_id = null
             item.supervisore_signature= null,
-            item.student_signature = null
+             item.student_signature = null,
+             item.day = null,
+          item.month = null,
+          item.year= null
          });
 
         // items.forEach((item){
@@ -269,6 +283,7 @@ export default {
       this.getViolationProcedures();
       this.getViolationDegrees();
       this.items.push(Object.assign({}, this.newItem));
+      this.hijri_months = hijri_months;
     },
   };
   </script>

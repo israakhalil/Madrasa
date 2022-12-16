@@ -41,6 +41,45 @@
           option-value="id"
         />
       </div>
+      <div class="field col">
+            <label>تاريخ التاخير / هجري </label>
+           
+            <div class="grid">
+                <div class="col-3">       
+                        <Dropdown
+                        v-model="item.day"
+                        :options="days"
+                        optionLabel="name"
+                        placeholder="يوم"
+                        option-value="id"
+                       
+                        />
+                </div>
+                <div class="col-5">
+                    <Dropdown
+                        v-model="item.month"
+                        :options="hijri_months"
+                        optionLabel="name"
+                        ref="monthName"
+                        placeholder="شهر"
+                        option-value="id"
+                      
+                        />
+                </div>
+                <div class="col-4">
+                    <Dropdown
+                        v-model="item.year"
+                        
+                        :options="years"
+                        optionLabel="name"
+                        placeholder="سنة"
+                        option-value="id"
+                        
+                        />
+                </div>
+            </div>
+          </div>
+
       <div class="field col-12 md:col-4">
         <label for="delay_date">تاريخ التأخير </label>
         <Calendar :showIcon="true" v-model="item.delay_date"></Calendar>
@@ -100,10 +139,8 @@
 
 
 <script>
-// import LevelsService from "@/services/levelsService";
-// import ClassesService from "@/services/classesService";
-// import StudentsService from "@/services/studentsService";
 import DelaysService from "@/services/delaysService";
+import {hijri_months} from "@/services/constants.js";
 export default {
   props: { levels:Array, classes:Array ,students:Array },
   data() {
@@ -117,28 +154,20 @@ export default {
         delay_reason: null,
         delay_amount:null,
         student_signature: null,
-       
-        // classes: [],
-        // students: [],
         },
         items: [],          
-        // levels: [],
         Msg: null,
-
-        // levelsService: null,
-        // classesService: null,
-        // studentsService: null,
         delaysService : null,
         
        
         errorMsg: false,
-        successMsg:false
+      successMsg: false,
+      days: Array.from({ length: 31 }, (_, i) => ({ id: String((i+1)), name: (i+1) })),
+            hijri_months: [],
+            years: Array.from({ length: 10 }, (_, i) => ({ id: String((i+1444)), name: (i+1444) })),
     };
   },
   created() {
-      // this.levelsService = new LevelsService();
-      // this.classesService = new ClassesService();
-      // this.studentsService = new StudentsService();
       this.delaysService = new DelaysService();
 
       
@@ -184,6 +213,7 @@ export default {
         this.items.forEach(item => {
         if (item.delay_date) {
           item.delay_date = this.formatDate(item.delay_date);
+          item.hijri_date = item.day + ' ,' + item.month+' ,'+item.year;
 
         }
       });
@@ -210,7 +240,10 @@ export default {
             item.delay_date= null,
             item.delay_reason= null,
             item.delay_amount= null,
-            item.student_signature = null
+          item.student_signature = null,
+          item.day = null,
+          item.month = null,
+          item.year= null
 
           });
     },
@@ -218,7 +251,8 @@ export default {
   },
     mounted() {
         // this.getLevels()
-        this.items.push(Object.assign({}, this.newItem))
+      this.items.push(Object.assign({}, this.newItem));
+      this.hijri_months = hijri_months;
   },
 };
 </script>

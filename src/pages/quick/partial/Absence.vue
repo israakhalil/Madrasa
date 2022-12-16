@@ -41,8 +41,52 @@
           option-value="id"
         />
       </div>
+      <div class="field col">
+            <label>تاريخ الغياب / هجري </label>
+           
+            <div class="grid">
+                <div class="col-3">       
+                        <Dropdown
+                        v-model="item.day"
+                        :options="days"
+                        optionLabel="name"
+                        placeholder="يوم"
+                        option-value="id"
+                       
+                        />
+                </div>
+                <div class="col-5">
+                    <Dropdown
+                        v-model="item.month"
+                        :options="hijri_months"
+                        optionLabel="name"
+                        ref="monthName"
+                        placeholder="شهر"
+                        option-value="id"
+                      
+                        />
+                </div>
+                <div class="col-4">
+                    <Dropdown
+                        v-model="item.year"
+                        
+                        :options="years"
+                        optionLabel="name"
+                        placeholder="سنة"
+                        option-value="id"
+                        
+                        />
+                </div>
+            </div>
+
+           
+            <!-- <small class="p-error" v-if="v$.form.day.$invalid && submitted">يرجى اختيار  يوم , </small>
+            <small class="p-error" v-if="v$.form.month.$invalid && submitted">يرجى اختيار  شهر ,  </small> 
+            <small class="p-error" v-if="v$.form.year.$invalid && submitted">يرجى اختيار  سنة  </small> -->
+
+          </div>
       <div class="field col-12 md:col-4">
-        <label for="absence_date">تاريخ الغياب </label>
+        <label for="absence_date">تاريخ الغياب / ميلادي</label>
         <Calendar  :showIcon="true" v-model="item.absence_date"></Calendar>
         
       </div>
@@ -50,7 +94,6 @@
         <label for="absence_type_id"> نوع الغياب</label>
         <Dropdown
           id="absence_type_id"
-          :filter=true
           v-model="item.absence_type_id"
           :options="absence_types"
           optionLabel="name"
@@ -112,6 +155,8 @@
 <script>
 import ConstantsService from "@/services/constantsService";
 import AbsencesService from "@/services/absencesService";
+import {hijri_months} from "@/services/constants.js";
+
 export default {
   props: { levels:Array, classes:Array ,students:Array },
   data() {
@@ -134,6 +179,9 @@ export default {
 
       errorMsg: false,
       successMsg: false,
+      days: Array.from({ length: 31 }, (_, i) => ({ id: String((i+1)), name: (i+1) })),
+            hijri_months: [],
+            years: Array.from({ length: 10 }, (_, i) => ({ id: String((i+1444)), name: (i+1444) })),
     };
   },
   created() {
@@ -166,6 +214,8 @@ export default {
       this.items.forEach(item => {
         if (item.absence_date) {
           item.absence_date = this.formatDate(item.absence_date);
+          item.hijri_date = item.day + ' ,' + item.month+' ,'+item.year;
+
 
         }
       });
@@ -192,7 +242,10 @@ export default {
             item.absence_date= null,
             item.absence_type_id= null,
             item.absence_reason= null,
-            item.teacher_signature= null
+          item.teacher_signature = null
+        item.day = null,
+          item.month = null,
+          item.year= null
           });
     },
   },
@@ -200,6 +253,8 @@ export default {
     // this.levels;
     this.getAbsenceType();
     this.items.push(Object.assign({}, this.newItem));
+    this.hijri_months = hijri_months;
+
   },
 };
 </script>

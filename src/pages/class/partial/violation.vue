@@ -40,6 +40,8 @@
         {{getDay(slotProps.data.violation_date)}}
     </template>
       </Column>
+      <Column field="hijri_date" header="تاريخ الهجري">
+        </Column>
     <Column field="violation_date" header="تاريخ المخالفة">
     </Column>
     <Column field="action_performed" header=" الاجراء المنفذ">
@@ -54,11 +56,11 @@
     <Column field="student_signature" header="توقيع الطالب">
         
     </Column>
-    <Column field="suprvisore_signature" header=" توقيع الاداري">
+    <Column field="supervisor_signature" header=" توقيع الاداري">
         
     </Column>
 
-    <Column fheader="  الاجراءات" style="max-width:8rem">
+    <Column header="  الاجراءات" style="min-width:10rem">
         <template #body="slotProps">
             <!-- <Button icon="pi pi-download" class="p-button-rounded p-button-help ml-2" /> -->
             <Button v-if="this.can('VIOLATION_ADD_EDIT')" icon="pi pi-pencil" class="p-button-rounded p-button-success ml-2" @click="openEdit(slotProps.data)"/>
@@ -72,13 +74,56 @@
 </div>
 <Dialog v-model:visible="ViolationDialog" :style="{width: '450px'}" :header="header" :modal="true" 
 class="p-fluid font-bold text-lg">
+<div class="field col">
+  <label >تاريخ المخالفة / هجري </label>           
+           
+            <div class="grid">
+                <div class="col-3">       
+                        <Dropdown
+                        v-model="form.day"
+                        :options="days"
+                        optionLabel="name"
+                        placeholder="يوم"
+                        option-value="id"
+                        :class="{ 'p-invalid':v$.form.day.$invalid && submitted }"
+                        />
+                </div>
+                <div class="col-5">
+                    <Dropdown
+                        v-model="form.month"
+                        :options="hijri_months"
+                        optionLabel="name"
+                        ref="monthName"
+                        placeholder="شهر"
+                        option-value="id"
+                        :class="{ 'p-invalid':v$.form.month.$invalid && submitted }"
+                        />
+                </div>
+                <div class="col-4">
+                    <Dropdown
+                        v-model="form.year"
+                        
+                        :options="years"
+                        optionLabel="name"
+                        placeholder="سنة"
+                        option-value="id"
+                        :class="{ 'p-invalid':v$.form.year.$invalid && submitted }"
+                        />
+                </div>
+            </div>
 
+           
+            <small class="p-error" v-if="v$.form.day.$invalid && submitted">يرجى اختيار  يوم , </small>
+            <small class="p-error" v-if="v$.form.month.$invalid && submitted">يرجى اختيار  شهر ,  </small> 
+            <small class="p-error" v-if="v$.form.year.$invalid && submitted">يرجى اختيار  سنة  </small>
+
+          </div>
     <div class="field">
-        <label for="violation_date">تاريخ المخالفة </label>
+        <label for="violation_date">تاريخ المخالفة  / ميلادي</label>
         <Calendar id="violation_date" :showIcon="true" 
         v-model="form.violation_date"
         :class="{ 'p-invalid':v$.form.violation_date.$invalid && submitted }"></Calendar>
-        <small class="p-error" v-if="v$.form.violation_date.$invalid && submitted">يرجى اختبار  تاريخ  </small>
+        <small class="p-error" v-if="v$.form.violation_date.$invalid && submitted">يرجى اختيار  تاريخ  </small>
 
       </div>
       <div class="field">
@@ -87,7 +132,7 @@ class="p-fluid font-bold text-lg">
         id="action_performed"
         v-model.trim="form.action_performed"
         :class="{ 'p-invalid':v$.form.action_performed.$invalid && submitted }"/>
-          <small class="p-error" v-if="v$.form.action_performed.$invalid && submitted">يرجى  ادخال سبب     </small>
+          <small class="p-error" v-if="v$.form.action_performed.$invalid && submitted">يرجى  ادخال الاجراء     </small>
 
         </div >
 
@@ -103,7 +148,7 @@ class="p-fluid font-bold text-lg">
         option-value="id"
         :class="{ 'p-invalid':v$.form.violation_procedure_id.$invalid && submitted }"
         />
-        <small class="p-error" v-if="v$.form.violation_procedure_id.$invalid && submitted">يرجى  اختبار نوع الاجراء </small>
+        <small class="p-error" v-if="v$.form.violation_procedure_id.$invalid && submitted">يرجى  اختيار نوع الاجراء </small>
       </div>
       <div class="field">
         <label for="violation_degree_id">درجة المخالفة</label>
@@ -117,7 +162,7 @@ class="p-fluid font-bold text-lg">
         option-value="id"
         :class="{ 'p-invalid':v$.form.violation_degree_id.$invalid && submitted }"
         />
-        <small class="p-error" v-if="v$.form.violation_degree_id.$invalid && submitted">يرجى  اختبار درجةالمخالفة  </small>
+        <small class="p-error" v-if="v$.form.violation_degree_id.$invalid && submitted">يرجى  اختيار درجةالمخالفة  </small>
       </div>
 
      <div  class="field">
@@ -128,7 +173,7 @@ class="p-fluid font-bold text-lg">
             required="true"
             :class="{ 'p-invalid':v$.form.student_signature.$invalid && submitted }"
             />
-            <small class="p-error" v-if="v$.form.student_signature.$invalid && submitted">يرجى  ادخال توقيع     </small>
+            <small class="p-error" v-if="v$.form.student_signature.$invalid && submitted">يرجى  ادخال توقيع الطالب     </small>
 
         </div>
 
@@ -140,10 +185,10 @@ class="p-fluid font-bold text-lg">
             required="true"
             :class="{ 'p-invalid':v$.form.supervisor_signature.$invalid && submitted }"
             />
-            <small class="p-error" v-if="v$.form.supervisor_signature.$invalid && submitted">يرجى  ادخال توقيع     </small>
+            <small class="p-error" v-if="v$.form.supervisor_signature.$invalid && submitted">يرجى  ادخال توقيع الاداري    </small>
 
         </div>
-      <div class="field">
+      <div class="field" >
         <Button label="تعديل" v-if="form.id" class="mt-5" type="submit" @click="save(!v$.$invalid)"  />
         <Button label="حفظ" v-if="form.id==null" class="mt-5" type="submit" @click="save(!v$.$invalid)"  />
       </div>
@@ -190,7 +235,7 @@ import ViolationsService from "@/services/violationsService";
 import ConstantsService from "@/services/constantsService";
 import { useVuelidate } from "@vuelidate/core";
 import { required } from "@vuelidate/validators";
-
+import {hijri_months} from "@/services/constants.js";
 export default {
 setup () {
     return { v$: useVuelidate() }
@@ -217,7 +262,10 @@ data() {
         submitted: false,
         
         violationsService: null,
-        constantsService:null,
+      constantsService: null,
+      days: Array.from({ length: 31 }, (_, i) => ({ id: String((i+1)), name: (i+1) })),
+            hijri_months: [],
+            years: Array.from({ length: 10 }, (_, i) => ({ id: String((i+1444)), name: (i+1444) })),
     }  
 },
 validations() {
@@ -229,6 +277,9 @@ validations() {
         violation_degree_id: { required },
         supervisor_signature: { required },
         student_signature: { required },
+        day: { required },
+                month:{ required },
+            year:{ required },
     }
     }
   },
@@ -251,7 +302,12 @@ methods: {
         this.form = { ...data };  
         this.ViolationDialog = true;
         this.getViolationProcedures();
-        this.getViolationDegrees();
+      this.getViolationDegrees();
+      let hijri = this.form.hijri_date.split(',');
+        this.form.day = hijri[0].trim();
+        this.form.month = hijri[1].trim();
+      this.form.year = hijri[2];
+        console.log(this.form);
     },
     openDelete(data) { 
         this.form = data;
@@ -276,7 +332,9 @@ methods: {
       }   
       this.form.class_id = this.class_id;
       this.form.student_id = this.student_id;
-      this.form.violation_date=this.formatDate(this.form.violation_date)
+      this.form.violation_date = this.formatDate(this.form.violation_date);
+      this.form.hijri_date = this.form.day + ' ,' + this.form.month+' ,'+this.form.year;
+
         this.violationsService.save(this.form, this.form.id).then(({ data }) => {
             if (data.code == 200) {
             this.ViolationDialog = false;
@@ -295,10 +353,9 @@ methods: {
             this.successMsg = true;
                 this.Msg = data.msg;
                 this.student_violations = this.student_violations.filter(val => val.id !== this.form.id);
-
+                this.form={}
         }
         });
-        this.form = {};
     },
 
     getViolations() {
@@ -316,7 +373,8 @@ methods: {
 },
 
 mounted() { 
-    this.getViolations();
+  this.getViolations();
+  this.hijri_months = hijri_months;
 }
 };
 </script>

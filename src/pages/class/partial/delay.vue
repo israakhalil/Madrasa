@@ -40,6 +40,8 @@
         {{getDay(slotProps.data.delay_date)}}
     </template>
       </Column>
+      <Column field="hijri_date" header="تاريخ الهجري">
+        </Column>
     <Column field="delay_date" header="تاريخ التاخير">
     </Column>
     <Column field="delay_reason" header="سبب التاخير">
@@ -66,15 +68,58 @@
 </div>
 <Dialog v-model:visible="DelayDialog" :style="{width: '450px'}" :header="header" :modal="true" 
 class="p-fluid font-bold text-lg">
+<div class="field col">
+    <label for="">تاريخ التأخير / هجري </label>           
+            <div class="grid">
+                <div class="col-3">       
+                        <Dropdown
+                        v-model="form.day"
+                        :options="days"
+                        optionLabel="name"
+                        placeholder="يوم"
+                        option-value="id"
+                        :class="{ 'p-invalid':v$.form.day.$invalid && submitted }"
+                        />
+                </div>
+                <div class="col-5">
+                    <Dropdown
+                        v-model="form.month"
+                        :options="hijri_months"
+                        optionLabel="name"
+                        ref="monthName"
+                        placeholder="شهر"
+                        option-value="id"
+                        :class="{ 'p-invalid':v$.form.month.$invalid && submitted }"
+                        />
+                </div>
+                <div class="col-4">
+                    <Dropdown
+                        v-model="form.year"
+                        
+                        :options="years"
+                        optionLabel="name"
+                        placeholder="سنة"
+                        option-value="id"
+                        :class="{ 'p-invalid':v$.form.year.$invalid && submitted }"
+                        />
+                </div>
+            </div>
 
+           
+            <small class="p-error" v-if="v$.form.day.$invalid && submitted">يرجى اختيار  يوم , </small>
+            <small class="p-error" v-if="v$.form.month.$invalid && submitted">يرجى اختيار  شهر ,  </small> 
+            <small class="p-error" v-if="v$.form.year.$invalid && submitted">يرجى اختيار  سنة  </small>
+
+          </div>
     <div class="field">
-        <label for="delay_date">تاريخ التاخير </label>
+        <label for="delay_date">تاريخ التاخير  / ميلادي</label>
         <Calendar id="delay_date" :showIcon="true" 
         v-model="form.delay_date"
         :class="{ 'p-invalid':v$.form.delay_date.$invalid && submitted }"></Calendar>
-        <small class="p-error" v-if="v$.form.delay_date.$invalid && submitted">يرجى اختبار  تاريخ  </small>
+        <small class="p-error" v-if="v$.form.delay_date.$invalid && submitted">يرجى اختيار  تاريخ  </small>
 
       </div>
+      
       <div class="field">
         <label for="delay_reason"> سبب التاخير </label>
         <InputText
@@ -150,7 +195,7 @@ class="p-fluid font-bold text-lg">
 import DelaysService from "@/services/delaysService";
 import { useVuelidate } from "@vuelidate/core";
 import { required } from "@vuelidate/validators";
-
+import {hijri_months} from "@/services/constants.js";
 export default {
 setup () {
     return { v$: useVuelidate() }
@@ -172,6 +217,9 @@ data() {
         submitted: false,
         
         delaysService: null,
+        days: Array.from({ length: 31 }, (_, i) => ({ id: String((i+1)), name: (i+1) })),
+            hijri_months: [],
+            years: Array.from({ length: 10 }, (_, i) => ({ id: String((i+1444)), name: (i+1444) })),
     }  
 },
 validations() {
@@ -180,7 +228,10 @@ validations() {
         delay_date: { required },
         delay_reason: { required },
         delay_amount: { required },
-        student_signature: { required },
+            student_signature: { required },
+            day: { required },
+                month:{ required },
+            year:{ required },
     }
     }
   },
@@ -199,6 +250,10 @@ methods: {
         this.header="تعديل تاخير"
         this.form = { ...data };  
         this.DelayDialog = true;
+        let hijri = this.form.hijri_date.split(',');
+        this.form.day = hijri[0].trim();
+        this.form.month = hijri[1].trim();
+        this.form.year = hijri[2];
     },
     openDelete(data) { 
         this.form = data;
@@ -213,7 +268,9 @@ methods: {
         } 
         this.form.class_id = this.class_id;  
         this.form.student_id = this.student_id
-        this.form.delay_date=this.formatDate(this.form.delay_date)
+        this.form.delay_date = this.formatDate(this.form.delay_date);
+        this.form.hijri_date = this.form.day + ' ,' + this.form.month+' ,'+this.form.year;
+
         this.delaysService.save(this.form, this.form.id).then(({ data }) => {
             if (data.code == 200) {
             this.DelayDialog = false;
@@ -231,10 +288,9 @@ methods: {
             this.successMsg = true;
                 this.Msg = data.msg;
                 this.student_delays = this.student_delays.filter(val => val.id !== this.form.id);
-
+                this.form={}
         }
         });
-        this.form = {};
     },
 
     getDelays() {
@@ -253,6 +309,7 @@ methods: {
 
 mounted() { 
     this.getDelays();
+    this.hijri_months = hijri_months;
 }
 };
 </script>
