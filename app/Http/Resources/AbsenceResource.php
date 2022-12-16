@@ -18,6 +18,7 @@ class AbsenceResource extends JsonResource
             'teacher_signature'=> $this['teacher_signature'],
             'absence_type_id'=> $this['absence_type_id'],
             'absence_type_name'=> @$this->absenceType->name,
+            'hijri_date'=>$this['hijri_date'],
             
            
             ];

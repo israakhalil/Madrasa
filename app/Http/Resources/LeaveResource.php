@@ -16,6 +16,7 @@ class LeaveResource extends JsonResource
             'leave_time'=> $this['leave_time'],
             'student_signature'=> $this['student_signature'],
             'leave_reason'=> $this['leave_reason'],
+            'hijri_date'=>$this['hijri_date'],
             ];
     }
 }

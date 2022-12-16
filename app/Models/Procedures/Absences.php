@@ -13,7 +13,7 @@ class Absences extends Model
 
 
     protected $table="absences";
-    const FILLABLE = ['student_id','absence_date','absence_reason','teacher_signature','absence_type_id','class_id'];
+    const FILLABLE = ['student_id','absence_date','absence_reason','teacher_signature','absence_type_id','class_id','hijri_date'];
     protected $fillable = self::FILLABLE;
     protected $casts = 
     [

@@ -1,6 +1,9 @@
 <?php
 
 namespace App\Models\Procedures;
+
+use App\Models\Constants\ViolationDegrees;
+use App\Models\Constants\ViolationProcedures;
 use App\Models\School\Students;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -12,7 +15,7 @@ class Violations extends Model
     protected $table="violations";
     const FILLABLE = ['violation_date','action_performed',
     'violation_procedure_id','violation_degree_id','student_id',
-    'supervisor_signature','student_signature','class_id'];
+    'supervisor_signature','student_signature','class_id','hijri_date'];
 
     protected $fillable = self::FILLABLE;
     protected $casts = [
@@ -28,7 +31,12 @@ class Violations extends Model
         return $this->belongsTo(Students::class, 'student_id' , 'id');
     }
 
-
+    public function violationProcedure(){
+        return $this->belongsTo(ViolationProcedures::class, 'violation_procedure_id' , 'id');
+    } 
+    public function violationDegree(){
+        return $this->belongsTo(ViolationDegrees::class, 'violation_degree_id' , 'id');
+    } 
     public function scopeFilter($q)
     { 
         if (request()->filled('student_id') && !empty(request('student_id'))) {

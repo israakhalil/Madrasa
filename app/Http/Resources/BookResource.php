@@ -16,6 +16,7 @@ class BookResource extends JsonResource
             'student_signature'=> $this['student_signature'],
             'student_id'=> $this['student_id'],
             'student_name'=>@$this->student->name,
+            'hijri_date'=>$this['hijri_date'],
             ];
     }
 }
