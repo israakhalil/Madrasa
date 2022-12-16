@@ -1,13 +1,13 @@
 <template>
-    <div class="grid">
-      <div class="col-12 md:col-12">
-        <div class="card">
+    <div class="grid list_container" style="height: 87vh; padding:0rem;">
+      <div class="col-12 md:col-12 re_quick">
+        <div class="card list_container2">
           <div class="grid my-2 font-bold mr-10">
-              <div class="col-8 md:col-8 py-4">
+              <div class="col-6 md:col-6 py-4">
                 <span class="font-bold text-xl">قائمة المدارس </span>
              
               </div>
-              <div class="col-4 md:col-4">
+              <div class="col-6 md:col-6">
                   <div class="grid">
                       <div class="col-8 md:col-8">
                           <span class="col-12 p-input-icon-right">
@@ -322,6 +322,9 @@
     border-radius: 6px;
   }
   
-  
+  ::-webkit-scrollbar {
+    width: 14px !important;
+
+  }
   </style>
   
