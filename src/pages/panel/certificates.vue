@@ -75,9 +75,17 @@
             
           </div>
             <div class="col-12 md:col-12 lg:col-12" id="printMe" >
-              <img src="/images/certifications.png" alt="Snow" style="width:100%; height: 700px" >
-               <div class="centered flex-1 justify-content-center text-center">
-                <div class="col-12 md:col-12 lg:col-12 text-">
+              <!-- <img src="/images/certifications.png" alt="Snow" style="width:100%; height: 700px" > -->
+              <img src="/images/m2.jpg" alt="Snow" style="width:100%; height: 800px" >
+               <div class="centered justify-content-center text-center">
+                <div class ='grid p-fluid'>
+                  <div class="col-12 md:col-12 lg:col-12">
+                  <div class="grid grid1">
+                    <div class="field col-6  text-right">  شعار الرؤية</div>
+                      <div class="field col-6 text-left">  شعار الوزارة </div>
+                  </div>
+                 </div>
+                  <div class="col-12 md:col-12 lg:col-12 text-">
                 <span class="font-bold font-b text-5xl"> شهادة شكر وتقدير </span>
                 </div>
                 <div class="col-12 md:col-12 lg:col-12 mt-1">
@@ -89,7 +97,7 @@
                  </span>
                 </div>
                 <div class="col-12 md:col-12 lg:col-12">
-                <span class=" font-bold text-6xl" >  {{certification.name}}
+                <span class=" font-bold text-5xl" >  {{certification.name}}
                  </span>
                  </div>
 
@@ -99,12 +107,12 @@
                  </span>
                 </div>
 
-                <div class="col-12 md:col-12 lg:col-12 mt-4">
+                <div class="col-12 md:col-12 lg:col-12 mt-5 ">
                   <div class="grid grid1 justify-content-center text-center">
                     <div class="field col-3" style="border-bottom: 4px ridge;" > {{certification.date}} </div>
                     <div class="field col-3">  </div>
                     <div class="field col-3">  </div>
-                    <div class="field col-3 " style="border-bottom: 4px ridge;">{{certification.sign}}  </div>
+                    <div class="field col-3" style="border-bottom: 4px ridge;">{{certification.sign}}  </div>
                   </div>
 
                   <div class="grid grid1 justify-content-center text-center">
@@ -114,6 +122,8 @@
                     <div class="field col-3">  توقيع مديرة المدرسة</div>
                   </div>
                  </div>
+                </div>
+
                </div>
             </div>
         </div>
@@ -152,21 +162,30 @@
         </div>             
 
             <div class="col-12 md:col-12 lg:col-12" id="printFemale" >
-              <img src="/images/certification_female.png" alt="Snow" style="width:100%; height: 700px" >
-               <div class="centered flex-1 justify-content-center text-center">
+              <img src="/images/f6.jpg" alt="Snow" style="width:100%; height: 800px" >
+
+               <div class="centered justify-content-center text-center">
+                <div class ='grid p-fluid'>
+                  <div class="col-12 md:col-12 lg:col-12">
+                  <div class="grid grid1">
+                    <div class="field col-6  text-right">  شعار الرؤية</div>
+                      <div class="field col-6 text-left">  شعار الوزارة </div>
+                  </div>
+                 </div>
+
                 <div class="col-12 md:col-12 lg:col-12 text-">
-                <span class="font-bold font-b text-5xl"> شهادة شكر وتقدير </span>
+                  <span class="font-bold font-b text-5xl"> شهادة شكر وتقدير </span>
                 </div>
                 <div class="col-12 md:col-12 lg:col-12 mt-1">
                 <span class="font-bold text-3xl"> من {{currentSchool.name}} 
                  </span>
                 </div>
                 <div class="col-12 md:col-12 lg:col-12 mt-2">
-                <span class="text-2xl" style="padding-top:100px">  الطالب 
+                <span class="text-2xl" style="padding-top:100px">  الطالبة
                  </span>
                 </div>
                 <div class="col-12 md:col-12 lg:col-12">
-                <span class=" font-bold text-6xl" >  {{certification.name}}
+                <span class=" font-bold text-5xl" >  {{certification.name}}
                  </span>
                  </div>
 
@@ -176,12 +195,12 @@
                  </span>
                 </div>
 
-                <div class="col-12 md:col-12 lg:col-12 mt-4">
+                <div class="col-12 md:col-12 lg:col-12 mt-5 ">
                   <div class="grid grid1 justify-content-center text-center">
                     <div class="field col-3" style="border-bottom: 4px ridge;" > {{certification.date}} </div>
                     <div class="field col-3">  </div>
                     <div class="field col-3">  </div>
-                    <div class="field col-3 " style="border-bottom: 4px ridge;">{{certification.sign}}  </div>
+                    <div class="field col-3" style="border-bottom: 4px ridge;">{{certification.sign}}  </div>
                   </div>
 
                   <div class="grid grid1 justify-content-center text-center">
@@ -191,6 +210,8 @@
                     <div class="field col-3">  توقيع مديرة المدرسة</div>
                   </div>
                  </div>
+                </div>
+
                </div>
             </div>
         </div>
@@ -293,12 +314,12 @@
       print () {
       // Pass the element id here
         this.$htmlToPaper('printMe');
-      this.certification={}
+      // this.certification={}
       },
       printFemale () {
       // Pass the element id here
         this.$htmlToPaper('printFemale');
-        this.certification={}
+        // this.certification={}
 
       },
     }
@@ -312,11 +333,19 @@
 //   overflow-y: scroll;
 //   height: 90vh;
 // }
+// .centered {
+//   position: absolute;
+//   top: 51%;
+//   left: 50%;
+//   transform: translate(-50%, -50%);
+// }
+
 .centered {
-  position: absolute;
-  top: 51%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+    position: absolute;
+    top: 52%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 70%;
 }
 .text-5xl {
     font-size: 3rem !important;
