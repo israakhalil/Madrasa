@@ -44,6 +44,10 @@ public function absenceType(){
             $key = trim(request()['date']);
                 $q->whereDate('absence_date', '=', $key);           
         }
+        if (request()->filled('hijri_date') && !empty(request('hijri_date'))) {
+            $key = trim(request()['hijri_date']);
+                $q->where('hijri_date', '=', $key);           
+        }
         return $q;
     }
 }
