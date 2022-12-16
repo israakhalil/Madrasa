@@ -29,34 +29,34 @@
     <div class="col-12 md:col-12 mr-10">
       <!-- <div hidden class="name">  الطالب : {{student_name}}</div> -->
 
-    <DataTable  :value="student_violations" class="p-datatable-lg font-bold" showGridlines  responsiveLayout="scroll">
+    <DataTable  :value="student_violations" class="p-datatable-lg font-bold" showGridlines  responsiveLayout="scroll" dire>
     <Column field="id_number" header="الرقم ">
         <template #body="slotProps">
                 {{slotProps.index+1}}
             </template>
             </Column>
-    <Column field="violation_day" header="يوم المخالفة">
+    <Column field="violation_day" header="يوم المخالفة" headerStyle="text-align: center">
     <template #body="slotProps">
         {{getDay(slotProps.data.violation_date)}}
     </template>
       </Column>
-      <Column field="hijri_date" header="تاريخ الهجري">
+      <Column field="hijri_date" header="تاريخ الهجري" headerStyle="text-align: center">
         </Column>
-    <Column field="violation_date" header="تاريخ المخالفة">
+    <Column field="violation_date" header="تاريخ المخالفة" headerStyle="text-align: center">
     </Column>
-    <Column field="action_performed" header=" الاجراء المنفذ">
+    <Column field="action_performed" header=" الاجراء المنفذ" headerStyle="text-align: center" >
         
     </Column>
-    <Column field="violation_procedure_name" header="نوع الاجراء">
+    <Column field="violation_procedure_name" header="نوع الاجراء" headerStyle="text-align: center" >
         
     </Column>
-    <Column field="violation_degree_name" header="درجة المخالفة">
+    <Column field="violation_degree_name" header="درجة المخالفة" headerStyle="text-align: center">
         
     </Column>
-    <Column field="student_signature" header="توقيع الطالب">
+    <Column field="student_signature" header="توقيع الطالب" headerStyle="text-align: center">
         
     </Column>
-    <Column field="supervisor_signature" header=" توقيع الاداري">
+    <Column field="supervisor_signature" header=" توقيع الاداري" headerStyle="text-align: center">
         
     </Column>
 

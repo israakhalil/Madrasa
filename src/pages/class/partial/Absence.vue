@@ -296,7 +296,6 @@ export default {
             this.form.student_id = this.student_id
             this.form.class_id = this.class_id;
             this.form.hijri_date = this.form.day + ' ,' + this.form.month+' ,'+this.form.year;
-                //console.log(this.$refs.monthName.label);
            this.form.absence_date = this.formatDate(this.form.absence_date)
             this.absencesService.save(this.form, this.form.id).then(({ data }) => {
                 if (data.code == 200) {

@@ -9,10 +9,54 @@
             </div>
 
             <div class="grid p-fluid mt-3 font-bold mr-5">
-            <div class="field col-12 md:col-2">
+            <!-- <div class="field col-12 md:col-2">
                 <label for="date">التاريخ  </label>
                 <Calendar id="date" :showIcon="true" v-model="date"></Calendar>
+            </div> -->
+
+            <div class="field col-12 md:col-4">
+            <label>تاريخ الغياب / هجري </label>
+           
+            <div class="grid">
+                <div class="col-3">       
+                        <Dropdown
+                        v-model="filter.day"
+                        :options="days"
+                        optionLabel="name"
+                        placeholder="يوم"
+                        option-value="id"
+                        :class="{ 'p-invalid':v$.filter.day.$invalid && submitted }"
+                        />
+                       <small class="p-error" v-if="v$.filter.day.$invalid && submitted">يرجى اختيار  يوم  </small>
+                </div>
+                <div class="col-5">
+                    <Dropdown
+                        v-model="filter.month"
+                        :options="hijri_months"
+                        optionLabel="name"
+                        placeholder="شهر"
+                        option-value="id"
+                        :class="{ 'p-invalid':v$.filter.month.$invalid && submitted }"
+                        />
+                        <small class="p-error" v-if="v$.filter.month.$invalid && submitted">يرجى اختيار  شهر   </small> 
+            
+                </div>
+                <div class="col-4">
+                    <Dropdown
+                        v-model="filter.year"                    
+                        :options="years"
+                        optionLabel="name"
+                        placeholder="سنة"
+                        option-value="id"
+                        :class="{ 'p-error':v$.filter.year.$invalid && submitted }"
+                        />
+                        <small class="p-error" v-if="v$.filter.year.$invalid && submitted">يرجى اختيار  سنة  </small>
+                </div>
             </div>
+           
+           
+          </div>
+
             <div class="field col-12 md:col-2">
                 <label for="level_id">المرحلة </label>
                 <Dropdown
@@ -62,10 +106,9 @@
                     class=" ml-3" 
                     @click="onFilter(!v$.$invalid)"/>
             </div>
-            <div class="field col-12 md:col-3">
+            <div class="field col-12 md:col-1">
                 <label > </label>
-                <Button label="تفرغة حقول البحث"
-                    icon="pi pi-search"
+                <Button label="تفرغة  "
                     class=" ml-3" 
                     @click="reset()"/>
             </div>
@@ -82,6 +125,7 @@
                                     </template>
                                 </Column>
                                 <Column field="student_name" header="اسم الطالب"></Column>
+                                <Column field="hijri_date" header="التاريخ الهجري"></Column>
                                 <Column field="absence_date" header="تاريخ الغياب"></Column>
                                 <Column field="absence_reason" header="سبب الغياب"></Column>
                                 <Column field="absence_type_name" header="نوع الغياب"></Column>
@@ -102,6 +146,7 @@
                                 </template>
                             </Column>
                             <Column field="student_name" header="اسم الطالب"></Column>
+                            <Column field="hijri_date" header="التاريخ الهجري"></Column>
                             <Column field="delay_date" header="تاريخ التاخير"></Column>
                             <Column field="delay_reason" header="سبب التاخير"></Column>
                             <Column field="delay_amount" header="مقدار التاخير"></Column>
@@ -120,6 +165,7 @@
                                     </template>
                             </Column>
                             <Column field="student_name" header="اسم الطالب"></Column>
+                            <Column field="hijri_date" header="التاريخ الهجري"></Column>
                             <Column field="violation_date" header="تاريخ المخالفة"></Column>
                             <Column field="action_performed" header=" الاجراء المنفذ"></Column>
                             <Column field="violation_procedure_id" header="نوع الاجراء"></Column>
@@ -142,6 +188,8 @@
                                     </template>
                                     </Column>
                             <Column field="student_name" header="اسم الطالب"></Column>
+                            <Column field="hijri_date" header="التاريخ الهجري"></Column>
+
                             <Column field="leave_date" header="تاريخ الاستئذان"></Column>
                             <Column field="leave_reason" header="سبب الاستئذان"></Column>
                             <Column field="leave_time" header="وقت الاستئذان"></Column>
@@ -161,6 +209,7 @@
                         </template>
                     </Column>
                     <Column field="student_name" header="اسم الطالب"></Column>
+                    <Column field="hijri_date" header="التاريخ الهجري"></Column>
                     <Column field="received_date" header="تاريخ التسليم"></Column>
                     <Column field="book_name" header=" اسم الكتاب"></Column>
                     <Column field="is_delivered" header=" التسليم"></Column>
@@ -182,8 +231,8 @@ import LeavesService from "@/services/leavesService";
 import ViolationsService from "@/services/violationsService";
 import SchoolsService from "@/services/schoolsService";
 import { useVuelidate } from "@vuelidate/core";
-import {required} from "@vuelidate/validators";
-
+import {required,requiredIf} from "@vuelidate/validators";
+import {hijri_months} from "@/services/constants.js";
     
 export default {
   setup () {
@@ -211,6 +260,12 @@ export default {
               leaves: [],
               violations: [],
               submitted: false,
+              day: null,
+              month: null,
+              year: null,
+                        days: Array.from({ length: 31 }, (_, i) => ({ id: String((i+1)), name: (i+1) })),
+            hijri_months: [],
+            years: Array.from({ length: 10 }, (_, i) => ({ id: String((i+1444)), name: (i+1444) })),
               
           };
       },
@@ -218,7 +273,24 @@ export default {
     return {
       filter: {
             class_id: { required },
-            level_id:{required}
+            level_id: { required },
+            day: {
+                required: requiredIf(function () {
+                    return this.filter.month 
+                })
+            },
+            month: {
+                required: requiredIf(function () {
+                    return this.filter.year
+                })
+            },
+            year: {
+                required: requiredIf(function () {
+                    return this.filter.day
+                })
+            },
+            // month: requiredIf(this.filter.day && this.filter.year) ,
+            // year:requiredIf(this.filter.day && this.filter.month) ,
       }
     }
   },
@@ -290,8 +362,11 @@ export default {
                 //   date:this.formatDate(this.filter.date)
               };
             this.filter.type=this.filter.type?this.filter.type:0
-            if (this.date) {
-            this.filter.date = this.formatDateForSearch(this.date);
+            // if (this.date) {
+            // this.filter.date = this.formatDateForSearch(this.date);
+            // }
+            if (this.filter.day && this.filter.month && this.filter.year) {
+                this.filter.hijri_date = this.filter.day + ' ,' + this.filter.month+' ,'+this.filter.year;
             }
 
             this.query = Object.assign(this.query, this.filter);
@@ -304,6 +379,7 @@ export default {
     
        },
     mounted() {
+        this.hijri_months = hijri_months;
         this.query = {
                   level_id:this.filter.level_id,
                   class_id: this.filter.class_id,
