@@ -15,7 +15,7 @@
             </div> -->
 
             <div class="field col-12 md:col-4">
-            <label>تاريخ الغياب / هجري </label>
+            <label> التاريخ </label>
            
             <div class="grid">
                 <div class="col-3">       
