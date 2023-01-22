@@ -44,7 +44,7 @@ export default {
             showSideMenu: false,
             menu : [
               {
-                label:'المراحل الدراسية',
+                label:'المراحل',
                 icon: 'pi pi-fw pi-money-bill',
                 to:'/levels',
                 visible: () => (authorize.methods.can('LEVEL_VIEW_ALL'))

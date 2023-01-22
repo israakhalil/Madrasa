@@ -1,7 +1,7 @@
 <template>
   <div class="grid">
     <template v-if="!this.error" >
-        <div id="right" class="md:col-3 sm:col-12 xs:col-12 lg:col-3 " >
+        <div id="right" class="col-5 md:col-3 sm:col-5 xs:col-4 lg:col-3 " >
       <div class="card p-fluid list_container"  style="height: 87vh;">
         <div class="grid formgrid re_quick"  >
 
@@ -38,12 +38,12 @@
     </div>
     
 
-    <div id="left" class="md:col-9 sm:col-12 xs:col-12 list_container" style="height: 87vh;">
+    <div id="left" class="col-7 md:col-9 sm:col-7 xs:col-4 list_container" style="height: 87vh;">
       <div class="card p-fluid re_quick ">
           <div class="grid formgrid list_container2">
             <div
               v-for="(_class, index) in classes"
-              class="md:col-4 mb-6 sm:col-4 xs:col-6 lg:mb-8">
+              class="12 md:col-4 mb-6 sm:col-12 xs:col-12 lg:mb-8">
               
                 <Card >
                 <template #header>

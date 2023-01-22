@@ -3,13 +3,13 @@
     <div class="col-12 md:col-12 re_quick" >
       <div class="card  list_container2">
         <div class="grid my-2 font-bold mr-10 ">
-          <div class="col-6 md:col-6 py-4">
+          <div class="col-12 md:col-6 py-4">
             <span class="font-bold text-xl">قائمة المراحل الدراسية </span>
 
           </div>
-          <div class="col-6 md:col-6">
+          <div class="col-12 md:col-6">
             <div class="grid">
-              <div class="col-8 md:col-8">
+              <div class="col-12 md:col-8">
                           <span class="col-12 p-input-icon-right">
                               <i class="pi pi-search mr-3" />
                               <InputText type="text"
@@ -19,7 +19,7 @@
                           </span>
 
               </div>
-              <div class="col-4 md:col-4 justify-content-right mt-2">
+              <div class="col-12 md:col-4 p-fluid justify-content-right mt-2">
                 <Button label="إضافة مرحلة"   icon="pi pi-plus" class="p-button-outlined " @click="openNew"/>
 
               </div>

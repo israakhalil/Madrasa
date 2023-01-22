@@ -4,7 +4,7 @@
       <div class="card list_container2">
         <div class="grid p-fluid mt-3 font-bold mr-5">
 
-          <div class="col-11 md:col-11 justify-content-right">
+          <div class="col-12 md:col-11 justify-content-right">
             <span class="font-bold text-xl">المراحل المدرسية <i class="pi pi-chevron-right"></i>
               {{ this.class.level_name }} <i class="pi pi-chevron-right"></i>
               <span style="cursor: pointer"
@@ -14,7 +14,7 @@
               </span>
             </span>
           </div>
-          <div class="col-1 md:col-1 ">
+          <div class="col-12 md:col-1 ">
             <Button 
               width="70%"
               label="طباعة"
@@ -33,7 +33,7 @@
             <span class="font-bold text-xl">البيانات المسجلة</span>
         </div>
 
-        <div v-if="this.can('ABSENCE_ADD_EDIT')" class="grid p-fluid mt-5 font-bold mr-5">
+        <div v-if="this.can('ABSENCE_ADD_EDIT')" class="grid  p-fluid mt-5 font-bold mr-5">
         
            <AbsenceStudent  :student_id="id" :class_id="class_id" :student_name="this.student.name"/>
         </div>
@@ -119,9 +119,9 @@ export default {
 .grid {
   margin-left: -0.035rem;
 }
-.md\:col-12 {
+/* .md\:col-12 {
   padding: 0.5rem 0.5rem 0.5rem 0rem;
-}
+} */
 
 .x {
   background-color: blueviolet;

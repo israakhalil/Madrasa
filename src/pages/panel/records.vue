@@ -99,14 +99,14 @@
                 option-value="id"
                 />
             </div>
-            <div class="field col-12 md:col-1">
+            <div class="field col-6 md:col-1 sm:col-6">
                 <label > </label>
                 <Button label="بحث"
-                    icon="pi pi-search"
+                   
                     class=" ml-3" 
                     @click="onFilter(!v$.$invalid)"/>
             </div>
-            <div class="field col-12 md:col-1">
+            <div class="field col-6 md:col-1 sm:col-6">
                 <label > </label>
                 <Button label="تفرغة  "
                     class=" ml-3" 

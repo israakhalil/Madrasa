@@ -1,6 +1,6 @@
 <template>
     <div class="grid"  style="height: 87vh;">
-          <div id="right" class="md:col-3 sm:col-12 xs:col-12 lg:col-3 " >
+          <div id="right" class="col-4 md:col-3 sm:col-4 xs:col-4 lg:col-3 " >
         <div class="card p-fluid re_quick list_container" >
           <div class="grid formgrid ">
   
@@ -11,8 +11,8 @@
               <Card style="cursor: pointer " class="mt-6" @click="getName(1)">
                 <template #content>
                   <div  class="flex-1 justify-content-center text-center md:text-center" >
-                    <i class =" pi pi-id-card"   style="font-size: 16vh; "/>
-                    <div class="font-bold text-2xl">
+                    <i class =" pi pi-id-card"   style="font-size: 10vh; "/>
+                    <div class="font-bold text-xl">
                      
                         <span>النموذج الخاص بالطلاب</span>
                       </div>
@@ -24,8 +24,8 @@
               <Card style="cursor: pointer " class="mt-6" @click="getName(2)">
                 <template #content>
                   <div  class="flex-1 justify-content-center text-center md:text-center" >
-                    <i class =" pi pi-id-card"   style="font-size: 16vh; "/>
-                    <div class="font-bold text-2xl">
+                    <i class =" pi pi-id-card"   style="font-size: 10vh; "/>
+                    <div class="font-bold text-xl">
                         <span>النموذج الخاص بالطالبات</span>
                       </div>
                   </div> 
@@ -40,26 +40,26 @@
         </div>
       </div>
   
-      <div id="left" class="md:col-9 sm:col-12 xs:col-12 " >
+      <div id="left" class="col-8 md:col-9 sm:col-8 xs:col-8 " >
 
         <div class="card p-fluid " v-if="type==1">
             
           <div class="grid mt-2 font-bold mr-5" >
-              <div class="col-6 md:col-6 lg:col-6 justify-content-right">
+              <div class="col-12 md:col-6 lg:col-6 justify-content-right">
                 <span class="font-bold text-xl" style="color: var(--primary-color)">
                   النموذج الخاص بالطلاب
                 </span>
               </div>
-              <div class="col-6 md:col-6 lg:col-6 justify-content-left">
+              <div class="col-12 md:col-6 lg:col-6 justify-content-left">
                 <div class="grid">
-                  <div class="field col-8 md:col-8 lg:col-8">
+                  <div class="field col-12 md:col-8 lg:col-8">
                     <Button
                   label="ادخال بيانات الشهادة"
                   
                   class="p-button-outlined ml-3" 
                   @click="openNew"/>
                 </div>
-                <div class="field col-4 md:col-4 lg:col-4">
+                <div class="field col-12 md:col-4 lg:col-4">
                   <Button
                   label="طباعة"
                   icon="pi pi-print"
@@ -131,21 +131,21 @@
         <div class="card p-fluid " v-if="type==2">
             
           <div class="grid mt-2 font-bold mr-5 ">
-              <div class="col-6 md:col-6 lg:col-6 justify-content-right">
+              <div class="col-12 md:col-6 lg:col-6 justify-content-right">
                 <span class="font-bold text-xl" style="color: var(--primary-color)">
                   النموذج الخاص بالطالبات
                 </span>
               </div>
-              <div class="col-6 md:col-6 lg:col-6 justify-content-left">
+              <div class="col-12 md:col-6 lg:col-6 justify-content-left">
                 <div class="grid">
-                  <div class="field col-8 md:col-8 lg:col-8">
+                  <div class="field col-12 md:col-8 lg:col-8">
                     <Button
                   label="ادخال بيانات الشهادة"
                   
                   class="p-button-outlined ml-3" 
                   @click="openNew"/>
                 </div>
-                <div class="field col-4 md:col-4 lg:col-4">
+                <div class="field col-12 md:col-4 lg:col-4">
                   <Button
                   label="طباعة"
                   icon="pi pi-print"

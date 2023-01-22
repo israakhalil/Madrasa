@@ -120,10 +120,10 @@
   </div>
 
   <div class="grid p-fluid mt-3 font-bold mr-5">
-    <div class="field col-12 md:col-4 sm:col-4">
+    <div class="field col-12 md:col-4 sm:col-6">
       <Button label=" حفظ" class="p-button-primary" @click="saveDelays" />
     </div>
-    <div class="field col-12 md:col-4 sm:col-4">
+    <div class="field col-12 md:col-4 sm:col-6">
       <Button
         label="اضافة تأخير جديد"
         class="p-button-outlined"

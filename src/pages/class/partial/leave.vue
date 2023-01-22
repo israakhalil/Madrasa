@@ -1,12 +1,12 @@
 <template>
 <div class="col-12 md:col-12" id="printLeaves">
     <div class="grid">
-    <div class="col-9 md:col-9 div-right">
+    <div class="col-12 md:col-9 div-right">
             <span class="font-bold text-xl" style="color: var(--primary-color)">
             الاذونات
             </span>
     </div>
-    <div class="col-2 md:col-2 button-dispaly">
+    <div class="col-7 md:col-2 button-dispaly">
     <Button 
         width="70%"
         label=" اضافة استئذان"
@@ -16,7 +16,7 @@
         v-if="this.can('LEAVE_ADD_EDIT')"
         />
     </div>
-    <div class="col-1 md:col-1 button-dispaly">
+    <div class="col-5 md:col-1 button-dispaly">
     <Button 
             width="70%"
             label="طباعة"

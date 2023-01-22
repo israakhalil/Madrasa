@@ -15,7 +15,7 @@
 <!--      <span>Settings</span>-->
 <!--    </button>-->
 
-    <ul class="layout-topbar-menu hidden lg:flex origin-top">
+    <ul class="layout-topbar-menu hidden lg:flex origin-top layout-topbar-logo_text">
 
 	  <li>
 <!--      <Button-->

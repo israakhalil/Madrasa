@@ -3,15 +3,15 @@
     <div class="col-12 md:col-12 re_quick">
       <div class="card list_container2">
         <div class="grid my-2 font-bold mr-10">
-            <div class="col-5 md:col-5  py-4">
+            <div class="col-12 md:col-5  py-4">
               <span class="font-bold text-xl"
                 >المراحل المدرسية > {{ this.class.level_name }} >
                 {{ this.class.name }}</span
               >
             </div>
-            <div class="col-7 md:col-7">
+            <div class="col-12 md:col-7">
                 <div class="grid">
-                    <div class="col-5 md:col-5">
+                    <div class="col-12 md:col-5">
                         <span class="col-12 p-input-icon-right">
                             <i class="pi pi-search mr-3" />
                             <InputText type="text" 
@@ -21,7 +21,7 @@
                         </span>
 
                      </div>
-                    <div class="col-4 md:col-4 justify-content-center mt-2"  v-tooltip="'يجب على الاقل ان يحتوي الملف على عمود الاسم  '">
+                    <div class="col-6 md:col-4 justify-content-center mt-2"  v-tooltip="'يجب على الاقل ان يحتوي الملف على عمود الاسم  '">
                         <FileUpload
                         v-if="this.can('STUDENT_IMPORT')"
                         style="width:100%"
@@ -38,8 +38,8 @@
                         />
                     </div>
                 
-                    <div class="col-3 md:col-3 justify-content-right mt-2">
-                        <Button  v-if="this.can('STUDENT_ADD_EDIT')" label="إضافة طالب"   icon="pi pi-plus" class="p-button-outlined " @click="openNew"/>
+                    <div class="col-6 md:col-3 justify-content-right mt-2">
+                        <Button  v-if="this.can('STUDENT_ADD_EDIT')" label="إضافة طالب"   style="width:100%"  icon="pi pi-plus" class="p-button-outlined " @click="openNew"/>
 
                     </div>
                   

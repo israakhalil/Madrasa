@@ -10,19 +10,19 @@
           </div>
           <div class="grid p-fluid mt-3 mr-5">
             <div class="field col-12 md:col-12"><span class="font-bold text-xl "> الاضافات السريعة </span></div> 
-            <div v-if="this.can('ABSENCE_ADD_EDIT')" class="field col-12 md:col-2 sm:col-4">
+            <div v-if="this.can('ABSENCE_ADD_EDIT')" class="field col-12 md:col-2 sm:col-6">
                 <Button label="اضافة غياب" class="p-button-outlined" :class="[type==1?'x':'']" @click="this.$router.push({ name: 'quick-index', params: { type: 1 } })"/>
              </div>
-             <div v-if="this.can('DELAY_ADD_EDIT')" class="field col-12 md:col-2 sm:col-4">
+             <div v-if="this.can('DELAY_ADD_EDIT')" class="field col-12 md:col-2 sm:col-6">
                 <Button label="اضافة تاخير" class="p-button-outlined"  :class="[type==2?'x':'']"  @click="this.$router.push({ name: 'quick-index', params: { type: 2 } })"/>
              </div>
-             <div v-if="this.can('VIOLATION_ADD_EDIT')" class="field col-12 md:col-3 sm:col-4">
+             <div v-if="this.can('VIOLATION_ADD_EDIT')" class="field col-12 md:col-3 sm:col-6">
                 <Button label="اضافة مخالفة سلوكية" class="p-button-outlined" :class="[type==3?'x':'']" @click="this.$router.push({ name: 'quick-index', params: { type: 3 } })"/>
              </div>
-             <div v-if="this.can('LEAVE_ADD_EDIT')" class="field col-12 md:col-2 sm:col-4">
+             <div v-if="this.can('LEAVE_ADD_EDIT')" class="field col-12 md:col-2 sm:col-6">
                 <Button label="اضافة استئذان" class="p-button-outlined" :class="[type==4?'x':'']" @click="this.$router.push({ name: 'quick-index', params: { type: 4 } })"/>
              </div>
-             <div v-if="this.can('BOOK_ADD_EDIT')" class="field col-12 md:col-3 sm:col-4">
+             <div v-if="this.can('BOOK_ADD_EDIT')" class="field col-12 md:col-3 sm:col-6">
                 <Button label="اضافة تسليم كتب" class="p-button-outlined" :class="[type==5?'x':'']" @click="this.$router.push({ name: 'quick-index', params: { type: 5 } })"/>
              </div>
             </div>
@@ -192,9 +192,9 @@ export default {
 .grid{
     margin-left: -0.035rem;
 }
-.md\:col-12{
+/* .md\:col-12{
     padding:0.5rem 0.5rem 0.5rem 0.0rem ;
-}
+} */
 .middle{
     width: 70%;
     /* margin-right: 5rem; */

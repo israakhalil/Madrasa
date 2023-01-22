@@ -1,11 +1,11 @@
 <template>
         <div class="grid p-fluid mt-5 font-bold mr-5">
-          <div class="col-9 md:col-9 justify-content-right mr-10">
+          <div class="col-12 md:col-9 justify-content-right mr-10">
             <span class="font-bold text-xl" style="color: var(--primary-color)">
               البيانات الرئيسية
             </span>
           </div>
-          <div class="col-3 md:col-3 button-dispaly">
+          <div class="col-12 md:col-3">
             <Button
               width="70%"
               label=" تعديل بيانات الطالب"
