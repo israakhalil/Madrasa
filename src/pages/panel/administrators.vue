@@ -32,8 +32,6 @@
         </div>
 
         <div>
-
-
           <DataTable :value="users" class="p-datatable-lg font-bold" showGridlines  responsiveLayout="scroll">
             <Column field="id" header="الرقم ">
               <template #body="slotProps">
@@ -80,7 +78,7 @@
 
       <Dialog
           v-model:visible="AddUserDialog"
-          :style="{ width: '500px' }"
+          :style="{ width: '400px' }"
           :header=header
           :modal="true"
           class="p-fluid font-bold text-lg">

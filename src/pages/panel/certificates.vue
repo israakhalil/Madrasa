@@ -1,6 +1,6 @@
 <template>
     <div class="grid"  style="height: 87vh;">
-          <div id="right" class="col-4 md:col-3 sm:col-4 xs:col-4 lg:col-3 " >
+          <div id="right" class="col-5 md:col-3 sm:col-4 xs:col-5 lg:col-3 " >
         <div class="card p-fluid re_quick list_container" >
           <div class="grid formgrid ">
   
@@ -40,7 +40,7 @@
         </div>
       </div>
   
-      <div id="left" class="col-8 md:col-9 sm:col-8 xs:col-8 " >
+      <div id="left" class="col-7 md:col-9 sm:col-7 xs:col-8 " >
 
         <div class="card p-fluid " v-if="type==1">
             
@@ -74,16 +74,18 @@
       </div>
             
           </div>
+          <br />
             <div class="col-12 md:col-12 lg:col-12" id="printMe" >
               <!-- <img src="/images/certifications.png" alt="Snow" style="width:100%; height: 700px" > -->
               <img src="/images/m2.jpg" alt="Snow" style="width:100%; height: 800px" >
                <div class="centered justify-content-center text-center">
                 <div class ='grid p-fluid'>
                   <div class="col-12 md:col-12 lg:col-12">
-                  <div class="grid grid1">
-                    <div class="field col-6  text-right">  شعار الرؤية</div>
-                      <div class="field col-6 text-left">  شعار الوزارة </div>
-                  </div>
+                    <div class="grid grid1">
+                      <br />
+                      <div class="field col-6  md:col-6 text-right">  شعار الرؤية</div>
+                      <div class="field col-6 md:col-6 text-left">  شعار الوزارة </div>
+                    </div>
                  </div>
                   <div class="col-12 md:col-12 lg:col-12 text-">
                 <span class="font-bold font-b text-5xl"> شهادة شكر وتقدير </span>
@@ -340,12 +342,25 @@
 //   transform: translate(-50%, -50%);
 // }
 
+
+ @media screen and (max-width: 700px){
+.centered {
+    position: absolute;
+    top: 70%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 70%;
+}
+
+}
+@media screen and (min-width: 700px){
 .centered {
     position: absolute;
     top: 52%;
     left: 50%;
     transform: translate(-50%, -50%);
     width: 70%;
+}
 }
 .text-5xl {
     font-size: 3rem !important;
