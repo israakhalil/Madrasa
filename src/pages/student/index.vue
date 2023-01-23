@@ -25,7 +25,7 @@
              <div class="field col-12 md:col-2 sm:col-4">
                 <Button label="اضافة تسليم كتب" class="p-button-outlined" :class="[type==5?'x':'']" @click="this.$router.push({ name: 'quick-index', params: { type: 5 } })"/>
              </div>
-            </div>
+            </div>ت
         </div>
    
   
