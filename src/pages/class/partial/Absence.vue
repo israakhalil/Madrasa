@@ -6,7 +6,7 @@
                 الغياب
                 </span>
         </div>
-        <div class="col-7 md:col-2 button-dispaly">
+        <div class="col-12 md:col-2 sm:col-7 button-dispaly">
         <Button 
             label=" اضافة غياب"
             icon="pi pi-plus"
@@ -15,7 +15,7 @@
             v-if="this.can('ABSENCE_ADD_EDIT')"
             />
         </div>
-        <div class="col-5 md:col-1 button-dispaly">
+        <div class="col-12 md:col-1 sm:col-5 button-dispaly">
         <Button 
             label="طباعة"
             class="p-button-outlined align-left"

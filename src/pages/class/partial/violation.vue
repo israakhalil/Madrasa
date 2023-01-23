@@ -6,7 +6,7 @@
             المخالفات السلوكية
             </span>
     </div>
-    <div class="col-7 md:col-2 button-dispaly" >
+    <div class="col-12 md:col-2 sm:col-7 button-dispaly" >
     <Button 
         width="70%"
         label=" اضافة مخالفة"
@@ -16,7 +16,7 @@
         v-if="this.can('VIOLATION_ADD_EDIT')"
         />
     </div>
-    <div class="col-5 md:col-1 button-dispaly">
+    <div class="col-12 md:col-1 sm:col-5 button-dispaly">
     <Button 
             width="70%"
             label="طباعة"

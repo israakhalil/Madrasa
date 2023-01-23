@@ -5,7 +5,7 @@
               البيانات الرئيسية
             </span>
           </div>
-          <div class="col-12 md:col-3">
+          <div class="col-12 md:col-3 button-dispaly">
             <Button
               width="70%"
               label=" تعديل بيانات الطالب"
