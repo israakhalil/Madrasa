@@ -1,8 +1,8 @@
 <template>
 <div class="col-12 md:col-12" id="printAbsence">
     <div class="grid">
-        <div class="col-12 md:col-9 div-right" >
-                <span class="font-bold text-xl " style="color: var(--primary-color)">
+        <div class="col-12 md:col-9 div-right " >
+                <span class="font-bold text-xl" style="color: var(--primary-color)">
                 الغياب
                 </span>
         </div>
@@ -26,7 +26,8 @@
     </div>
   
      <div class="col-12 md:col-12 mr-10" >
-         <!-- <div hidden class="name"> غياب الطالب : {{student_name}}</div> -->
+        <div hidden v-show="!show && !notshow" class="name" > الطالب : {{student_name}}</div>
+
         <DataTable  :value="student_absences"  class="table td p-datatable-lg font-bold"   showGridlines  responsiveLayout="scroll">
         <Column field="id_number" header="الرقم ">
             <template #body="slotProps">
@@ -213,10 +214,11 @@ export default {
     setup () {
         return { v$: useVuelidate() }
     },
-    props: ["student_id",'class_id','student_name'],
+    props: ["student_id",'class_id','student_name',"show"],
 
     data() {
         return {
+            notshow:false,
             submitted:false,
             student_absences: [],
             absence_types: [],
@@ -327,6 +329,7 @@ export default {
         });
         },
         printAbsence () {
+            this.notshow=!this.notshow
       // Pass the element id here
         this.$htmlToPaper('printAbsence');
     

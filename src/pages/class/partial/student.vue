@@ -45,6 +45,11 @@
         />
       </div>
       <div class="field col-12 md:col-2">
+        <label for="nationality"> الجنسية </label>
+        <InputText 
+          id="nationality" disabled v-model.trim="student.nationality"/>
+      </div>
+      <div class="field col-12 md:col-2">
         <label for="phone_1"> هاتف ولي الامر (الاول) </label>
         <InputText 
           id="phone_1" disabled
@@ -110,6 +115,11 @@
                 <small class="p-error" v-if="v$.student_profile.date_of_birth.$invalid && submitted">يرجى اختبار  تاريخ الميلاد  </small>
 
             </div>
+            <div class="field">
+            <label for="nationality"> الجنسية </label>
+            <InputText id="nationality" v-model.trim="student_profile.nationality"/>
+            </div >
+
           <div class="field">
             <label for="phone_1"> (الاول) هاتف ولي الامر  </label>
             <InputText

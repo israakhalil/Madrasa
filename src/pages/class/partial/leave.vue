@@ -27,7 +27,7 @@
     </div>
     </div>
     <div class="col-12 md:col-12 mr-10" >
-        <!-- <div hidden class="name">  الطالب : {{student_name}}</div> -->
+        <div hidden class="name">  الطالب : {{student_name}}</div>
 
     <DataTable  :value="student_leaves" class="p-datatable-lg font-bold" showGridlines  responsiveLayout="scroll">
     <Column  header="الاستئذان ">

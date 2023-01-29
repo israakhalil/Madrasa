@@ -99,18 +99,36 @@ const routes = [
                 path: '/account',
                 component: () => import('../pages/account/layout.vue'),
                 children:[
-            {
-                name: "user-profile",
-                path: 'profile',
-                component: () => import('../pages/account/profile.vue'),
-            },
+                    {
+                        name: "user-profile",
+                        path: 'profile',
+                        component: () => import('../pages/account/profile.vue'),
+                    },
 
+                    {
+                        name: 'user-change-password',
+                        path: 'change-password',
+                        component: () => import('../pages/account/change-password.vue'),
+                    },]
+            },
             {
-                name: 'user-change-password',
-                path: 'change-password',
-                component: () => import('../pages/account/change-password.vue'),
-            },]
-            }
+                path: '/constant',
+                component: () => import('../pages/constant/layout.vue'),
+                children: [
+                    // {
+                    //     path: '/schools',
+                    //     name:"schools-index",
+                    //     component: () => import('../pages/admin/schools.vue'),
+                       
+                    // },
+                    // {
+                    //     path: '/supervisors',
+                    //     name:"supervisors-index",
+                    //     component: () => import('../pages/admin/supervisors.vue'),
+                       
+                    // },
+                ]
+            },
         ]    
     },
     

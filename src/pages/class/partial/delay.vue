@@ -28,6 +28,7 @@
 
    
      <div class="col-12 md:col-12 mr-10" >
+        <div hidden class="name">  الطالب : {{student_name}}</div>
     <DataTable  :value="student_delays" class="p-datatable-lg font-bold" showGridlines  responsiveLayout="scroll">
     <Column field="id_number" header="الرقم ">
         <template #body="slotProps">

@@ -35,7 +35,7 @@
 
         <div v-if="this.can('ABSENCE_ADD_EDIT')" class="grid  p-fluid mt-5 font-bold mr-5">
         
-           <AbsenceStudent  :student_id="id" :class_id="class_id" :student_name="this.student.name"/>
+           <AbsenceStudent  :student_id="id" :class_id="class_id" :student_name="this.student.name" :show="show"/>
         </div>
 
         <div v-if="this.can('DELAY_ADD_EDIT')" class="grid p-fluid mt-5 font-bold mr-5">
@@ -79,6 +79,7 @@ export default {
         return {
             class: [],
             student: [],
+            show:false
         };
     },
     watch: {},
@@ -95,7 +96,10 @@ export default {
             });
       },
       printall() {
+        this.show =  true;
+        // console.log(this.student.name);
         this.$htmlToPaper('printall');
+        // this.show =  false;
       },
 
     },

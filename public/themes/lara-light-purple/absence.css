@@ -18,17 +18,18 @@
       .name{
         text-align: right;
         display:block;
-        padding: 8px;
-        padding-top: 20px;
+        padding-bottom: 8px;
+        /* padding-top: 20px; */
         font-size: 25px;
-        font-weight: 700;
-
+        font-weight: 500;
+        font-family: Tajawal;
 
       }
 
       .div-right{
         text-align: right;
-        margin-bottom: 2rem;
+        margin-bottom: 1.6rem;
+        padding-top: 2rem; 
       }
 
       .button-dispaly{
@@ -37,12 +38,12 @@
 
       .mr-5{
         text-align: right;
-       /* padding-top: 1rem; */
+       /* padding-top: 5rem;  */
       } 
 
       .text-xl{
-        font-size: 1.1rem !important;
-    font-family: Tajawal;
+        font-size: 1.6rem !important;
+        font-family: Tajawal;
       }
 
       .student_print_show{
