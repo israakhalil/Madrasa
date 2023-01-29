@@ -19,6 +19,7 @@ class StudentResource extends JsonResource
             'phone_2'=> $this['phone_2'],
             'phone_3'=> $this['phone_3'],
             'attached_id'=> $this['attached_id'],
+            'nationality'=>$this['nationality'],
             'absence_count'=>Count($this->AbesenceCount),
             'delay_count'=>Count($this->DelayCount),
             'violation_count'=>Count($this->ViolationCount),

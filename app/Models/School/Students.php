@@ -26,7 +26,8 @@ class Students extends Model
         'phone_1',
         'phone_2',
         'phone_3',
-        'attached_id'
+        'attached_id',
+        'nationality'
     ];
 
     protected $fillable = self::FILLABLE;
