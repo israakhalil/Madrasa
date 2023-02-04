@@ -56,7 +56,7 @@
 
     <Column  header="  الاجراءات" style="max-width:8rem">
         <template #body="slotProps">
-            <!-- <Button icon="pi pi-download" class="p-button-rounded p-button-help ml-2" /> -->
+            <Button v-if="slotProps.data.attached" icon="pi pi-download" class="p-button-rounded p-button-help ml-2" @click="download(slotProps.data.file)"/> 
             <Button v-if="this.can('BOOK_ADD_EDIT')" icon="pi pi-pencil" class="p-button-rounded p-button-success ml-2" @click="openEdit(slotProps.data)"/>
             <Button v-if="this.can('BOOK_DELETE')" icon="pi pi-trash" class="p-button-rounded p-button-danger ml-2" @click="openDelete(slotProps.data)"/>
         </template>
@@ -146,6 +146,23 @@ class="p-fluid font-bold text-lg">
           <small class="p-error" v-if="v$.form.is_delivered.$invalid && submitted">يرجى  الاختيار      </small>
 
         </div >
+        <div class="field">
+            <label for="file">الملف المرفق</label>
+            <div class="inputfile-box">
+              <input
+                type="file"
+                id="file"
+                class="inputfile"
+                @change="uploadFile"
+              />
+              <label for="file">
+                <span class="p-input-icon-left">
+                  <i class="pi pi-upload" aria-hidden="true"></i>
+                  <span id="file-name" class="file-box">{{form.attached}}</span>
+                </span>
+              </label>
+            </div>
+            </div>
         <div  class="field">
             <label for="student_signature"> توقيع الطالب </label>
             <InputText
@@ -222,7 +239,7 @@ data() {
         errorMsg: false,
         deleteconfirm:false,
         form:{},
-        
+        attached:null,
         booksService: null,
         delivered_options: [
         {
@@ -276,18 +293,27 @@ methods: {
         this.deleteconfirm = true;
         this.deleteMsg = "هل انت متاكد من الحذف ";
     },
+    download(link) {
+            window.open(link,'_blank')
+    },
+    uploadFile(e) {
+        this.form.attached = e.target.files[0].name;
+        this.attached = e.target.files[0]
+    },
     save(isFormValid) {
              this.successMsg = false;
             this.submitted = true;
             if (!isFormValid) {
                 return;
         }   
+        const formData = new FormData()   
         this.form.class_id = this.class_id;
         this.form.student_id = this.student_id
-        this.form.received_date=this.formatDate(this.form.received_date)
         this.form.hijri_date = this.form.day + ' ,' + this.form.month+' ,'+this.form.year;
-
-        this.booksService.save(this.form, this.form.id).then(({ data }) => {
+        this.form.received_date = this.formatDate(this.form.received_date)
+        formData.append('attached', this.attached)
+        formData.append('data', JSON.stringify(this.form))
+        this.booksService.save(formData, this.form.id).then(({ data }) => {
             if (data.code == 200) {
             this.BookDialog = false;
             this.successMsg = true;

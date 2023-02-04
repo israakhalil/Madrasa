@@ -50,13 +50,14 @@
     <Column field="leave_time" header="وقت الاستئذان">
         
     </Column>
+
     <Column field="student_signature" header=" توقيع الطالب">
         
     </Column>
 
     <Column  header="  الاجراءات" style="max-width:10rem">
         <template #body="slotProps">
-            <!-- <Button icon="pi pi-download" class="p-button-rounded p-button-help ml-2" /> -->
+            <Button v-if="slotProps.data.attached" icon="pi pi-download" class="p-button-rounded p-button-help ml-2" @click="download(slotProps.data.file)"/> 
             <Button   v-if="this.can('LEAVE_ADD_EDIT')" icon="pi pi-pencil" class="p-button-rounded p-button-success ml-2" @click="openEdit(slotProps.data)"/>
             <Button   v-if="this.can('LEAVE_DELETE')" icon="pi pi-trash" class="p-button-rounded p-button-danger ml-2" @click="openDelete(slotProps.data)"/>
         </template>
@@ -144,6 +145,24 @@ class="p-fluid font-bold text-lg">
           <small class="p-error" v-if="v$.form.leave_time.$invalid && submitted">يرجى  ادخال مقدار     </small> -->
 
         </div >
+        <div class="field">
+        <label for="file">الملف المرفق</label>
+        <div class="inputfile-box">
+            <input
+            type="file"
+            id="file"
+            class="inputfile"
+            @change="uploadFile"
+            />
+            <label for="file">
+            <span class="p-input-icon-left">
+                <i class="pi pi-upload" aria-hidden="true"></i>
+                <span id="file-name" class="file-box">{{form.attached}}</span>
+            </span>
+            </label>
+        </div>
+        </div>
+
         <div  class="field">
             <label for="student_signature"> توقيع الطالب </label>
             <InputText
@@ -217,6 +236,7 @@ data() {
         LeaveDialog: false,
         successMsg: false,
         Msg: null,
+        attached:null,
         deleteMsg:null,
         errorMsg: false,
         deleteconfirm:false,
@@ -267,19 +287,28 @@ methods: {
         this.deleteconfirm = true;
         this.deleteMsg = "هل انت متاكد من الحذف ";
     },
+    uploadFile(e) {
+        this.form.attached = e.target.files[0].name;
+        this.attached = e.target.files[0]
+    },
+    download(link) {
+            window.open(link,'_blank')
+    },
     save(isFormValid) {
             this.successMsg = false;
             this.submitted = true;
             if (!isFormValid) {
                 return;
         }   
+        const formData = new FormData()   
         this.form.class_id = this.class_id;
         this.form.student_id = this.student_id;
         this.form.leave_date = this.formatDate(this.form.leave_date);
         this.form.hijri_date = this.form.day + ' ,' + this.form.month+' ,'+this.form.year;
 
-
-        this.leavesService.save(this.form, this.form.id).then(({ data }) => {
+        formData.append('attached', this.attached)
+        formData.append('data', JSON.stringify(this.form))
+        this.leavesService.save(formData, this.form.id).then(({ data }) => {
             if (data.code == 200) {
             this.LeaveDialog = false;
             this.successMsg = true;

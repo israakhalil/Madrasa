@@ -57,6 +57,8 @@
         <Column header="  الاجراءات" style="max-width:8rem">
             <template #body="slotProps">
                 <!-- <Button icon="pi pi-download" class="p-button-rounded p-button-help ml-2" /> -->
+                <Button v-if="slotProps.data.attached" icon="pi pi-download" class="p-button-rounded p-button-help ml-2" @click="download(slotProps.data.file)"/> 
+
                 <Button v-if="this.can('ABSENCE_ADD_EDIT')" icon="pi pi-pencil" class="p-button-rounded p-button-success ml-2" @click="openEdit(slotProps.data)"/>
                 <Button v-if="this.can('ABSENCE_DELETE')" icon="pi pi-trash" class="p-button-rounded p-button-danger ml-2" @click="openDelete(slotProps.data)"/>
             </template>
@@ -148,8 +150,25 @@
               <small class="p-error" v-if="v$.form.absence_reason.$invalid && submitted">يرجى  ادخال سبب     </small>
 
             </div >
-            <div  class="field">
-                <label for="teacher_signature"> توقيع المعلم </label>
+            <div class="field">
+            <label for="file">الملف المرفق</label>
+            <div class="inputfile-box">
+              <input
+                type="file"
+                id="file"
+                class="inputfile"
+                @change="uploadFile"
+              />
+              <label for="file">
+                <span class="p-input-icon-left">
+                  <i class="pi pi-upload" aria-hidden="true"></i>
+                  <span id="file-name" class="file-box">{{form.attached}}</span>
+                </span>
+              </label>
+            </div>  
+          </div>
+        <div  class="field">
+         <label for="teacher_signature"> توقيع المعلم </label>
         <InputText
           id="teacher_signature"
           v-model.trim="form.teacher_signature"
@@ -222,7 +241,8 @@ export default {
             submitted:false,
             student_absences: [],
             absence_types: [],
-            header:null,
+            header: null,
+            attached:null,
             AbsenceDialog: false,
             successMsg: false,
             Msg: null,
@@ -281,10 +301,29 @@ export default {
             this.deleteconfirm = true;
             this.deleteMsg = "هل انت متاكد من الحذف ";
         },
+        download(link) {
+            //  console.log(link);
+            window.open(link,'_blank')
+            // var file_path = link;
+            // var a = document.createElement('a');
+            // a.href = file_path;
+            // a.download = file_path.substr(file_path.lastIndexOf('/') + 1);
+            // document.body.appendChild(a);
+            // a.click();
+            // document.body.removeChild(a);
+
+        },
         getAbsenceType() {
             this.constantsService.fetchAbsenceTypes().then(({ data }) => {
                 this.absence_types = data.data.absenceTypes;
             });
+        },
+        uploadFile(e) {
+            console.log("israa");
+            console.log(e.target.files);
+            this.form.attached = e.target.files[0].name;
+            this.attached=e.target.files[0]
+        
         },
         save(isFormValid) {
                  this.successMsg = false;
@@ -293,11 +332,15 @@ export default {
                 if (!isFormValid) {
                     return;
             }   
+            const formData = new FormData()
             this.form.student_id = this.student_id
             this.form.class_id = this.class_id;
-            this.form.hijri_date = this.form.day + ' ,' + this.form.month+' ,'+this.form.year;
-           this.form.absence_date = this.formatDate(this.form.absence_date)
-            this.absencesService.save(this.form, this.form.id).then(({ data }) => {
+            this.form.hijri_date = this.form.day + ' ,' + this.form.month + ' ,' + this.form.year;
+            this.form.absence_date = this.formatDate(this.form.absence_date)
+            formData.append('attached', this.attached)
+            formData.append('data', JSON.stringify(this.form))
+            console.log(this.form);
+            this.absencesService.save(formData, this.form.id).then(({ data }) => {
                 if (data.code == 200) {
                 this.AbsenceDialog = false;
                 this.successMsg = true;

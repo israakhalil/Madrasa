@@ -202,6 +202,33 @@ export default {
 <style lang="scss">
 @import '@/App.scss';
 
+.file-box {
+    display: inline-block;
+    width: 100%;
+    border: 1px solid;
+    padding: 5px 0px 5px 5px;
+    box-sizing: border-box;
+    height: calc(3.9rem - 2px);
+    font-family: Cairo, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+      Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+      "Segoe UI Symbol";
+    font-size: 1rem;
+    color: #495057;
+    background: #ffffff;
+    padding: 0.75rem 0.75rem;
+    border: 1px solid #ced4da;
+    transition: background-color 0.2s, color 0.2s, border-color 0.2s,
+      box-shadow 0.2s;
+    appearance: none;
+    border-radius: 6px;
+  }
+  .inputfile-box {
+    position: relative;
+  }
+  
+  .inputfile {
+    display: none;
+  }
 
 </style>
 
