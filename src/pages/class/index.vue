@@ -3,15 +3,15 @@
     <div class="col-12 md:col-12 re_quick">
       <div class="card list_container2">
         <div class="grid my-2 font-bold mr-10">
-            <div class="col-12 md:col-5  py-4">
+            <div class="col-12 md:col-4  py-4">
               <span class="font-bold text-xl"
                 >المراحل المدرسية > {{ this.class.level_name }} >
                 {{ this.class.name }}</span
               >
             </div>
-            <div class="col-12 md:col-7">
+            <div class="col-12 md:col-8">
                 <div class="grid">
-                    <div class="col-12 md:col-5">
+                    <div class="col-12 md:col-4 ">
                         <span class="col-12 p-input-icon-right">
                             <i class="pi pi-search mr-3" />
                             <InputText type="text" 
@@ -21,7 +21,7 @@
                         </span>
 
                      </div>
-                    <div class="col-6 md:col-4 justify-content-center mt-2"  v-tooltip="'يجب على الاقل ان يحتوي الملف على عمود الاسم  '">
+                    <div class="col-12 md:col-3 sm:col-6 justify-content-center mt-2"  v-tooltip="'يجب على الاقل ان يحتوي الملف على عمود الاسم  '">
                         <FileUpload
                         v-if="this.can('STUDENT_IMPORT')"
                         style="width:100%"
@@ -38,8 +38,12 @@
                         />
                     </div>
                 
-                    <div class="col-6 md:col-3 justify-content-right mt-2">
+                    <div class="col-12 md:col-3 sm:col-6 justify-content-right mt-2">
                         <Button  v-if="this.can('STUDENT_ADD_EDIT')" label="إضافة طالب"   style="width:100%"  icon="pi pi-plus" class="p-button-outlined " @click="openNew"/>
+
+                    </div>
+                    <div class="col-12 md:col-2 sm:col-6 justify-content-right mt-2">
+                        <Button  v-if="this.can('STUDENT_ADD_EDIT')" label="طباعة"   style="width:100%" class="p-button-outlined " @click="printIndex"/>
 
                     </div>
                   
@@ -52,8 +56,11 @@
 
         <div>
 
-
-          <DataTable :value="students" :loading="loading" class="p-datatable-lg font-bold" showGridlines  responsiveLayout="scroll">
+<div id="printIndex"> 
+            <div hidden class="name-1 font-bold text-xl mt-5">
+           مرحلة    {{ this.class.level_name }} - {{ this.class.name }}
+            </div>
+  <DataTable :value="students" :loading="loading" class="p-datatable-lg font-bold mt-5" showGridlines  responsiveLayout="scroll">
             <Column field="id_number" header="الرقم ">
               <template #body="slotProps">
                         {{slotProps.index+1}}
@@ -91,10 +98,12 @@
             </template>
 
         </Column>
-            <template #footer>
+            <!-- <template #footer>
                 في المجمل هناك  {{students ? students.length : 0 }} طالب.
-            </template>
+            </template> -->
         </DataTable>
+</div>
+    
         </div>
       </div>
 
@@ -272,26 +281,28 @@ export default {
 
     },
 
-uploadFile(e) {
-  this.form.attached_id = e.target.files[0].name;
-   this.attachment=e.target.files[0]
+    uploadFile(e) {
+      this.form.attached_id = e.target.files[0].name;
+      this.attachment=e.target.files[0]
 
-},
+    },
   restform() {    
           this.form= {}
       },
-
+      printIndex() {
+        this.$htmlToPaper('printIndex');
+      },
   onFilter() {
     this.getStudents()
     },
-  getStudents() {
-    this.filter = { class_id: this.id, name: this.filter_name };
+    getStudents() {
+      this.filter = { class_id: this.id, name: this.filter_name };
 
-    this.studentsService.index( this.filter).then(({ data }) => {
-      if (data.code == 200) {
-      this.students = data.data.Students;
-    }
-  });
+      this.studentsService.index( this.filter).then(({ data }) => {
+        if (data.code == 200) {
+        this.students = data.data.Students;
+      }
+    });
     },
     openDelete(data) { 
         this.form = data;

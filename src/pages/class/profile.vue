@@ -33,29 +33,56 @@
             <span class="font-bold text-xl">البيانات المسجلة</span>
         </div>
 
-        <div v-if="this.can('ABSENCE_ADD_EDIT')" class="grid  p-fluid mt-5 font-bold mr-5">
-        
-           <AbsenceStudent  :student_id="id" :class_id="class_id" :student_name="this.student.name" :show="show"/>
+        <div id="printAbsence"  v-if="this.can('ABSENCE_ADD_EDIT')" class="grid  p-fluid mt-5 font-bold mr-5">
+          <!-- <div  hidden :class="'name-'+grp_sign"  >
+            <div class="grid p-fluid mt-5 font-bold mr-5">
+            <span class="font-bold text-xl">بيانات الطالب  </span>
+        </div>
+         الطالب : {{this.student.name}}</div>  -->
+
+          <div hidden class="col-12 md:col-12 mt-5" :class="'name-'+grp_sign">
+            <printStudent :student="student1"/>
+          
+            <!-- <div class="grid p-fluid mt-5 font-bold mr-5">
+            <span class="font-bold text-xl">بيانات الطالب  </span>
+           </div>
+
+            <DataTable  :value="student1" class="p-datatable-lg font-bold"  showGridlines  responsiveLayout="scroll">
+                <Column field="name" header="اسم الطالب"></Column>
+                <Column field="id_number" header="رقم الهوية"> </Column>
+                <Column field="date_of_birth" header="تاريخ الميلاد"></Column>
+                <Column field="phone_1" header=" هاتف ولي الامر (الاول)"></Column>
+            </DataTable>  -->
+      </div>
+           <AbsenceStudent  :student_id="id" :class_id="class_id"  @sign="sign" />
         </div>
 
-        <div v-if="this.can('DELAY_ADD_EDIT')" class="grid p-fluid mt-5 font-bold mr-5">
-        
-        <DelayStudent  :student_id="id" :class_id="class_id" :student_name="this.student.name" />
+        <div id="printDelays"  v-if="this.can('DELAY_ADD_EDIT')" class="grid p-fluid mt-5 font-bold mr-5">
+          <div hidden class="col-12 md:col-12 mt-5" :class="'name-'+grp_sign">
+            <printStudent :student="student1"/>
+            </div>
+            <DelayStudent  :student_id="id" :class_id="class_id" @sign="sign" />
         </div>
    
-        <div v-if="this.can('LEAVE_ADD_EDIT')" class="grid p-fluid mt-5 font-bold mr-5">
-            
-            <LeaveStudent  :student_id="id" :class_id="class_id" :student_name="this.student.name" />
+        <div  id="printLeaves" v-if="this.can('LEAVE_ADD_EDIT')" class="grid p-fluid mt-5 font-bold mr-5">
+          <div hidden class="col-12 md:col-12 mt-5" :class="'name-'+grp_sign">
+            <printStudent :student="student1"/>
+            </div>
+            <LeaveStudent  :student_id="id" :class_id="class_id" @sign="sign" />
         </div>
 
-        <div v-if="this.can('VIOLATION_ADD_EDIT')"  class="grid p-fluid mt-5 font-bold mr-5">
-            
-            <ViolationStudent  :student_id="id" :class_id="class_id" :student_name="this.student.name" />
+        <div id="printViolations" v-if="this.can('VIOLATION_ADD_EDIT')"  class="grid p-fluid mt-5 font-bold mr-5">
+          <div hidden class="col-12 md:col-12 mt-5" :class="'name-'+grp_sign">
+            <printStudent :student="student1"/>
+            </div>
+            <ViolationStudent  :student_id="id" :class_id="class_id" @sign="sign" />
         </div>
 
-        <div v-if="this.can('BOOK_ADD_EDIT')" class="grid p-fluid mt-5 font-bold mr-5">
-            
-            <BookStudent  :student_id="id" :class_id="class_id" :student_name="this.student.name" />
+        <div id="printBook" v-if="this.can('BOOK_ADD_EDIT')" class="grid p-fluid mt-5 font-bold mr-5">
+          <div hidden class="col-12 md:col-12 mt-5" :class="'name-'+grp_sign">
+            <printStudent :student="student1"/>
+            </div>
+            <BookStudent  :student_id="id" :class_id="class_id" @sign="sign" />
         </div>
       </div>
       </div>
@@ -71,14 +98,16 @@ import LeaveStudent from "./partial/leave.vue";
 import ViolationStudent from "./partial/violation.vue";
 import BookStudent from "./partial/book.vue";
 import Student from "./partial/student.vue";
-
+import printStudent from "./partial/printStudent.vue";
 
 export default {
     props: ["class_id", "id"],
     data() {
         return {
             class: [],
-            student: [],
+          student: [],
+          student1:[],
+          grp_sign:1,
             show:false
         };
     },
@@ -87,19 +116,25 @@ export default {
         this.classesService = new ClassesService();
         this.studentsService = new StudentsService();
     },
-    methods: {
+  methods: {
+    sign(value) {
+      console.log(value);
+      this.grp_sign=value
+    },
         getStudents() {
             this.studentsService.index({ id: this.id }).then(({ data }) => {
                 if (data.code == 200) {
-                    this.student = data.data.Students[0];
+                  this.student = data.data.Students[0];
+                  this.student1 = data.data.Students;
+                   
                 }
             });
       },
       printall() {
-        this.show =  true;
-        // console.log(this.student.name);
-        this.$htmlToPaper('printall');
-        // this.show =  false;
+        this.grp_sign = 2;
+        setTimeout(() => this.$htmlToPaper('printall'), 10)
+
+        // this.$htmlToPaper('printall');
       },
 
     },
@@ -112,7 +147,7 @@ export default {
         });
       this.getStudents();
     },
-    components: { DelayStudent ,LeaveStudent, ViolationStudent, BookStudent ,Student}
+    components: { DelayStudent ,LeaveStudent, ViolationStudent, BookStudent ,Student,printStudent}
 };
 </script>
 

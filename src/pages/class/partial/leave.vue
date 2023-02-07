@@ -1,5 +1,5 @@
 <template>
-<div class="col-12 md:col-12" id="printLeaves">
+<div class="col-12 md:col-12" >
     <div class="grid">
     <div class="col-12 md:col-9 div-right">
             <span class="font-bold text-xl" style="color: var(--primary-color)">
@@ -27,7 +27,6 @@
     </div>
     </div>
     <div class="col-12 md:col-12 mr-10" >
-        <div hidden class="name">  الطالب : {{student_name}}</div>
 
     <DataTable  :value="student_leaves" class="p-datatable-lg font-bold" showGridlines  responsiveLayout="scroll">
     <Column  header="الاستئذان ">
@@ -50,10 +49,17 @@
     <Column field="leave_time" header="وقت الاستئذان">
         
     </Column>
-
+    <Column field="leave_time" header="وقت الاستئذان">
+        
+    </Column>
     <Column field="student_signature" header=" توقيع الطالب">
         
     </Column>
+    <!-- <Column field="student_signature" header="ولي الامر">
+        <template #body="slotProps">
+        {{slotProps.data.guardian_id}} - {{slotProps.data.guardian_name}}
+        </template>
+    </Column> -->
 
     <Column  header="  الاجراءات" style="max-width:10rem">
         <template #body="slotProps">
@@ -226,7 +232,8 @@ export default {
 setup () {
     return { v$: useVuelidate() }
 },
-props: ["student_id",'class_id','student_name'],
+    props: ["student_id", 'class_id'],
+    emits:['sign'],
 
 data() {
     return {
@@ -339,7 +346,9 @@ methods: {
     });
     },
     printLeaves() {
-        this.$htmlToPaper('printLeaves');
+        this.$emit('sign', 1)
+        setTimeout(() => this.$htmlToPaper('printLeaves'), 10)
+        // this.$htmlToPaper('printLeaves');
       },
 
 },

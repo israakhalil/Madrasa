@@ -1,5 +1,5 @@
 <template>
-<div class="col-12 md:col-12" id="printBook">
+<div class="col-12 md:col-12" >
     <div class="grid">
         <div class="col-12 md:col-9 div-right">
             <span class="font-bold text-xl" style="color: var(--primary-color)">
@@ -28,7 +28,6 @@
     </div>
 
     <div class="col-12 md:col-12 mr-10">
-        <div hidden class="name">  الطالب : {{student_name}}</div>
     <DataTable  :value="student_books" class="p-datatable-lg font-bold" showGridlines  responsiveLayout="scroll">
     <Column  header="الرقم ">
         <template #body="slotProps">
@@ -225,8 +224,8 @@ export default {
 setup () {
     return { v$: useVuelidate() }
 },
-props: ["student_id",'class_id','student_name'],
-
+props: ["student_id",'class_id'],
+emits:['sign'],
 data() {
     return {
         submitted:false,
@@ -344,8 +343,10 @@ methods: {
         }
     });
     },
-    printBook () {
-        this.$htmlToPaper('printBook');
+    printBook() {
+        this.$emit('sign', 1)
+        setTimeout(() => this.$htmlToPaper('printBook'), 10)
+        // this.$htmlToPaper('printBook');
       },
 
 },

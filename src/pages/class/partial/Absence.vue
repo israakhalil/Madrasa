@@ -1,5 +1,5 @@
 <template>
-<div class="col-12 md:col-12" id="printAbsence">
+<div class="col-12 md:col-12" >
     <div class="grid">
         <div class="col-12 md:col-9 div-right " >
                 <span class="font-bold text-xl" style="color: var(--primary-color)">
@@ -24,9 +24,14 @@
             />
         </div>
     </div>
-  
+    <!-- :class="'group-badge status-' + slotProps.data.grp_sign" -->
      <div class="col-12 md:col-12 mr-10" >
-        <div hidden v-show="!show && !notshow" class="name" > الطالب : {{student_name}}</div>
+        <!-- <div v-if="show" v-bind:style="{ display: computedWidth }"> الطالب : {{student_name}}</div> -->
+         <!-- <div hidden class="name" v-if="!show && display"> الطالب : {{student_name}}</div> -->
+         <!-- <div  :class="'name-'+grp_sign" > الطالب : {{student_name}}</div> -->
+         <!-- <div hidden :style="{ display: this.isDisplay }" > الطالب : {{student_name}}</div>  -->
+        
+         <!-- <div  class="block" > الطالب : {{student_name}}</div>  -->
 
         <DataTable  :value="student_absences"  class="table td p-datatable-lg font-bold"   showGridlines  responsiveLayout="scroll">
         <Column field="id_number" header="الرقم ">
@@ -229,15 +234,16 @@ import { useVuelidate } from "@vuelidate/core";
 import { required } from "@vuelidate/validators";
 import {hijri_months} from "@/services/constants.js";
 
+
 export default {
     setup () {
         return { v$: useVuelidate() }
     },
-    props: ["student_id",'class_id','student_name',"show"],
-
+    props: ["student_id", 'class_id'],
+    emits:['sign'],
     data() {
         return {
-            notshow:false,
+            grp_sign:null,
             submitted:false,
             student_absences: [],
             absence_types: [],
@@ -250,8 +256,6 @@ export default {
             errorMsg: false,
             deleteconfirm:false,
             form:{},
-            submitted: false,
-            
             absencesService: null,
             constantsService:null,
             days: Array.from({ length: 31 }, (_, i) => ({ id: String((i+1)), name: (i+1) })),
@@ -272,12 +276,14 @@ export default {
             year:{ required },
         }
         }
-      },
+    },
+ 
   created() {
         this.absencesService = new AbsencesService();  
         this.constantsService = new ConstantsService();
   },
     methods: {
+
         openNew() {
             this.header="اضافة غياب"
             this.form = {};
@@ -319,8 +325,6 @@ export default {
             });
         },
         uploadFile(e) {
-            console.log("israa");
-            console.log(e.target.files);
             this.form.attached = e.target.files[0].name;
             this.attached=e.target.files[0]
         
@@ -371,12 +375,10 @@ export default {
             }
         });
         },
-        printAbsence () {
-            this.notshow=!this.notshow
-      // Pass the element id here
-        this.$htmlToPaper('printAbsence');
-    
-
+        printAbsence() {
+            this.$emit('sign', 1)
+            setTimeout(() => this.$htmlToPaper('printAbsence'), 10)
+            // this.$htmlToPaper('printAbsence');
       },
 
     },
@@ -384,17 +386,14 @@ export default {
     mounted() { 
         this.getAbsences();
         this.hijri_months = hijri_months;
-        // this.query = { student_id: this.student_id };
-        // this.absencesService.index(this.query).then(({ data }) => {
-        //     if (data.code == 200) {
-        //         this.student_absences = data.data.absences;
-        //     }
-        // });
     }
   };
   </script>
   
  <style scoped>
+ .font{
+    color: #ffffff;
+ }
 .p-button:enabled:hover {
     background: #7C3AED;
     color: #ffffff;

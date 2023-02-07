@@ -96,6 +96,20 @@
           />
         </div>
         <div class="field col-12 md:col-4">
+          <label for="guardian_name">اسم ولي الامر الذي خرج معه الطالب</label>
+          <InputText
+            id="guardian_name"
+            v-model.trim="item.guardian_name"
+          />
+        </div>
+        <div class="field col-12 md:col-4">
+          <label for="guardian_id"> هوية ولي الامر  </label>
+          <InputText
+            id="guardian_id"
+            v-model.trim="item.guardian_id"
+          />
+        </div>
+        <div class="field col-12 md:col-4">
           <label for="student_signature"> توقيع الطالب </label>
           <InputText
             id="student_signature"

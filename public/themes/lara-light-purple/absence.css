@@ -15,17 +15,20 @@
       td:last-child {     display:none; }
       th:last-child {     display:none; }
 
-      .name{
+      .name-1{
         text-align: right;
         display:block;
-        padding-bottom: 8px;
-        /* padding-top: 20px; */
+        padding-top: 8px;
+         padding-top: 10px;
         font-size: 25px;
         font-weight: 500;
         font-family: Tajawal;
 
       }
-
+      .name-2{
+       
+        display:none;
+      }
       .div-right{
         text-align: right;
         margin-bottom: 1.6rem;

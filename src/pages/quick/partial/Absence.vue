@@ -109,6 +109,25 @@
           required="true"
         />
       </div>
+      <!-- "'name-'+grp_sign" -->
+      <!-- <div class="field col-12 md:col-4">
+            <label :for="'file-'+index">الملف المرفق</label>
+            <div class="inputfile-box">
+              <input
+                type="file"
+                :id="'file-'+index"
+                class="inputfile"
+                @change="uploadFile($event,item)"
+              />
+              <label :for="'file-'+index">
+                <span class="p-input-icon-left">
+                  <i class="pi pi-upload" aria-hidden="true"></i>
+                  <span  class="file-box">{{item.name}}</span>
+                </span>
+              </label>
+            </div>  
+          </div> -->
+
       <div class="field col-12 md:col-4">
         <label for="teacher_signature"> توقيع المعلم </label>
         <InputText
@@ -169,6 +188,7 @@ export default {
         absence_type_id: null,
         absence_reason: null,
         teacher_signature: null,
+        attached:null
       },
       absence_types:[],
       items: [],
@@ -195,6 +215,13 @@ export default {
     unset(obj, key) {
       obj.splice(key, 1);
     },
+    // uploadFile(e, item) {
+
+    //       item.name = e.target.files[0].name;
+    //   item.attached = e.target.files[0]
+    //       console.log(item);
+        
+    //     },
     getClasses(item) { 
         item.classes=this.classes.filter((_class) => { return _class.level_id == item.level_id });
     },

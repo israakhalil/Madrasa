@@ -1,5 +1,5 @@
 <template>
-<div class="col-12 md:col-12" id="printViolations">
+<div class="col-12 md:col-12" >
     <div class="grid">
     <div class="col-12 md:col-9 div-right">
             <span class="font-bold text-xl" style="color: var(--primary-color)">
@@ -27,7 +27,6 @@
     </div>
     </div>
     <div class="col-12 md:col-12 mr-10">
-      <div hidden class="name">  الطالب : {{student_name}}</div>
 
     <DataTable  :value="student_violations" class="p-datatable-lg font-bold" showGridlines  responsiveLayout="scroll" dire>
     <Column field="id_number" header="الرقم ">
@@ -256,7 +255,8 @@ export default {
 setup () {
     return { v$: useVuelidate() }
 },
-props: ["student_id",'class_id','student_name'],
+  props: ["student_id", 'class_id'],
+  emits:['sign'],
 
 
 data() {
@@ -391,8 +391,10 @@ methods: {
         }
     });
   },
-  printViolations () {
-        this.$htmlToPaper('printViolations');
+  printViolations() {
+        this.$emit('sign', 1)
+        setTimeout(() => this.$htmlToPaper('printViolations'), 10)
+        // this.$htmlToPaper('printViolations');
       },
 
 },
