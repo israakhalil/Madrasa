@@ -11,7 +11,7 @@ class Books extends Model
 
     protected $table="books";
     const FILLABLE = ['received_date','book_name','is_delivered',
-    'student_signature','student_id','class_id','hijri_date'];
+    'student_signature','student_id','class_id','hijri_date','attached'];
     protected $fillable = self::FILLABLE;
     protected $casts = 
     [

@@ -13,7 +13,7 @@ class Absences extends Model
 
 
     protected $table="absences";
-    const FILLABLE = ['student_id','absence_date','absence_reason','teacher_signature','absence_type_id','class_id','hijri_date'];
+    const FILLABLE = ['student_id','absence_date','absence_reason','teacher_signature','absence_type_id','class_id','hijri_date','attached'];
     protected $fillable = self::FILLABLE;
     protected $casts = 
     [
@@ -22,6 +22,7 @@ class Absences extends Model
     'absence_type_id'=>'integer',
     'class_id'=>'integer',
 ];
+// protected  $timestamps = false;
 
 public function student(){
     return $this->belongsTo(Students::class, 'student_id' , 'id');

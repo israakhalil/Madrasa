@@ -11,7 +11,8 @@ class Delays extends Model
     
     protected $table="delays";
     const FILLABLE = ['student_id','delay_date','delay_reason',
-    'delay_amount','student_signature','class_id','hijri_date'];
+    'delay_amount','student_signature','class_id','hijri_date','attached',
+'guardian_name','guardian_id'];
     protected $fillable = self::FILLABLE;
     protected $casts = ['id'=>'integer','student_id'=>'integer' , 'class_id'=>'integer',];
 

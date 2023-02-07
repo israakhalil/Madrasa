@@ -20,8 +20,8 @@ class DatabaseSeeder extends Seeder
         $this->call(roleSeeder::class);
         $this->call(AdminUserSeeder::class);
         $this->call(AbesenceTypeTableSeeder::class);
-        $this->call(ViolationDegreeSeeder::class);
-        $this->call(violationProceduresSeeder::class);
+        // $this->call(ViolationDegreeSeeder::class);
+        // $this->call(violationProceduresSeeder::class);
         $this->call(PermissionsSeeder::class);
         $this->call(RolePermissionsSeeder::class);
         $this->call(UserPermissionrSeeder::class);

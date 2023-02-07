@@ -8,7 +8,7 @@ use App\Models\Procedures\Violations as ViolationsModel;
 use App\Http\Resources\ViolationResource;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
-
+use Illuminate\Support\Facades\Storage;
 
 class ViolationsController extends  Controller
 {
@@ -52,7 +52,20 @@ class ViolationsController extends  Controller
 
     public function save(Request  $request, $id = null)
     {
-        $data = $request->only(ViolationsModel::FILLABLE);
+        // $data = $request->only(ViolationsModel::FILLABLE);
+        $filename=null; $path=null;
+        if ($request->hasFile('attached')) {
+            $file = $request->attached;
+            $path=request()->header('School_id')
+            . "/violations"
+            .'/'. now()->format('Y')
+            . '/'.now()->format('n')
+            . '/'.now()->format('j');
+            $filename=$file->getClientOriginalName();
+            $path= Storage::disk('public')->putFileAs($path,$file ,$filename);
+        }
+        $data =(array) json_decode($request->data);
+        if($path){$data["attached"]=  @$path;}
         $data["violation_date"]= Carbon::parse($data["violation_date"]);
 
         ViolationsModel::query()->updateOrCreate(['id' => $id,], $data);

@@ -22,8 +22,11 @@ return new class extends Migration
             $table->integer('student_id')->unsigned();
             $table->foreign('student_id')->references('id')->on('students');
             $table->integer('class_id')->unsigned();
-            $table->foreign('class_id')->references('id')->on('classes');
+            $table->foreign('class_id')->references('id')->on('classes')->onDelete('cascade');
+            $table->string('attached')->nullable();
             $table->string('student_signature');
+            $table->string('guardian_name')->nullable();
+            $table->integer('guardian_id')->nullable();
             $table->timestamps();
         });
     }

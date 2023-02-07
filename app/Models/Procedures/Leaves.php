@@ -12,7 +12,7 @@ class Leaves extends Model
 
     protected $table="leaves";
     const FILLABLE = ['student_id','leave_date','leave_time',
-    'student_signature','leave_reason','class_id','hijri_date'];
+    'student_signature','leave_reason','class_id','hijri_date','attached','guardian_name','guardian_id'];
     protected $fillable = self::FILLABLE;
     protected $casts =
      ['id'=>'integer',

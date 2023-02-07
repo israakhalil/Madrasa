@@ -17,6 +17,10 @@ class DelayResource extends JsonResource
             'delay_amount'=> $this['delay_amount'],
             'student_signature'=> $this['student_signature'],
             'hijri_date'=>$this['hijri_date'],
+             'guardian_name'=>$this['guardian_name'],
+            'guardian_id'=>$this['guardian_id'],
+            'attached'=>$this['attached'],
+            'file'=>asset('storage/'.$this['attached'])
             ];
     }
 }

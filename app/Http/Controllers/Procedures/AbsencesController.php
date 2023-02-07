@@ -7,7 +7,7 @@ use App\Http\Resources\AbsenceResource;
 
 use Illuminate\Http\Request;
 use Carbon\Carbon;
-
+use Illuminate\Support\Facades\Storage;
 
 class AbsencesController extends  Controller
 {
@@ -23,6 +23,22 @@ class AbsencesController extends  Controller
 
     public function store(Request $request, $id = null)
     {
+        // $items=collect($request);
+        // foreach ($items as $item) {
+        //     $filename=null; $path=null;
+        // if ($item->attached) {
+        //     $file = $item->attached;
+        //     $path=request()->header('School_id')
+        //     . "/absences"
+        //     .'/'. now()->format('Y')
+        //     . '/'.now()->format('n')
+        //     . '/'.now()->format('j');
+        //     $filename=$file->getClientOriginalName();
+        //     $path= Storage::disk('public')->putFileAs($path,$file ,$filename);
+        // }
+        // // $data =(array) json_decode($request->data);
+        // if($path){$item["attached"]=  @$path;}
+
         $items=collect($request);
         foreach ($items as $item) {
              $item["absence_date"]= Carbon::parse($item["absence_date"]);
@@ -44,10 +60,22 @@ class AbsencesController extends  Controller
 
     public function save(Request  $request, $id = null)
     {
-        $data = $request->only(AbsencesModel::FILLABLE);
+        $filename=null; $path=null;
+        if ($request->hasFile('attached')) {
+            $file = $request->attached;
+            $path=request()->header('School_id')
+            . "/absences"
+            .'/'. now()->format('Y')
+            . '/'.now()->format('n')
+            . '/'.now()->format('j');
+            $filename=$file->getClientOriginalName();
+            $path= Storage::disk('public')->putFileAs($path,$file ,$filename);
+        }
+        $data =(array) json_decode($request->data);
+        if($path){$data["attached"]=  @$path;}
         $data["absence_date"]= Carbon::parse($data["absence_date"]);
-        AbsencesModel::query()->updateOrCreate(['id' => $id,], $data);
-       
+        AbsencesModel::query()->updateOrCreate(['id' => $id,],$data);
+
         return response()->json([
             'msg' => "تم الحفظ بنجاح",
             'code'=>StatusCodes::OK

@@ -9,6 +9,7 @@ use App\Http\Resources\LeaveResource;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use DateTimeZone;
+use Illuminate\Support\Facades\Storage;
 
 class LeavesController extends  Controller
 {
@@ -49,7 +50,20 @@ class LeavesController extends  Controller
 
     public function save(Request  $request, $id = null)
     {
-        $data = $request->only(LeavesModel::FILLABLE);
+        // $data = $request->only(LeavesModel::FILLABLE);
+       $filename=null; $path=null;
+        if ($request->hasFile('attached')) {
+            $file = $request->attached;
+            $path=request()->header('School_id')
+            . "/leaves"
+            .'/'. now()->format('Y')
+            . '/'.now()->format('n')
+            . '/'.now()->format('j');
+            $filename=$file->getClientOriginalName();
+            $path= Storage::disk('public')->putFileAs($path,$file ,$filename);
+        }
+        $data =(array) json_decode($request->data);
+        if($path){$data["attached"]=  @$path;}
         $data["leave_date"]= Carbon::parse($data["leave_date"]);
         $data["leave_time"] =Carbon::parse($data["leave_time"])->setTimezone('asia/jerusalem')->format('h:i:s'); 
 

@@ -18,11 +18,12 @@ return new class extends Migration
             $table->string('name');
             $table->string('id_number')->nullable();
             $table->integer('class_id')->unsigned();
-            $table->foreign('class_id')->references('id')->on('classes');
+            $table->foreign('class_id')->references('id')->on('classes')->onDelete('cascade');;
             $table->date('date_of_birth')->nullable();
             $table->string('phone_1')->nullable();
             $table->string('phone_2')->nullable();
             $table->string('phone_3')->nullable();
+            $table->string('nationality')->nullable();
             $table->string('attached_id')->nullable();
             $table->timestamps();
         });

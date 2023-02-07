@@ -21,48 +21,56 @@ class PermissionsSeeder extends Seeder
              'code'=>"SUPERVISOR_VIEW_ALL",
              'group'=>1
             ]);
+        Permission::create(
+            [
+                'name'=>" قائمة المدارس",
+                'code'=>"SCHOOL_VIEW_ALL",
+                'group'=>1
+            ]);
+
+
             Permission::create(
                 [
-                    'name'=>" قائمة المدارس",
-                 'code'=>"SCHOOL_VIEW_ALL",
-                 'group'=>1
-                ]);
-            Permission::create(
-                [
-                    'name'=>" قائمة المراحل الدراسية",
+                    'name'=>"   قائمة المراحل ",
                     'code'=>"LEVEL_VIEW_ALL",
                     'group'=>2
                 ]);
             Permission::create(
                 [
-                    'name'=>"  المراحل ",
+                    'name'=>"   قائمة الصفوف",
                     'code'=>"GRADE_VIEW_ALL",
                     'group'=>2
                 ]);
             Permission::create(
                 [
-                    'name'=>"  الاداريين ",
+                    'name'=>"   قائمة الاداريين ",
                     'code'=>"ADMINISTRATOR_VIEW_ALL",
                     'group'=>2
                 ]);
             Permission::create(
                 [
-                    'name'=>"  الشهادات ",
+                    'name'=>"   قائمة الشهادات ",
                     'code'=>"CERTIFICATE_VIEW_ALL",
                     'group'=>2
                 ]);
             Permission::create(
                 [
-                    'name'=>"  السجلات ",
+                    'name'=>" قائمة  السجلات ",
                     'code'=>"RECORD_VIEW_ALL",
                     'group'=>2
                 ]);
-                Permission::create(
-                    [
-                        'name'=>"اضافة صف",
-                        'code'=>"CLASS_ADD",
-                        'group'=>2
-                    ]);
+             Permission::create(
+                [
+                    'name'=>"اضافة صف",
+                    'code'=>"CLASS_ADD",
+                    'group'=>3
+                ]);
+            Permission::create(
+                [
+                    'name'=>"حذف  صف",
+                    'code'=>"CLASS_DELETE",
+                    'group'=>3
+                ]);
                     // Permission::create(
                     //     [
                     //         'name'=>"قائمة الطلاب",

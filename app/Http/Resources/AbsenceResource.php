@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Storage;
 
 class AbsenceResource extends JsonResource
 {
@@ -19,6 +20,9 @@ class AbsenceResource extends JsonResource
             'absence_type_id'=> $this['absence_type_id'],
             'absence_type_name'=> @$this->absenceType->name,
             'hijri_date'=>$this['hijri_date'],
+            'attached'=>$this['attached'],
+            'file'=>asset('storage/'.$this['attached'])
+            // 'attached'=>Storage::disk('public')->get($this['attached'])
             
            
             ];

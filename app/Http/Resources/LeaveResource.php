@@ -17,6 +17,10 @@ class LeaveResource extends JsonResource
             'student_signature'=> $this['student_signature'],
             'leave_reason'=> $this['leave_reason'],
             'hijri_date'=>$this['hijri_date'],
+            'attached'=>$this['attached'],
+            'guardian_name'=>$this['guardian_name'],
+            'guardian_id'=>$this['guardian_id'],
+            'file'=>asset('storage/'.$this['attached'])
             ];
     }
 }

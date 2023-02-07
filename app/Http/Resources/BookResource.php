@@ -17,6 +17,8 @@ class BookResource extends JsonResource
             'student_id'=> $this['student_id'],
             'student_name'=>@$this->student->name,
             'hijri_date'=>$this['hijri_date'],
+            'attached'=>$this['attached'],
+            'file'=>asset('storage/'.$this['attached'])
             ];
     }
 }

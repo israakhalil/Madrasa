@@ -17,17 +17,12 @@ class AbesenceTypeTableSeeder extends Seeder
     {
         AbsenceTypes::create(
             [
-                'name' => "حالة صحية",                
+                'name' => "بسبب ",                
             ]
         );
         AbsenceTypes::create(
             [
-                'name' => "حالة طارئة",                
-            ]
-        );
-        AbsenceTypes::create(
-            [
-                'name' => " وفاء من الدرحة الاولى",                
+                'name' => "من غير سبب ",                
             ]
         );
     }

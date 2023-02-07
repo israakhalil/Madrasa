@@ -22,6 +22,8 @@ class ViolationResource extends JsonResource
             'supervisor_signature'=> $this['supervisor_signature'],
             'student_signature'=> $this['student_signature'],
             'hijri_date'=>$this['hijri_date'],
+            'attached'=>$this['attached'],
+            'file'=>asset('storage/'.$this['attached'])
             ];
     }
 }

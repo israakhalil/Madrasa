@@ -8,7 +8,7 @@ use App\Models\Procedures\Delays as DelaysModel;
 use App\Http\Resources\DelayResource;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
-
+use Illuminate\Support\Facades\Storage;
 
 class DelaysController extends  Controller
 {
@@ -43,7 +43,20 @@ class DelaysController extends  Controller
     }
     public function save(Request  $request, $id = null)
     {
-        $data = $request->only(DelaysModel::FILLABLE);
+        // $data = $request->only(DelaysModel::FILLABLE);
+        $filename=null; $path=null;
+        if ($request->hasFile('attached')) {
+            $file = $request->attached;
+            $path=request()->header('School_id')
+            . "/delays"
+            .'/'. now()->format('Y')
+            . '/'.now()->format('n')
+            . '/'.now()->format('j');
+            $filename=$file->getClientOriginalName();
+            $path= Storage::disk('public')->putFileAs($path,$file ,$filename);
+        }
+        $data =(array) json_decode($request->data);
+        if($path){$data["attached"]=  @$path;}
         $data["delay_date"]= Carbon::parse($data["delay_date"]);
         DelaysModel::query()->updateOrCreate(['id' => $id,], $data);
        

@@ -8,7 +8,7 @@ use App\Models\Procedures\Books as BooksModel;
 use App\Http\Resources\BookResource;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
-
+use Illuminate\Support\Facades\Storage;
 
 class BooksController extends  Controller
 {
@@ -55,16 +55,39 @@ class BooksController extends  Controller
     }
     public function save(Request  $request, $id = null)
     {
-        $data = $request->only(BooksModel::FILLABLE);
+        $filename=null; $path=null;
+        if ($request->hasFile('attached')) {
+            $file = $request->attached;
+            $path=request()->header('School_id')
+            . "/books"
+            .'/'. now()->format('Y')
+            . '/'.now()->format('n')
+            . '/'.now()->format('j');
+            $filename=$file->getClientOriginalName();
+            $path= Storage::disk('public')->putFileAs($path,$file ,$filename);
+        }
+        $data =(array) json_decode($request->data);
+        if($path){$data["attached"]=  @$path;}
         $data["received_date"]= Carbon::parse($data["received_date"]);
+        BooksModel::query()->updateOrCreate(['id' => $id,],$data);
 
-        BooksModel::query()->updateOrCreate(['id' => $id,], $data);
-       
         return response()->json([
             'msg' => "تم الحفظ بنجاح",
             'code'=>StatusCodes::OK
-        ]);   
+        ]); 
+
+
+        // $data = $request->only(BooksModel::FILLABLE);
+        // $data["received_date"]= Carbon::parse($data["received_date"]);
+
+        // BooksModel::query()->updateOrCreate(['id' => $id,], $data);
+       
+        // return response()->json([
+        //     'msg' => "تم الحفظ بنجاح",
+        //     'code'=>StatusCodes::OK
+        // ]);   
      }
+     
     public function delete($id)
     {
         $item = BooksModel::query()->where('id' , '=', $id);
