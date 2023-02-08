@@ -21,9 +21,11 @@ class AbsenceResource extends JsonResource
             'absence_type_name'=> @$this->absenceType->name,
             'hijri_date'=>$this['hijri_date'],
             'attached'=>$this['attached'],
-            'file'=>asset('storage/'.$this['attached'])
-            // 'attached'=>Storage::disk('public')->get($this['attached'])
-            
+            'file'=>asset('storage/'.$this['attached']),
+            'time'=>$this['time'],
+            'respondent'=>$this['respondent'],
+            'contact_number'=>$this['contact_number'],
+
            
             ];
     }

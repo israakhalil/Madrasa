@@ -46,7 +46,7 @@ class AbsencesController extends  Controller
                 AbsencesModel::query()->Create((array)$item);
                 } catch (\Exception $exception) {
                     return response()->json([
-                        'msg' => "يجب ادخال جميع الحقول",
+                        'msg' => "هناك حقول يجب ادخالها",
                         'code'=>StatusCodes::GENERAL_ERROR
                     ]);            }
 
