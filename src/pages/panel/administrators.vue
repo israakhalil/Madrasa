@@ -129,7 +129,7 @@
         </div>
 
         <div class="field">
-          <Button label="حفظ" class="mt-5" type="submit" @click="save(!v$.$invalid)" />
+          <Button :loading=loading label="حفظ" class="mt-5" type="submit" @click="save(!v$.$invalid)" />
         </div>
       </Dialog>
       <Dialog
@@ -192,7 +192,7 @@ export default {
       filter_name:null,
       filter: {},
       Msg: null,
-
+      loading:false,
       userService: null,
       successMsg: false,
       errorMsg:false,
@@ -260,34 +260,39 @@ export default {
       this.form = {};
     },
     save(isFormValid) {
+      this.loading = true;
       this.successMsg = false;
       this.submitted = true;
       this.errorMsg=false;
       if (!isFormValid) {
+        this.loading = false;
         return;
       }
       this.form.role_id = 3
       this.form.permissionIds.push(4);
       this.form.permissionIds.push(6);
-      console.log(this.form.permissionIds);
       this.userService.store_administrator(this.form, this.form.id).then(({ data }) => {
         if (data.code == 200) {
           this.AddUserDialog = false;
           this.successMsg = true;
           this.Msg = data.msg;
+          this.loading = false;
           this.getAdministrator();
           this.restform()
         }
         else if(data.code == 501){
           this.errorMsg = true;
           this.Msg = data.msg;
+          this.loading = false;
         }
         else if(data.code == 502){
           this.errorMsg = true;
           this.Msg = data.msg;
+          this.loading = false;
         }
         else{
           this.errorMsg = true;
+          this.loading = false;
           this.Msg = "هناك خطأ";
         }
       });

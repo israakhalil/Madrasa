@@ -143,7 +143,7 @@
                 />
             </div>
           <div class="field">
-            <Button label="تعديل"  ffclass="mt-5"  type="submit"  />
+            <Button :loading=loading label="تعديل"  ffclass="mt-5"  type="submit"  />
           </div>
 
         </form>
@@ -167,7 +167,8 @@ export default {
         }
 },
     data() {
-        return {
+      return {
+        loading:false,
           student: [],
           student1:[],
             StudentEditDialog: false,
@@ -207,10 +208,11 @@ export default {
         },
 
         save(isFormValid) {
-
+          this.loading = true; 
             // this.successMsg = false
           this.submitted = true;
-            if (!isFormValid) {
+          if (!isFormValid) {
+            this.loading = false; 
                 return;
             }
         this.student_profile.class_id = this.class_id;
@@ -218,7 +220,9 @@ export default {
         this.studentsService.edit(this.student_profile, this.id).then(({ data }) => {
             if (data.code == 200) {
                 this.StudentEditDialog = false;
-                this.submitted = false
+              this.submitted = false
+              this.loading = false; 
+
                 this.getStudents();
         }
         });

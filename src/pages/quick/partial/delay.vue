@@ -134,7 +134,7 @@
 
   <div class="grid p-fluid mt-3 font-bold mr-5">
     <div class="field col-12 md:col-4 sm:col-6">
-      <Button label=" حفظ" class="p-button-primary" @click="saveDelays" />
+      <Button :loading="loading" label=" حفظ" class="p-button-primary" @click="saveDelays" />
     </div>
     <div class="field col-12 md:col-4 sm:col-6">
       <Button
@@ -172,7 +172,7 @@ export default {
         Msg: null,
         delaysService : null,
         
-       
+        loading:false,
         errorMsg: false,
       successMsg: false,
       days: Array.from({ length: 31 }, (_, i) => ({ id: String((i+1)), name: (i+1) })),
@@ -219,7 +219,7 @@ export default {
     //        })
     //    }, 
       saveDelays() { 
-
+        this.loading = true; 
         this.errorMsg = false; 
         this.successMsg = false;
         this.Msg = null;
@@ -236,12 +236,14 @@ export default {
         this.delaysService.store(this.items).then(({ data }) => {  
           if (data.code == 200) {
             this.Msg = data.msg;
-              this.successMsg = true;
+            this.successMsg = true;
+            this.loading = false; 
                 this.resetFrom(this.items)
             }
           if (data.code == 500) { 
             this.Msg = data.msg; 
-          this.errorMsg = true;
+            this.errorMsg = true;
+            this.loading = false; 
         }
            })
       },

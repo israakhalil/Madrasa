@@ -47,7 +47,11 @@
         
     </Column>
     <Column field="is_delivered" header=" التسليم">
-        
+        <template #body="slotProps">
+              <span v-if="slotProps.data.is_delivered==1">تم </span>
+              <span v-if="slotProps.data.is_delivered==2">لم يتم  </span>
+
+            </template>
     </Column>
     <Column field="student_signature" header=" توقيع الطالب">
         
@@ -174,8 +178,8 @@ class="p-fluid font-bold text-lg">
 
         </div>
       <div class="field">
-        <Button label="تعديل" v-if="form.id" class="mt-5" type="submit" @click="save(!v$.$invalid)"  />
-        <Button label="حفظ" v-if="form.id==null" class="mt-5" type="submit" @click="save(!v$.$invalid)"  />
+        <Button :loading="loading" label="تعديل" v-if="form.id" class="mt-5" type="submit" @click="save(!v$.$invalid)"  />
+        <Button :loading="loading" label="حفظ" v-if="form.id==null" class="mt-5" type="submit" @click="save(!v$.$invalid)"  />
       </div>
     </Dialog>
 
@@ -228,6 +232,7 @@ props: ["student_id",'class_id'],
 emits:['sign'],
 data() {
     return {
+        loading:false,
         submitted:false,
         student_books: [],
         header:null,
@@ -242,11 +247,11 @@ data() {
         booksService: null,
         delivered_options: [
         {
-            id: '1',
+            id: 1,
             name: 'تم التسليم'
         },
         {
-            id: '2',
+            id: 2,
             name: 'لم يتم التسليم'
             }],
             days: Array.from({ length: 31 }, (_, i) => ({ id: String((i+1)), name: (i+1) })),
@@ -300,9 +305,11 @@ methods: {
         this.attached = e.target.files[0]
     },
     save(isFormValid) {
+        this.loading = true; 
              this.successMsg = false;
             this.submitted = true;
-            if (!isFormValid) {
+        if (!isFormValid) {
+            this.loading = false; 
                 return;
         }   
         const formData = new FormData()   
@@ -316,7 +323,8 @@ methods: {
             if (data.code == 200) {
             this.BookDialog = false;
             this.successMsg = true;
-            this.Msg = data.msg;
+                this.Msg = data.msg;
+                this.loading = false; 
             this.getBooks();
         }
         });        },

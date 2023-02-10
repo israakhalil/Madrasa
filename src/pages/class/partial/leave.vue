@@ -55,11 +55,11 @@
     <Column field="student_signature" header=" توقيع الطالب">
         
     </Column>
-    <!-- <Column field="student_signature" header="ولي الامر">
+    <Column field="student_signature" header="ولي الامر">
         <template #body="slotProps">
         {{slotProps.data.guardian_id}} - {{slotProps.data.guardian_name}}
         </template>
-    </Column> -->
+    </Column>
 
     <Column  header="  الاجراءات" style="max-width:10rem">
         <template #body="slotProps">
@@ -143,7 +143,14 @@ class="p-fluid font-bold text-lg">
         :class="{ 'p-invalid':v$.form.leave_time.$invalid && submitted }"></Calendar>
         <small class="p-error" v-if="v$.form.leave_time.$invalid && submitted">يرجى  ادخال وقت التاخير     </small> 
 
-
+        <div class="field">
+            <label for="guardian_name">اسم ولي الامر الذي خرج معه الطالب</label>
+            <InputText id="guardian_name" v-model.trim="form.guardian_name"/>
+        </div >
+        <div class="field">
+            <label for="guardian_id">رقم هوية ولي الامر  </label>
+            <InputText id="guardian_id" v-model.trim="form.guardian_id"/>
+        </div>
         <!-- <InputText
         id="leave_time"
         v-model.trim="form.leave_time"
@@ -181,8 +188,8 @@ class="p-fluid font-bold text-lg">
 
         </div>
       <div class="field">
-        <Button label="تعديل" v-if="form.id" class="mt-5" type="submit" @click="save(!v$.$invalid)"  />
-        <Button label="حفظ" v-if="form.id==null" class="mt-5" type="submit" @click="save(!v$.$invalid)"  />
+        <Button :loading="loading" label="تعديل" v-if="form.id" class="mt-5" type="submit" @click="save(!v$.$invalid)"  />
+        <Button :loading="loading" label="حفظ" v-if="form.id==null" class="mt-5" type="submit" @click="save(!v$.$invalid)"  />
       </div>
     </Dialog>
 
@@ -237,6 +244,7 @@ setup () {
 
 data() {
     return {
+        loading:false,
         submitted:false,
         student_leaves: [],
         header:null,
@@ -302,9 +310,11 @@ methods: {
             window.open(link,'_blank')
     },
     save(isFormValid) {
+            this.loading = true; 
             this.successMsg = false;
             this.submitted = true;
-            if (!isFormValid) {
+        if (!isFormValid) {
+            this.loading = false; 
                 return;
         }   
         const formData = new FormData()   
@@ -319,7 +329,8 @@ methods: {
             if (data.code == 200) {
             this.LeaveDialog = false;
             this.successMsg = true;
-            this.Msg = data.msg;
+                this.Msg = data.msg;
+                this.loading = false; 
             this.getLeaves();
         }
         });        },

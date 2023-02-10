@@ -43,15 +43,33 @@
         </Column>
     <Column field="violation_date" header="تاريخ المخالفة" headerStyle="text-align: center">
     </Column>
-    <Column field="action_performed" header=" الاجراء المنفذ" headerStyle="text-align: center" >
-        
-    </Column>
-    <Column field="violation_procedure_name" header="نوع الاجراء" headerStyle="text-align: center" >
-        
-    </Column>
     <Column field="violation_degree_name" header="درجة المخالفة" headerStyle="text-align: center">
         
+      </Column>
+      <Column field="violation_procedure_name" header="الاجراء" headerStyle="text-align: center">
+        
+      </Column>
+      <Column field="violation_procedure_type" header="نوع الاجراء" headerStyle="text-align: center" >
+        <template #body="slotProps">
+          <div v-if="slotProps.data.violation_procedure_type.length>=1">
+            <div v-for="(item, index) in slotProps.data.violation_procedure_type">
+                <span > {{ (index+1) }} - {{  item}}</span>
+            </div>
+          </div>
+        <!-- {{slotProps.data.violation_procedure_type}} -->
+    </template>
+      </Column>
+    <Column field="action_performed" header=" الاجراء المتخذ" headerStyle="text-align: center" >
+      <template #body="slotProps">
+          <div v-if="slotProps.data.action_performed.length>=1">
+            <div v-for="(item, index) in slotProps.data.action_performed">
+                <span> {{ (index+1) }} - {{  item}}</span>
+            </div>
+          </div>
+    </template>
     </Column>
+
+
     <Column field="student_signature" header="توقيع الطالب" headerStyle="text-align: center">
         
     </Column>
@@ -126,43 +144,61 @@ class="p-fluid font-bold text-lg">
 
       </div>
       <div class="field">
-        <label for="action_performed"> الاجراء المنفذ  </label>
-        <InputText
-        id="action_performed"
-        v-model.trim="form.action_performed"
-        :class="{ 'p-invalid':v$.form.action_performed.$invalid && submitted }"/>
-          <small class="p-error" v-if="v$.form.action_performed.$invalid && submitted">يرجى  ادخال الاجراء     </small>
-
-        </div >
-
-      <div class="field">
-        <label for="violation_procedure_id"> نوع الاجراء</label>
-        <Dropdown
-        id="violation_procedure_id"
-        :filter=true
-        v-model="form.violation_procedure_id"
-        :options="violation_procedures"
-        optionLabel="name"
-        placeholder="اختر"
-        option-value="id"
-        :class="{ 'p-invalid':v$.form.violation_procedure_id.$invalid && submitted }"
-        />
-        <small class="p-error" v-if="v$.form.violation_procedure_id.$invalid && submitted">يرجى  اختيار نوع الاجراء </small>
-      </div>
-      <div class="field">
         <label for="violation_degree_id">درجة المخالفة</label>
         <Dropdown
-        id="violation_degree_id"
-        :filter=true
-        v-model="form.violation_degree_id"
-        :options="violation_degrees"
-        optionLabel="name"
-        placeholder="اختر"
-        option-value="id"
-        :class="{ 'p-invalid':v$.form.violation_degree_id.$invalid && submitted }"
+          id="violation_degree_id"
+          :filter=true
+          v-model="form.violation_degree_id"
+          :options="violation_degrees"
+          optionLabel="name"
+          placeholder="اختر"
+          option-value="id"
+          :class="{ 'p-invalid':v$.form.violation_degree_id.$invalid && submitted }"
         />
         <small class="p-error" v-if="v$.form.violation_degree_id.$invalid && submitted">يرجى  اختيار درجةالمخالفة  </small>
       </div>
+      <div class="field">
+        <label for="violation_procedure_id"> الاجراء</label>
+        <Dropdown
+          id="violation_procedure_id"
+          :filter=true
+          v-model="form.violation_procedure_id"
+          :options="violation_procedures"
+          optionLabel="name"
+          placeholder="اختر"
+          option-value="id"
+          :class="{ 'p-invalid':v$.form.violation_procedure_id.$invalid && submitted }"
+        />
+        <small class="p-error" v-if="v$.form.violation_procedure_id.$invalid && submitted">يرجى  اختيار الاجراء </small>
+      </div>
+      <div class="field" >
+        <label for="violation_procedure_type"> نوع الاجراء</label>
+        <div class=" grid p-fluid" v-for="(item, index) in types">
+          <div class="field col-11 md:col-11 sm:col-10">
+              <InputText id="violation_procedure_type" v-model.trim="item.violation_procedure_type"/>
+       
+           </div>
+            <div class="field col-1 md:col-1 sm:col-2">
+              <i class="pi pi-plus-circle" v-if="this.types.length>=1 && (index+1) > this.types.length-1"  @click="addItem()" style="cursor:pointer"></i>
+              <i class="pi pi-times" @click="unset(types, index)" v-if="this.types.length>=1 && (index+1)!=1" style="cursor:pointer"></i>
+            </div>
+        </div>
+       
+      </div>
+      <div class="field">
+        <label for="action_performed"> الاجراء المنفذ  </label>
+        <div class=" grid p-fluid" v-for="(item, index) in actions">
+          <div class="field col-11 md:col-11 sm:col-10">
+              <InputText id="action_performed" v-model.trim="item.action_performed"/>
+       
+           </div>
+            <div class="field col-1 md:col-1 sm:col-2">
+              <i class="pi pi-plus-circle" v-if="this.actions.length>=1 && (index+1) > this.actions.length-1"  @click="addAction()" style="cursor:pointer"></i>
+              <i class="pi pi-times" @click="unset(actions, index)" v-if="this.actions.length>=1 && (index+1)!=1" style="cursor:pointer"></i>
+            </div>
+        </div>
+      </div >
+
       <div class="field"> 
          <label for="file">الملف المرفق</label>
             <div class="inputfile-box">
@@ -204,8 +240,8 @@ class="p-fluid font-bold text-lg">
 
         </div>
       <div class="field" >
-        <Button label="تعديل" v-if="form.id" class="mt-5" type="submit" @click="save(!v$.$invalid)"  />
-        <Button label="حفظ" v-if="form.id==null" class="mt-5" type="submit" @click="save(!v$.$invalid)"  />
+        <Button :loading="loading" label="تعديل" v-if="form.id" class="mt-5" type="submit" @click="save(!v$.$invalid)"  />
+        <Button :loading="loading" label="حفظ" v-if="form.id==null" class="mt-5" type="submit" @click="save(!v$.$invalid)"  />
       </div>
     </Dialog>
 
@@ -261,7 +297,7 @@ setup () {
 
 data() {
     return {
-        
+        loading:false,
         student_violations: [],
         violation_procedures: [],
         violation_degrees: [],
@@ -278,24 +314,31 @@ data() {
         submitted: false,
         
         violationsService: null,
-      constantsService: null,
-      days: Array.from({ length: 31 }, (_, i) => ({ id: String((i+1)), name: (i+1) })),
-            hijri_months: [],
-            years: Array.from({ length: 10 }, (_, i) => ({ id: String((i+1444)), name: (i+1444) })),
+        constantsService: null,
+        days: Array.from({ length: 31 }, (_, i) => ({ id: String((i+1)), name: (i+1) })),
+        hijri_months: [],
+        years: Array.from({ length: 10 }, (_, i) => ({ id: String((i+1444)), name: (i+1444) })),
+      types: [],
+      type: {
+        violation_procedure_type:null
+      },
+      actions: [],
+      action: {
+        action_performed:null
+      },
     }  
 },
 validations() {
     return {
     form: {
         violation_date: { required },
-        action_performed: { required },
         violation_procedure_id: { required },
         violation_degree_id: { required },
         supervisor_signature: { required },
         student_signature: { required },
         day: { required },
-                month:{ required },
-            year:{ required },
+        month:{ required },
+         year:{ required },
     }
     }
   },
@@ -303,7 +346,18 @@ created() {
     this.violationsService = new ViolationsService();  
     this.constantsService = new ConstantsService();
 },
-methods: {
+  methods: {
+    addItem() {
+      this.type={}
+      this.types.push(Object.assign({}, this.type));
+    },
+    addAction() {
+      this.action={}
+      this.actions.push(Object.assign({}, this.action));
+    },
+    unset(obj, key) {
+      obj.splice(key, 1);
+    },
     openNew() {
         this.header="اضافة مخالفة"
         this.form = {};
@@ -316,14 +370,24 @@ methods: {
     openEdit(data) {
         this.header="تعديل مخالفة"
         this.form = { ...data };  
+        this.types = [];
+        this.actions = [];
+        this.form.violation_procedure_type.forEach(type => {
+            this.type.violation_procedure_type = type;
+          this.types.push(Object.assign({}, this.type));
+            
+        });
+        this.form.action_performed.forEach(action => {
+            this.action.action_performed = action;
+            this.actions.push(Object.assign({}, this.action));
+        });
         this.ViolationDialog = true;
         this.getViolationProcedures();
-      this.getViolationDegrees();
-      let hijri = this.form.hijri_date.split(',');
+        this.getViolationDegrees();
+        let hijri = this.form.hijri_date.split(',');
         this.form.day = hijri[0].trim();
         this.form.month = hijri[1].trim();
-      this.form.year = hijri[2];
-        console.log(this.form);
+        this.form.year = hijri[2];
     },
     openDelete(data) { 
         this.form = data;
@@ -348,26 +412,43 @@ methods: {
             window.open(link,'_blank')
     },
     save(isFormValid) {
-            this.successMsg = false;
-            this.submitted = true;
-            if (!isFormValid) {
-                return;
+   
+      this.loading = true; 
+      this.successMsg = false;
+      this.submitted = true;
+
+
+      if (!isFormValid) {
+        this.loading = false; 
+                  return;
       } 
-      const formData = new FormData()     
-      this.form.class_id = this.class_id;
-      this.form.student_id = this.student_id;
-      this.form.violation_date = this.formatDate(this.form.violation_date);
-      this.form.hijri_date = this.form.day + ' ,' + this.form.month+' ,'+this.form.year;
-      formData.append('attached', this.attached)
-        formData.append('data', JSON.stringify(this.form))
-        this.violationsService.save(formData, this.form.id).then(({ data }) => {
-            if (data.code == 200) {
-            this.ViolationDialog = false;
-            this.successMsg = true;
+
+      let violation_actions = ""; let violation_types = "";
+      this.types.forEach(type => {
+        violation_types += type.violation_procedure_type + '&';
+      });
+      this.actions.forEach(action => {
+        violation_actions += action.action_performed + '&';
+      });
+
+        const formData = new FormData()     
+        this.form.violation_procedure_type = violation_types;
+        this.form.action_performed = violation_actions;
+        this.form.class_id = this.class_id;
+        this.form.student_id = this.student_id;
+        this.form.violation_date = this.formatDate(this.form.violation_date);
+        this.form.hijri_date = this.form.day + ' ,' + this.form.month+' ,'+this.form.year;
+        formData.append('attached', this.attached)
+          formData.append('data', JSON.stringify(this.form))
+          this.violationsService.save(formData, this.form.id).then(({ data }) => {
+              if (data.code == 200) {
+              this.ViolationDialog = false;
+              this.successMsg = true;
                 this.Msg = data.msg;
-                this.getViolations();
-        }
-        });
+                this.loading = false; 
+                  this.getViolations();
+          }
+          });
     },
     deleteViolation() { 
         this.successMsg = false;
@@ -402,6 +483,8 @@ methods: {
 mounted() { 
   this.getViolations();
   this.hijri_months = hijri_months;
+  this.types.push(Object.assign({}, this.type));
+  this.actions.push(Object.assign({}, this.action));
 }
 };
 </script>

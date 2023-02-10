@@ -55,6 +55,11 @@
         <Column field="absence_type_name" header="نوع الغياب">
             
         </Column>
+        <Column field="student_signature" header="المجيب">
+          <template #body="slotProps">
+          {{slotProps.data.respondent}}
+          </template>
+       </Column>
         <Column field="teacher_signature" header=" توقيع المعلم">
             
         </Column>
@@ -154,7 +159,19 @@
             :class="{ 'p-invalid':v$.form.absence_reason.$invalid && submitted }"/>
               <small class="p-error" v-if="v$.form.absence_reason.$invalid && submitted">يرجى  ادخال سبب     </small>
 
-            </div >
+            </div>
+            <div class="field">
+              <label for="respondent">المجيب </label>
+              <InputText id="respondent" v-model.trim="form.respondent"/>
+            </div>
+            <div class="field">
+              <label for="contact_number">رقم التواصل </label>
+              <InputText id="contact_number" v-model.trim="form.contact_number"/>
+            </div>
+            <div class="field">
+              <label for="time">الوقت </label>
+              <InputText id="time" v-model.trim="form.time"/>
+            </div>
             <div class="field">
             <label for="file">الملف المرفق</label>
             <div class="inputfile-box">
@@ -184,8 +201,8 @@
 
             </div>
           <div class="field">
-            <Button label="تعديل" v-if="form.id" class="mt-5" type="submit" @click="save(!v$.$invalid)"  />
-            <Button label="حفظ" v-if="form.id==null" class="mt-5" type="submit" @click="save(!v$.$invalid)"  />
+            <Button :loading="loading" label="تعديل" v-if="form.id" class="mt-5" type="submit" @click="save(!v$.$invalid)"  />
+            <Button :loading="loading" label="حفظ" v-if="form.id==null" class="mt-5" type="submit" @click="save(!v$.$invalid)"  />
           </div>
     <!-- </div> -->
 
@@ -242,7 +259,8 @@ export default {
     props: ["student_id", 'class_id'],
     emits:['sign'],
     data() {
-        return {
+      return {
+            loading:false,
             grp_sign:null,
             submitted:false,
             student_absences: [],
@@ -329,13 +347,16 @@ export default {
             this.attached=e.target.files[0]
         
         },
-        save(isFormValid) {
-                 this.successMsg = false;
+      save(isFormValid) {
+             this.loading = true; 
+             this.successMsg = false;
 
-                this.submitted = true;
-                if (!isFormValid) {
-                    return;
-            }   
+            this.submitted = true;
+          if (!isFormValid) {
+              this.loading = false; 
+                  return;
+            }  
+            
             const formData = new FormData()
             this.form.student_id = this.student_id
             this.form.class_id = this.class_id;
@@ -348,7 +369,8 @@ export default {
                 if (data.code == 200) {
                 this.AbsenceDialog = false;
                 this.successMsg = true;
-                    this.Msg = data.msg;
+                  this.Msg = data.msg;
+                  this.loading = false;
                     this.getAbsences();
             }
             });        },

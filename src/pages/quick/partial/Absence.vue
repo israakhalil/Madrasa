@@ -109,6 +109,19 @@
           required="true"
         />
       </div>
+      <div class="field col-12 md:col-4">
+              <label for="respondent">المجيب </label>
+              <InputText id="respondent" v-model.trim="item.respondent"/>
+            </div>
+            <div class="field col-12 md:col-4">
+              <label for="contact_number">رقم التواصل </label>
+              <InputText id="contact_number" v-model.trim="item.contact_number"/>
+            </div>
+            <div class="field col-12 md:col-4">
+              <label for="time">الوقت </label>
+              <InputText id="time" v-model.trim="item.time"/>
+            </div>
+
       <!-- "'name-'+grp_sign" -->
       <!-- <div class="field col-12 md:col-4">
             <label :for="'file-'+index">الملف المرفق</label>
@@ -149,7 +162,7 @@
 
   <div class="grid p-fluid mt-3 font-bold mr-5">
     <div class="field col-12 md:col-4 sm:col-6">
-      <Button label=" حفظ" class="p-button-primary" @click="saveAbsences" />
+      <Button :loading="loading" label=" حفظ" class="p-button-primary" @click="saveAbsences" />
     </div>
     <div class="field col-12 md:col-4 sm:col-6">
       <Button
@@ -193,7 +206,7 @@ export default {
       absence_types:[],
       items: [],
       Msg: null,
-
+      loading:false,
       constantsService: null,
       absencesService: null,
 
@@ -234,7 +247,7 @@ export default {
       });
     },
     saveAbsences() {
-
+      this.loading = true; 
       this.errorMsg = false; 
       this.successMsg = false;
       this.Msg = null;
@@ -253,11 +266,13 @@ export default {
         if (data.code == 200) {
           this.Msg = data.msg;
           this.successMsg = true;
+          this.loading = false; 
           this.resetFrom(this.items)
 
         } if (data.code == 500) { 
           this.Msg = data.msg; 
           this.errorMsg = true;
+          this.loading = false; 
         }
       });
     },

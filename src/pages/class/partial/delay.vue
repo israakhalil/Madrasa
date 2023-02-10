@@ -52,7 +52,11 @@
     <Column field="student_signature" header=" توقيع الطالب">
         
     </Column>
-
+    <Column field="student_signature" header="ولي الامر">
+        <template #body="slotProps">
+        {{slotProps.data.guardian_id}} - {{slotProps.data.guardian_name}}
+        </template>
+    </Column>
     <Column  header="  الاجراءات" style="max-width:8rem">
         <template #body="slotProps">
             <Button v-if="slotProps.data.attached" icon="pi pi-download" class="p-button-rounded p-button-help ml-2" @click="download(slotProps.data.file)"/> 
@@ -137,6 +141,15 @@ class="p-fluid font-bold text-lg">
           <small class="p-error" v-if="v$.form.delay_amount.$invalid && submitted">يرجى  ادخال مقدار     </small>
 
         </div >
+        <div class="field">
+            <label for="guardian_name">اسم ولي الامر الذي حضر معه الطالب</label>
+            <InputText id="guardian_name" v-model.trim="form.guardian_name"/>
+        </div >
+        <div class="field">
+            <label for="guardian_id">رقم هوية ولي الامر  </label>
+            <InputText id="guardian_id" v-model.trim="form.guardian_id"/>
+        </div>
+       
         <div class="field"> 
             <label for="file">الملف المرفق</label>
             <div class="inputfile-box">
@@ -166,8 +179,8 @@ class="p-fluid font-bold text-lg">
 
         </div>
       <div class="field">
-        <Button label="تعديل" v-if="form.id" class="mt-5" type="submit" @click="save(!v$.$invalid)"  />
-        <Button label="حفظ" v-if="form.id==null" class="mt-5" type="submit" @click="save(!v$.$invalid)"  />
+        <Button :loading="loading" label="تعديل" v-if="form.id" class="mt-5" type="submit" @click="save(!v$.$invalid)"  />
+        <Button :loading="loading" label="حفظ" v-if="form.id==null" class="mt-5" type="submit" @click="save(!v$.$invalid)"  />
       </div>
     </Dialog>
 
@@ -221,6 +234,7 @@ setup () {
 
 data() {
     return {
+        loading:false,
         submitted:false,
         student_delays: [],
         header:null,
@@ -286,9 +300,11 @@ methods: {
             window.open(link,'_blank')
     },
     save(isFormValid) {
+            this.loading = true; 
             this.successMsg = false;
             this.submitted = true;
-            if (!isFormValid) {
+        if (!isFormValid) {
+            this.loading = false; 
                 return;
         } 
         const formData = new FormData()   
@@ -303,6 +319,7 @@ methods: {
             this.DelayDialog = false;
             this.successMsg = true;
                 this.Msg = data.msg;
+                this.loading = false; 
                 this.getDelays();
         }
         });        },
