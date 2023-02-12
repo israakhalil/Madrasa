@@ -102,7 +102,24 @@
             option-value="id"
           />
         </div>
-
+        <div class="field col-12 md:col-4">
+            <label :for="'file-'+index">الملف المرفق</label>
+            <div class="inputfile-box">
+              <input
+                type="file"
+                :id="'file-'+index"
+                class="inputfile"
+                @change="uploadFile($event,item)"
+                accept="image/*,.pdf,.doc,.docx"
+              />
+              <label :for="'file-'+index">
+                <span class="p-input-icon-left">
+                  <i class="pi pi-upload" aria-hidden="true"></i>
+                  <span  class="file-box">{{item.name}}</span>
+                </span>
+              </label>
+            </div>  
+          </div>
         <div class="field col-12 md:col-4">
           <label for="student_signature"> توقيع الطالب </label>
           <InputText
@@ -196,26 +213,18 @@ export default {
         obj.splice(key, 1);
       },
   
-      // getLevels() {
-      //   this.levelsService.index().then(({ data }) => {
-      //     if (data.code == 200) {
-      //       this.levels = data.data.Levels;
-      //     }
-      //   });
-      // },
-      // getClasses(item) {
-      //   this.query = { level_id: item.level_id };
-      //   this.classesService.index(this.query).then(({ data }) => {
-      //     item.classes = data.data.Classes;
-      //   });
-      // },
-      // getStudents(item) {
-      //   this.query = { class_id: item.class_id };
-      //   this.studentsService.index(this.query).then(({ data }) => {
-      //     item.students = data.data.Students;
-      //   });
-      // },
-      getClasses(item) { 
+      uploadFile(e, item) {
+        item.name = e.target.files[0].name;
+        const file = e.target.files[0];
+        const reader = new FileReader()
+        let rawImg;
+        reader.onloadend = () => {
+          rawImg = reader.result;
+          item.attached = rawImg
+        }
+        reader.readAsDataURL(file);
+      },
+    getClasses(item) { 
         item.classes=this.classes.filter((_class) => { return _class.level_id == item.level_id });
     },
     getStudents(item) {
@@ -235,9 +244,9 @@ export default {
         }
       });
         const formData = new FormData();
-        formData.append("items", JSON.stringify(this.items));
+        formData.append("data", JSON.stringify(this.items));
   
-        this.booksService.store(this.items).then(({ data }) => {
+        this.booksService.store(formData).then(({ data }) => {
           if (data.code == 200) {
             this.Msg = data.msg;
             this.successMsg = true;
@@ -249,7 +258,10 @@ export default {
             this.errorMsg = true;
             this.loading = false; 
         }
-        });
+        }).finally(() => {
+        this.loading = false; 
+
+      });
       },
 
       resetFrom(items) { 
@@ -260,10 +272,12 @@ export default {
             item.received_date= null,
             item.book_name= null,
             item.is_delivered= null,
-          item.student_signature = null,
-          item.day = null,
-          item.month = null,
-          item.year= null
+            item.student_signature = null,
+            item.day = null,
+            item.month = null,
+            item.year = null,
+            item.attached = null,
+            item.name=null
           });
     },
   },

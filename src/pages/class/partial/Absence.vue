@@ -180,6 +180,7 @@
                 id="file"
                 class="inputfile"
                 @change="uploadFile"
+                accept="image/*,.pdf,.doc,.docx"
               />
               <label for="file">
                 <span class="p-input-icon-left">
@@ -363,8 +364,7 @@ export default {
             this.form.hijri_date = this.form.day + ' ,' + this.form.month + ' ,' + this.form.year;
             this.form.absence_date = this.formatDate(this.form.absence_date)
             formData.append('attached', this.attached)
-            formData.append('data', JSON.stringify(this.form))
-            console.log(this.form);
+            formData.append('data',JSON.stringify(this.form))
             this.absencesService.save(formData, this.form.id).then(({ data }) => {
                 if (data.code == 200) {
                 this.AbsenceDialog = false;
@@ -373,7 +373,10 @@ export default {
                   this.loading = false;
                     this.getAbsences();
             }
-            });        },
+            }).finally(() => {
+        this.loading = false; 
+
+      });;        },
         deleteAbsence() { 
             this.successMsg = false;
             this.absencesService.delete(this.form.id).then(({ data }) => {

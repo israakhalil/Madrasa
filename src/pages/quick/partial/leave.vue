@@ -96,6 +96,25 @@
           />
         </div>
         <div class="field col-12 md:col-4">
+            <label :for="'file-'+index">الملف المرفق</label>
+            <div class="inputfile-box">
+              <input
+                type="file"
+                :id="'file-'+index"
+                class="inputfile"
+                @change="uploadFile($event,item)"
+                accept="image/*,.pdf,.doc,.docx"
+              />
+              <label :for="'file-'+index">
+                <span class="p-input-icon-left">
+                  <i class="pi pi-upload" aria-hidden="true"></i>
+                  <span  class="file-box">{{item.name}}</span>
+                </span>
+              </label>
+            </div>  
+          </div>
+
+        <div class="field col-12 md:col-4">
           <label for="guardian_name">اسم ولي الامر الذي خرج معه الطالب</label>
           <InputText
             id="guardian_name"
@@ -104,9 +123,9 @@
         </div>
         <div class="field col-12 md:col-4">
           <label for="guardian_id"> هوية ولي الامر  </label>
-          <InputText
-            id="guardian_id"
-            v-model.trim="item.guardian_id"
+          <InputNumber 
+            id="guardian_id"   :useGrouping="false"
+            v-model="item.guardian_id"
           />
         </div>
         <div class="field col-12 md:col-4">
@@ -186,6 +205,18 @@ export default {
       unset(obj, key) {
         obj.splice(key, 1);
       },
+      uploadFile(e, item) {
+        item.name = e.target.files[0].name;
+        const file = e.target.files[0];
+        const reader = new FileReader()
+        let rawImg;
+        reader.onloadend = () => {
+          rawImg = reader.result;
+          item.attached = rawImg
+        }
+        reader.readAsDataURL(file);
+      },
+
       getClasses(item) { 
         item.classes=this.classes.filter((_class) => { return _class.level_id == item.level_id });
     },
@@ -205,8 +236,8 @@ export default {
         }
       });
         const formData = new FormData();
-        formData.append("items", JSON.stringify(this.items));
-        this.leavesService.store(this.items).then(({ data }) => {
+        formData.append("data", JSON.stringify(this.items));
+        this.leavesService.store(formData).then(({ data }) => {
           if (data.code == 200) {
             this.Msg = data.msg;
             this.successMsg = true;
@@ -219,7 +250,10 @@ export default {
             this.loading = false; 
           }
         
-        });
+        }).finally(() => {
+        this.loading = false; 
+
+      });
       },
       resetFrom(items) { 
          items.forEach((item) => { 
@@ -229,10 +263,14 @@ export default {
             item.leave_date= null,
             item.leave_time= null,
             item.student_signature= null,
-             item.leave_reason = null,
-             item.day = null,
-          item.month = null,
-          item.year= null
+            item.leave_reason = null,
+            item.day = null,
+            item.month = null,
+            item.year = null,
+            item.attached = null,
+             item.name = null,
+             item.guardian_name = null,
+          item.guardian_id=null
           });
       },
     

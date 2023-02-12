@@ -157,6 +157,7 @@ class="p-fluid font-bold text-lg">
                 id="file"
                 class="inputfile"
                 @change="uploadFile"
+                accept="image/*,.pdf,.doc,.docx"
               />
               <label for="file">
                 <span class="p-input-icon-left">
@@ -327,7 +328,11 @@ methods: {
                 this.loading = false; 
             this.getBooks();
         }
-        });        },
+        }).finally(() => {
+        this.loading = false; 
+
+        });
+    },
     deleteBook() { 
         this.successMsg = false;
         this.booksService.delete(this.form.id).then(({ data }) => {

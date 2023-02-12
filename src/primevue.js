@@ -21,6 +21,7 @@ import Button from 'primevue/button';
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import InputText from 'primevue/inputtext';
+import InputNumber from 'primevue/inputnumber';
 import Toolbar from 'primevue/toolbar';
 import ConfirmDialog from 'primevue/confirmdialog';
 import Textarea from 'primevue/textarea';
@@ -92,7 +93,7 @@ globalApp.app.component('FileUpload', FileUpload);
 globalApp.app.component('Splitter', Splitter);
 globalApp.app.component('SplitterPanel', SplitterPanel);
 globalApp.app.component('ScrollPanel', ScrollPanel);
-
+globalApp.app.component('InputNumber', InputNumber);
 /********************* Custome Components Region *******************/
 
 // import Loader from '@/components/Loader.vue';

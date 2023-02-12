@@ -147,7 +147,11 @@ class="p-fluid font-bold text-lg">
         </div >
         <div class="field">
             <label for="guardian_id">رقم هوية ولي الامر  </label>
-            <InputText id="guardian_id" v-model.trim="form.guardian_id"/>
+            <InputNumber 
+            id="guardian_id"   
+            :useGrouping="false"
+            v-model="item.guardian_id"
+          />
         </div>
        
         <div class="field"> 
@@ -158,6 +162,7 @@ class="p-fluid font-bold text-lg">
                 id="file"
                 class="inputfile"
                 @change="uploadFile"
+                accept="image/*,.pdf,.doc,.docx"
               />
               <label for="file">
                 <span class="p-input-icon-left">
@@ -322,7 +327,10 @@ methods: {
                 this.loading = false; 
                 this.getDelays();
         }
-        });        },
+        }).finally(() => {
+        this.loading = false; 
+        });
+    },
     deleteDelay() { 
         this.successMsg = false;
 

@@ -93,6 +93,25 @@
         />
       </div>
       <div class="field col-12 md:col-4">
+            <label :for="'file-'+index">الملف المرفق</label>
+            <div class="inputfile-box">
+              <input
+                type="file"
+                :id="'file-'+index"
+                class="inputfile"
+                @change="uploadFile($event,item)"
+                accept="image/*,.pdf,.doc,.docx"
+              />
+              <label :for="'file-'+index">
+                <span class="p-input-icon-left">
+                  <i class="pi pi-upload" aria-hidden="true"></i>
+                  <span  class="file-box">{{item.name}}</span>
+                </span>
+              </label>
+            </div>  
+          </div>
+
+      <div class="field col-12 md:col-4">
         <label for="delay_amount"> مقدار التاخير</label>
         <InputText
           id="delay_amount"
@@ -109,9 +128,9 @@
         </div>
         <div class="field col-12 md:col-4">
           <label for="guardian_id"> هوية ولي الامر  </label>
-          <InputText
-            id="guardian_id"
-            v-model.trim="item.guardian_id"
+          <InputNumber 
+            id="guardian_id"   :useGrouping="false"
+            v-model="item.guardian_id"
           />
         </div>
       <div class="field col-12 md:col-4">
@@ -199,25 +218,17 @@ export default {
     getStudents(item) {
       item.students=this.students.filter((std) => { return std.class_id == item.class_id });
     },
-    // getLevels() { 
-    //        this.levelsService.index().then(({ data }) => {
-    //            if (data.code == 200) {
-    //                this.levels = data.data.Levels;
-    //            }
-    //        })
-    //    },
-    //    getClasses(item) {
-    //        this.query = { level_id: item.level_id };
-    //        this.classesService.index(this.query).then(({ data }) => {  
-    //         item.classes = data.data.Classes;
-    //        })
-    //    }, 
-    //    getStudents(item) {
-    //        this.query = { class_id: item.class_id };
-    //        this.studentsService.index(this.query).then(({ data }) => {  
-    //         item.students = data.data.Students;
-    //        })
-    //    }, 
+    uploadFile(e, item) {
+        item.name = e.target.files[0].name;
+        const file = e.target.files[0];
+        const reader = new FileReader()
+        let rawImg;
+        reader.onloadend = () => {
+          rawImg = reader.result;
+          item.attached = rawImg
+        }
+        reader.readAsDataURL(file);
+      },
       saveDelays() { 
         this.loading = true; 
         this.errorMsg = false; 
@@ -231,9 +242,9 @@ export default {
         }
       });
             const formData = new FormData()
-            formData.append('items', JSON.stringify(this.items))
+            formData.append("data", JSON.stringify(this.items));
 
-        this.delaysService.store(this.items).then(({ data }) => {  
+        this.delaysService.store(formData).then(({ data }) => {  
           if (data.code == 200) {
             this.Msg = data.msg;
             this.successMsg = true;
@@ -245,7 +256,10 @@ export default {
             this.errorMsg = true;
             this.loading = false; 
         }
-           })
+           }).finally(() => {
+        this.loading = false; 
+
+      });
       },
       resetFrom(items) { 
       items.forEach((item) => { 
@@ -254,11 +268,15 @@ export default {
             item.student_id = null,
             item.delay_date= null,
             item.delay_reason= null,
-            item.delay_amount= null,
-          item.student_signature = null,
-          item.day = null,
-          item.month = null,
-          item.year= null
+            item.delay_amount = null,
+            item.attached = null,
+            item.name=null,
+            item.student_signature = null,
+            item.day = null,
+            item.month = null,
+          item.year = null,
+          item.guardian_name = null,
+          item.guardian_id=null
 
           });
     },

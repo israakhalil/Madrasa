@@ -80,6 +80,8 @@
     <Column header="  الاجراءات" style="min-width:10rem">
         <template #body="slotProps">
           <Button v-if="slotProps.data.attached" icon="pi pi-download" class="p-button-rounded p-button-help ml-2" @click="download(slotProps.data.file)"/> 
+          <Button v-if="slotProps.data.audio" icon="pi pi-volume-up" class="p-button-rounded p-button-secandary ml-2" @click="download(slotProps.data.audio_file)"/> 
+
             <Button v-if="this.can('VIOLATION_ADD_EDIT')" icon="pi pi-pencil" class="p-button-rounded p-button-success ml-2" @click="openEdit(slotProps.data)"/>
             <Button v-if="this.can('VIOLATION_DELETE')" icon="pi pi-trash" class="p-button-rounded p-button-danger ml-2" @click="openDelete(slotProps.data)"/>
         </template>
@@ -207,6 +209,7 @@ class="p-fluid font-bold text-lg">
                 id="file"
                 class="inputfile"
                 @change="uploadFile"
+                accept="image/*,.pdf,.doc,.docx"
               />
               <label for="file">
                 <span class="p-input-icon-left">
@@ -216,6 +219,25 @@ class="p-fluid font-bold text-lg">
               </label>
             </div>
             </div>
+            <div class="field"> 
+         <label for="audio">ارفاق ملف صوتي </label>
+            <div class="inputfile-box">
+              <input
+                type="file"
+                id="audio"
+                class="inputfile"
+                @change="uploadAudio"
+                accept="audio/*"
+              />
+              <label for="audio">
+                <span class="p-input-icon-left">
+                  <i class="pi pi-upload" aria-hidden="true"></i>
+                  <span id="file-name" class="file-box">{{form.audio}}</span>
+                </span>
+              </label>
+            </div>
+            </div>
+
      <div  class="field">
             <label for="student_signature"> توقيع الطالب </label>
             <InputText
@@ -326,6 +348,7 @@ data() {
       action: {
         action_performed:null
       },
+      audio:null,
     }  
 },
 validations() {
@@ -361,6 +384,8 @@ created() {
     openNew() {
         this.header="اضافة مخالفة"
         this.form = {};
+        // this.types = [];
+        // this.actions = [];
         this.submitted = false;
         this.ViolationDialog = true;
         this.getViolationProcedures();
@@ -408,6 +433,10 @@ created() {
         this.form.attached = e.target.files[0].name;
         this.attached = e.target.files[0]
     },
+    uploadAudio(e) {
+        this.form.audio = e.target.files[0].name;
+        this.audio = e.target.files[0]
+    },
   download(link) {
             window.open(link,'_blank')
     },
@@ -438,7 +467,8 @@ created() {
         this.form.student_id = this.student_id;
         this.form.violation_date = this.formatDate(this.form.violation_date);
         this.form.hijri_date = this.form.day + ' ,' + this.form.month+' ,'+this.form.year;
-        formData.append('attached', this.attached)
+          formData.append('attached', this.attached)
+          formData.append('audio', this.audio)
           formData.append('data', JSON.stringify(this.form))
           this.violationsService.save(formData, this.form.id).then(({ data }) => {
               if (data.code == 200) {
@@ -448,7 +478,9 @@ created() {
                 this.loading = false; 
                   this.getViolations();
           }
-          });
+          }).finally(() => {
+             this.loading = false; 
+      });
     },
     deleteViolation() { 
         this.successMsg = false;

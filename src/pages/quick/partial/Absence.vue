@@ -123,7 +123,7 @@
             </div>
 
       <!-- "'name-'+grp_sign" -->
-      <!-- <div class="field col-12 md:col-4">
+      <div class="field col-12 md:col-4">
             <label :for="'file-'+index">الملف المرفق</label>
             <div class="inputfile-box">
               <input
@@ -131,6 +131,7 @@
                 :id="'file-'+index"
                 class="inputfile"
                 @change="uploadFile($event,item)"
+                accept="image/*,.pdf,.doc,.docx"
               />
               <label :for="'file-'+index">
                 <span class="p-input-icon-left">
@@ -139,7 +140,7 @@
                 </span>
               </label>
             </div>  
-          </div> -->
+          </div>
 
       <div class="field col-12 md:col-4">
         <label for="teacher_signature"> توقيع المعلم </label>
@@ -209,12 +210,12 @@ export default {
       loading:false,
       constantsService: null,
       absencesService: null,
-
+      test: null,
       errorMsg: false,
       successMsg: false,
       days: Array.from({ length: 31 }, (_, i) => ({ id: String((i+1)), name: (i+1) })),
-            hijri_months: [],
-            years: Array.from({ length: 10 }, (_, i) => ({ id: String((i+1444)), name: (i+1444) })),
+      hijri_months: [],
+      years: Array.from({ length: 10 }, (_, i) => ({ id: String((i+1444)), name: (i+1444) })),
     };
   },
   created() {
@@ -228,13 +229,21 @@ export default {
     unset(obj, key) {
       obj.splice(key, 1);
     },
-    // uploadFile(e, item) {
+    uploadFile(e, item) {
 
-    //       item.name = e.target.files[0].name;
-    //   item.attached = e.target.files[0]
-    //       console.log(item);
+      item.name = e.target.files[0].name;
+      // item.attached = e.target.files[0];
+      const file = e.target.files[0];
+      const reader = new FileReader()
+      let rawImg;
+      reader.onloadend = () => {
+        rawImg = reader.result;
+        item.attached = rawImg
+      }
+      reader.readAsDataURL(file);
+     
         
-    //     },
+    },
     getClasses(item) { 
         item.classes=this.classes.filter((_class) => { return _class.level_id == item.level_id });
     },
@@ -255,14 +264,12 @@ export default {
         if (item.absence_date) {
           item.absence_date = this.formatDate(item.absence_date);
           item.hijri_date = item.day + ' ,' + item.month+' ,'+item.year;
-
-
         }
       });
       const formData = new FormData();
-      formData.append("items", JSON.stringify(this.items));
-
-      this.absencesService.store(this.items).then(({ data }) => {
+      formData.append("data", JSON.stringify(this.items));
+      console.log(this.items);
+      this.absencesService.store(formData).then(({ data }) => {
         if (data.code == 200) {
           this.Msg = data.msg;
           this.successMsg = true;
@@ -274,6 +281,9 @@ export default {
           this.errorMsg = true;
           this.loading = false; 
         }
+      }).finally(() => {
+        this.loading = false; 
+
       });
     },
     resetFrom(items) { 
@@ -284,10 +294,16 @@ export default {
             item.absence_date= null,
             item.absence_type_id= null,
             item.absence_reason= null,
-          item.teacher_signature = null
-        item.day = null,
-          item.month = null,
-          item.year= null
+            item.teacher_signature = null,
+            item.attached = null,
+            item.name=null,
+            item.day = null,
+            item.month = null,
+            item.year = null,
+            item.respondent = null,
+            item.contact_number = null,
+            item.time=null
+          
           });
     },
   },

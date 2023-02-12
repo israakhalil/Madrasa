@@ -69,7 +69,6 @@
                 <div class="col-4">
                     <Dropdown
                         v-model="item.year"
-                        
                         :options="years"
                         optionLabel="name"
                         placeholder="سنة"
@@ -115,7 +114,25 @@
             option-value="id"
           />
         </div>
-        
+        <div class="field col-12 md:col-4">
+            <label :for="'file-'+index">الملف المرفق</label>
+            <div class="inputfile-box">
+              <input
+                type="file"
+                :id="'file-'+index"
+                class="inputfile"
+                @change="uploadFile($event,item)"
+                accept="image/*,.pdf,.doc,.docx"
+              />
+              <label :for="'file-'+index">
+                <span class="p-input-icon-left">
+                  <i class="pi pi-upload" aria-hidden="true"></i>
+                  <span  class="file-box">{{item.name}}</span>
+                </span>
+              </label>
+            </div>  
+          </div>
+          
         <div class="field col-12 md:col-4">
           <label for="suprvisore_signature"> توقيع الاداري </label>
           <InputText
@@ -186,16 +203,16 @@ export default {
         },
         items: [],
         Msg: null,
-          violation_procedures: [],
-          violation_degrees:[],
+        violation_procedures: [],
+        violation_degrees:[],
         constantsService: null,
         violationsService: null,
         loading:false,
         errorMsg: false,
         successMsg: false,
         days: Array.from({ length: 31 }, (_, i) => ({ id: String((i+1)), name: (i+1) })),
-            hijri_months: [],
-            years: Array.from({ length: 10 }, (_, i) => ({ id: String((i+1444)), name: (i+1444) })),
+        hijri_months: [],
+        years: Array.from({ length: 10 }, (_, i) => ({ id: String((i+1444)), name: (i+1444) })),
       };
     },
     created() {
@@ -210,6 +227,18 @@ export default {
       unset(obj, key) {
         obj.splice(key, 1);
       },
+      uploadFile(e, item) {
+        item.name = e.target.files[0].name;
+        const file = e.target.files[0];
+        const reader = new FileReader()
+        let rawImg;
+        reader.onloadend = () => {
+          rawImg = reader.result;
+          item.attached = rawImg
+        }
+        reader.readAsDataURL(file);
+      },
+
       getClasses(item) { 
         item.classes=this.classes.filter((_class) => { return _class.level_id == item.level_id });
     },
@@ -239,9 +268,9 @@ export default {
         }
       });
         const formData = new FormData();
-        formData.append("items", JSON.stringify(this.items));
+        formData.append("data", JSON.stringify(this.items));
   
-        this.violationsService.store(this.items).then(({ data }) => {
+        this.violationsService.store(formData).then(({ data }) => {
           if (data.code == 200) {
             this.Msg = data.msg;
             this.successMsg = true;
@@ -253,7 +282,10 @@ export default {
             this.errorMsg = true;
             this.loading = false; 
           }
-        });
+        }).finally(() => {
+        this.loading = false; 
+
+      });
       },
       resetFrom(items) { 
          items.forEach((item) => { 
@@ -265,10 +297,12 @@ export default {
             item.violation_procedure_id= null,
             item.violation_degree_id = null
             item.supervisore_signature= null,
-             item.student_signature = null,
-             item.day = null,
-          item.month = null,
-          item.year= null
+            item.student_signature = null,
+            item.day = null,
+            item.month = null,
+            item.year = null,
+            item.attached = null,
+            item.name=null
          });
 
         // items.forEach((item){
