@@ -34,7 +34,8 @@ class ViolationResource extends JsonResource
             'attached'=>$this['attached'],
             'file'=>asset('storage/'.$this['attached']),
             'violation_procedure_type'=>$myType,
-            
+            'audio'=>$this['audio'],
+            'audio_file'=>asset('storage/'.$this['audio']),
             ];
     }
 }

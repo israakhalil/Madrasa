@@ -9,6 +9,7 @@ use App\Http\Resources\ViolationResource;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class ViolationsController extends  Controller
 {
@@ -20,17 +21,25 @@ class ViolationsController extends  Controller
         return response()->json([
         'data' => $data,
         'code'=>StatusCodes::OK
-    ]);
+         ]);
     }
 
     public function store(Request $request, $id = null)
     {
-        $items=collect($request);
+        $items=json_decode($request->data);
+        $items=collect($items);
         foreach ($items as $item) {
-            $item["violation_date"]= Carbon::parse($item["violation_date"]);
-            //  ViolationsModel::query()->Create((array)$item);
+            $path=null;
+            if($item->attached){
+                $file=$item->attached;
+                $substring = $this->string_between_two_string($file, '', ',');
+                $replaced = Str::replace( $substring,'', $file);
+                $path=request()->header('School_id'). "/violations".'/'. now()->format('Y'). '/'.now()->format('n'). '/'.now()->format('j').'/'. $item->name ;
+                Storage::disk('public')->put($path,base64_decode($replaced));
+            }
+            if($path){$item->attached=  $path;}
 
-            // return  $item;
+            $item->violation_date= Carbon::parse($item->violation_date);
             try {
                 ViolationsModel::query()->Create((array)$item);
             } catch (\Exception $exception) {
@@ -41,19 +50,22 @@ class ViolationsController extends  Controller
                    }
 
                 } 
-           return response()->json([
-               'msg' => "تمت الاضافة بنجاح",
-               'code'=>StatusCodes::OK
-           ]);
+                return response()->json(['msg' => "تمت الاضافة بنجاح", 'code'=>StatusCodes::OK ]);
 
+ }
 
-
+    public function string_between_two_string($str, $starting_word, $ending_word)
+    {
+        $subtring_start = strpos($str, $starting_word);
+        $subtring_start += strlen($starting_word); 
+        $size = strpos($str, $ending_word, $subtring_start) - $subtring_start; 
+        return substr($str, $subtring_start, $size+1); 
     }
 
     public function save(Request  $request, $id = null)
     {
         // $data = $request->only(ViolationsModel::FILLABLE);
-        $filename=null; $path=null;
+        $filename=null; $path=null;$path_audio=null;
         if ($request->hasFile('attached')) {
             $file = $request->attached;
             $path=request()->header('School_id')
@@ -62,10 +74,24 @@ class ViolationsController extends  Controller
             . '/'.now()->format('n')
             . '/'.now()->format('j');
             $filename=$file->getClientOriginalName();
-            $path= Storage::disk('public')->putFileAs($path,$file ,$filename);
+            $path=Storage::disk('public')->putFileAs($path,$file ,$filename);
         }
+        if ($request->hasFile('audio')) {
+            $file = $request->audio;
+            $path_audio=request()->header('School_id')
+            . "/violations/audio"
+            .'/'. now()->format('Y')
+            . '/'.now()->format('n')
+            . '/'.now()->format('j');
+            $filename=$file->getClientOriginalName();
+            
+            $path_audio=Storage::disk('public')->putFileAs($path_audio,$file ,$filename);
+
+        }
+
         $data =(array) json_decode($request->data);
         if($path){$data["attached"]=  @$path;}
+        if($path_audio){$data["audio"]=  $path_audio;}
         $data["violation_date"]= Carbon::parse($data["violation_date"]);
 
         ViolationsModel::query()->updateOrCreate(['id' => $id,], $data);

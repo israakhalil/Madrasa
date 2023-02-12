@@ -9,6 +9,7 @@ use App\Http\Resources\BookResource;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class BooksController extends  Controller
 {
@@ -22,37 +23,75 @@ class BooksController extends  Controller
     ]);
     }
 
-    public function store(Request $request, $id = null)
-    {
-        $items=collect($request);
-        // foreach ($items as $item) {
-        //      $item["received_date"]= Carbon::parse($item["received_date"]);
-        //      BooksModel::query()->Create((array)$item);
-        // }
-        // return response()->json([
-        //     'msg' => "تمت الاضافة بنجاح",
-        //     'code'=>StatusCodes::OK
-        // ]);
+    // public function store(Request $request, $id = null)
+    // {
+    //     $items=collect($request);
+    //     // foreach ($items as $item) {
+    //     //      $item["received_date"]= Carbon::parse($item["received_date"]);
+    //     //      BooksModel::query()->Create((array)$item);
+    //     // }
+    //     // return response()->json([
+    //     //     'msg' => "تمت الاضافة بنجاح",
+    //     //     'code'=>StatusCodes::OK
+    //     // ]);
         
 
-        foreach ($items as $item) {
-            $item["received_date"]= Carbon::parse($item["received_date"]);
-            try {
-                BooksModel::query()->Create((array)$item);
-            } catch (\Exception $exception) {
-                   return response()->json([
-                    'msg' => "هناك حقول يجب ادخالها",
-                    'code'=>StatusCodes::GENERAL_ERROR
-                   ]);            }
+    //     foreach ($items as $item) {
+    //         $item["received_date"]= Carbon::parse($item["received_date"]);
+    //         try {
+    //             BooksModel::query()->Create((array)$item);
+    //         } catch (\Exception $exception) {
+    //                return response()->json([
+    //                 'msg' => "هناك حقول يجب ادخالها",
+    //                 'code'=>StatusCodes::GENERAL_ERROR
+    //                ]);            }
 
-               }
-           return response()->json([
-               'msg' => "تمت الاضافة بنجاح",
-               'code'=>StatusCodes::OK
-           ]);
+    //            }
+    //        return response()->json([
+    //            'msg' => "تمت الاضافة بنجاح",
+    //            'code'=>StatusCodes::OK
+    //        ]);
        
 
-    }
+    // }
+
+    public function store(Request $request, $id = null)
+    {
+        $items=json_decode($request->data);
+        $items=collect($items);
+        foreach ($items as $item) 
+        {
+            $path=null;
+            if($item->attached){
+                $file=$item->attached;
+                $substring = $this->string_between_two_string($file, '', ',');
+                $replaced = Str::replace( $substring,'', $file);
+                $path=request()->header('School_id'). "/books".'/'. now()->format('Y'). '/'.now()->format('n'). '/'.now()->format('j').'/'. $item->name ;
+                Storage::disk('public')->put($path,base64_decode($replaced));
+            }
+            if($path){$item->attached=  $path;}
+            $item->received_date= Carbon::parse($item->received_date);
+            try {
+                BooksModel::query()->Create((array)$item);
+               } 
+            catch (\Exception $exception) {
+               return response()->json([
+                   'msg' => "هناك حقول يجب ادخالها",
+                   'code'=>StatusCodes::GENERAL_ERROR
+               ]);  
+              }
+
+         }
+         return response()->json([ 'msg' => "تمت الاضافة بنجاح",'code'=>StatusCodes::OK ]);
+
+       }
+       public function string_between_two_string($str, $starting_word, $ending_word)
+       {
+           $subtring_start = strpos($str, $starting_word);
+           $subtring_start += strlen($starting_word); 
+           $size = strpos($str, $ending_word, $subtring_start) - $subtring_start; 
+           return substr($str, $subtring_start, $size+1); 
+       }
     public function save(Request  $request, $id = null)
     {
         $filename=null; $path=null;

@@ -8,6 +8,7 @@ use App\Http\Resources\AbsenceResource;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class AbsencesController extends  Controller
 {
@@ -23,39 +24,40 @@ class AbsencesController extends  Controller
 
     public function store(Request $request, $id = null)
     {
-        // $items=collect($request);
-        // foreach ($items as $item) {
-        //     $filename=null; $path=null;
-        // if ($item->attached) {
-        //     $file = $item->attached;
-        //     $path=request()->header('School_id')
-        //     . "/absences"
-        //     .'/'. now()->format('Y')
-        //     . '/'.now()->format('n')
-        //     . '/'.now()->format('j');
-        //     $filename=$file->getClientOriginalName();
-        //     $path= Storage::disk('public')->putFileAs($path,$file ,$filename);
-        // }
-        // // $data =(array) json_decode($request->data);
-        // if($path){$item["attached"]=  @$path;}
+        $items=json_decode($request->data);
+        $items=collect($items);
+        return $items;
+        foreach ($items as $item) 
+        {
+            $path=null;
+            if($item->attached){
+                $file=$item->attached;
+                $substring = $this->string_between_two_string($file, '', ',');
+                $replaced = Str::replace( $substring,'', $file);
+                $path=request()->header('School_id'). "/absences".'/'. now()->format('Y'). '/'.now()->format('n'). '/'.now()->format('j').'/'. $item->name ;
+                Storage::disk('public')->put($path,base64_decode($replaced));
+            }
+            if($path){$item->attached=  $path;}
+            $item->absence_date= Carbon::parse($item->absence_date);
+            try {
+                 AbsencesModel::query()->Create((array)$item);
+               } 
+            catch (\Exception $exception) {
+               return response()->json([
+                   'msg' => "هناك حقول يجب ادخالها",
+                   'code'=>StatusCodes::GENERAL_ERROR
+               ]);  
+              }
+         }
+         return response()->json([ 'msg' => "تمت الاضافة بنجاح",'code'=>StatusCodes::OK ]);
+       }
 
-        $items=collect($request);
-        foreach ($items as $item) {
-             $item["absence_date"]= Carbon::parse($item["absence_date"]);
-             try {
-                AbsencesModel::query()->Create((array)$item);
-                } catch (\Exception $exception) {
-                    return response()->json([
-                        'msg' => "هناك حقول يجب ادخالها",
-                        'code'=>StatusCodes::GENERAL_ERROR
-                    ]);            }
-
-                }
-            return response()->json([
-                'msg' => "تمت الاضافة بنجاح",
-                'code'=>StatusCodes::OK
-            ]);
-        
+    public function string_between_two_string($str, $starting_word, $ending_word)
+    {
+        $subtring_start = strpos($str, $starting_word);
+        $subtring_start += strlen($starting_word); 
+        $size = strpos($str, $ending_word, $subtring_start) - $subtring_start; 
+        return substr($str, $subtring_start, $size+1); 
     }
 
     public function save(Request  $request, $id = null)

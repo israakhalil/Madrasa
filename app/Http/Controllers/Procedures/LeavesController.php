@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Carbon\Carbon;
 use DateTimeZone;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class LeavesController extends  Controller
 {
@@ -26,11 +27,21 @@ class LeavesController extends  Controller
 
     public function store(Request $request, $id = null)
     {
-        // return $request;
-        $items=collect($request);
+        $items=json_decode($request->data);
+        $items=collect($items);
         foreach ($items as $item) {
-            $item["leave_date"]= Carbon::parse($item["leave_date"]);
-            $item["leave_time"] =Carbon::parse($item["leave_time"])->setTimezone('asia/jerusalem')->format('h:i:s'); 
+            $path=null;
+            if($item->attached){
+                $file=$item->attached;
+                $substring = $this->string_between_two_string($file, '', ',');
+                $replaced = Str::replace( $substring,'', $file);
+                $path=request()->header('School_id'). "/leaves".'/'. now()->format('Y'). '/'.now()->format('n'). '/'.now()->format('j').'/'. $item->name ;
+                Storage::disk('public')->put($path,base64_decode($replaced));
+            }
+            if($path){$item->attached=  $path;}
+
+            $item->leave_date= Carbon::parse($item->leave_date);
+            $item->leave_time =Carbon::parse($item->leave_time)->setTimezone('asia/jerusalem')->format('h:i:s'); 
             try {
                 LeavesModel::query()->Create((array)$item);
             } catch (\Exception $exception) {
@@ -40,12 +51,15 @@ class LeavesController extends  Controller
                    ]);            }
 
                }
-           return response()->json([
-               'msg' => "تمت الاضافة بنجاح",
-               'code'=>StatusCodes::OK
-           ]);
+               return response()->json(['msg' => "تمت الاضافة بنجاح", 'code'=>StatusCodes::OK ]);
+    }
 
-
+    public function string_between_two_string($str, $starting_word, $ending_word)
+    {
+        $subtring_start = strpos($str, $starting_word);
+        $subtring_start += strlen($starting_word); 
+        $size = strpos($str, $ending_word, $subtring_start) - $subtring_start; 
+        return substr($str, $subtring_start, $size+1); 
     }
 
     public function save(Request  $request, $id = null)
