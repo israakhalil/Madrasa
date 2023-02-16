@@ -90,7 +90,14 @@ export default {
                 to:'/supervisors',
                 visible: () => (authorize.methods.can('SUPERVISOR_VIEW_ALL'))
 
-            }
+                },
+            {
+            label:'الثوابت',
+            icon: 'pi pi-fw pi-money-bill',
+            to:'/constants',
+            visible: () => (authorize.methods.can('CONSTANTS_ADD_EDIT_DELETE'))
+
+        }
             ],
          
         };

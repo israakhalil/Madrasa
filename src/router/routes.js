@@ -112,15 +112,15 @@ const routes = [
                     },]
             },
             {
-                path: '/constant',
+                path: '/constants',
                 component: () => import('../pages/constant/layout.vue'),
                 children: [
-                    // {
-                    //     path: '/schools',
-                    //     name:"schools-index",
-                    //     component: () => import('../pages/admin/schools.vue'),
+                    {
+                        path: '',
+                        name:"constant-index",
+                        component: () => import('../pages/constant/index.vue'),
                        
-                    // },
+                    },
                     // {
                     //     path: '/supervisors',
                     //     name:"supervisors-index",
