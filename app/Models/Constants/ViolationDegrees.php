@@ -10,7 +10,9 @@ class ViolationDegrees extends Model
     use  HasFactory;
 
     protected $table="violation_degrees";
-    protected $fillable = ['name'];
+    protected $primaryKey = 'id';
+    const FILLABLE = ['name'];
+    protected $fillable = self::FILLABLE;
     protected $casts = ['id'=>'integer'];
 
 

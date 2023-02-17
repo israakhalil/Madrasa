@@ -10,8 +10,8 @@ class AbsenceTypes extends Model
     use  HasFactory;
 
     protected $table="absence_types";
-    protected $fillable = ['name'];
+    protected $primaryKey = 'id';
+    const FILLABLE = ['name'];
+    protected $fillable = self::FILLABLE;
     protected $casts = ['id'=>'integer'];
-
-
 }

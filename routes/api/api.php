@@ -83,8 +83,16 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
 
         Route::group(['prefix' => 'constants'], function () {
             Route::get('/absenceTypes', [ConstantsController::class, 'absenceTypes']);
+            Route::post('/storeAbsence/{id?}', [ConstantsController::class, 'storeAbsence']);
+            Route::delete('{id}/deleteAbsence', [ConstantsController::class, 'deleteAbsence']);
+
             Route::get('/violationDegrees', [ConstantsController::class, 'violationDegrees']);
+            Route::post('/storeDegrees/{id?}', [ConstantsController::class, 'storeDegrees']);
+            Route::delete('{id}/deleteDegrees', [ConstantsController::class, 'deleteDegrees']);
+
             Route::get('/violationProcedures', [ConstantsController::class, 'violationProcedures']);
+            Route::post('/storeProcedures/{id?}', [ConstantsController::class, 'storeProcedures']);
+            Route::delete('{id}/deleteProcedures', [ConstantsController::class, 'deleteProcedures']);
         });
         Route::group(['prefix' => 'absences'], function () {
             Route::get('/index', [AbsencesController::class, 'index']);

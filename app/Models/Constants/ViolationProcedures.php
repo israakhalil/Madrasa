@@ -10,7 +10,9 @@ class ViolationProcedures extends Model
     use  HasFactory;
 
     protected $table="violation_procedures";
-    protected $fillable = ['name'];
+    protected $primaryKey = 'id';
+    const FILLABLE = ['name'];
+    protected $fillable = self::FILLABLE;
     protected $casts = ['id'=>'integer'];
 
 
