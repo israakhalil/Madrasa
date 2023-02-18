@@ -16,7 +16,7 @@ class Violations extends Model
     const FILLABLE = ['violation_date','action_performed',
     'violation_procedure_id','violation_degree_id','student_id',
     'supervisor_signature','student_signature','class_id','hijri_date','attached',
-'violation_procedure_type','audio'];
+'violation_procedure_type','audio','procedure_against_administrator','degree_against_administrator'];
 
     protected $fillable = self::FILLABLE;
     protected $casts = [

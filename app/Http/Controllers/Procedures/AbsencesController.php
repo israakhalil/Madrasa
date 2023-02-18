@@ -26,7 +26,6 @@ class AbsencesController extends  Controller
     {
         $items=json_decode($request->data);
         $items=collect($items);
-        return $items;
         foreach ($items as $item) 
         {
             $path=null;
@@ -39,8 +38,9 @@ class AbsencesController extends  Controller
             }
             if($path){$item->attached=  $path;}
             $item->absence_date= Carbon::parse($item->absence_date);
+            AbsencesModel::query()->Create((array)$item);
+
             try {
-                 AbsencesModel::query()->Create((array)$item);
                } 
             catch (\Exception $exception) {
                return response()->json([

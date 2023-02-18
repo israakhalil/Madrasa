@@ -29,7 +29,8 @@ class ViolationsController extends  Controller
         $items=json_decode($request->data);
         $items=collect($items);
         foreach ($items as $item) {
-            $path=null;
+        
+            $path=null; $path2=null;
             if($item->attached){
                 $file=$item->attached;
                 $substring = $this->string_between_two_string($file, '', ',');
@@ -37,11 +38,20 @@ class ViolationsController extends  Controller
                 $path=request()->header('School_id'). "/violations".'/'. now()->format('Y'). '/'.now()->format('n'). '/'.now()->format('j').'/'. $item->name ;
                 Storage::disk('public')->put($path,base64_decode($replaced));
             }
-            if($path){$item->attached=  $path;}
+            if($item->audio){
+                $audio=$item->audio;
+                $substring = $this->string_between_two_string($audio, '', ',');
+                $replaced = Str::replace( $substring,'', $audio);
+                $path2=request()->header('School_id'). "/violations".'/'. now()->format('Y'). '/'.now()->format('n'). '/'.now()->format('j').'/'. $item->audioname ;
+                Storage::disk('public')->put($path2,base64_decode($replaced));
+            }
 
+            if($path){$item->attached=  $path;}
+            if($path2){$item->audio=  $path2;}
             $item->violation_date= Carbon::parse($item->violation_date);
             try {
                 ViolationsModel::query()->Create((array)$item);
+
             } catch (\Exception $exception) {
                    return response()->json([
                     'msg' => "هناك حقول يجب ادخالها",
