@@ -201,6 +201,35 @@ class="p-fluid font-bold text-lg">
         </div>
       </div >
 
+<div>
+  <label>مخالفات الطلبة تجاه الهيئة التعليمية والادارية</label>
+  <div class="grid">
+    <div  class="field col-12 md:col-6 sm:col-12">
+            <label for="degree_against_administrator">  الدرجة </label>
+            <Dropdown
+                id="degree_against_administrator"
+                v-model="form.degree_against_administrator"
+                :options="degrees"
+                optionLabel="name"
+                placeholder="اختر"
+                option-value="id"
+              />
+
+        </div>
+        <div  class="field col-12 md:col-6 sm:col-12">
+            <label for="procedure_against_administrator"> الاجراء </label>
+            <Dropdown
+                id="procedure_against_administrator"
+                v-model="form.procedure_against_administrator"
+                :options="procedures"
+                optionLabel="name"
+                placeholder="اختر"
+                option-value="id"
+              />
+        </div>
+  </div>
+
+</div>
       <div class="field"> 
          <label for="file">الملف المرفق</label>
             <div class="inputfile-box">
@@ -341,6 +370,13 @@ data() {
         hijri_months: [],
         years: Array.from({ length: 10 }, (_, i) => ({ id: String((i+1444)), name: (i+1444) })),
       types: [],
+      procedures: [{ id: '1', name: 'الاول' },
+        { id: '2', name: 'الثاني' },
+        { id: '3', name: 'الثالث' },
+        { id: '4', name: 'الرابع' }],
+      degrees:[{ id: '1', name: 'الرابعة' },
+        { id: '2', name: 'الخامسة' },
+        { id: '3', name: 'السادسة' }],
       type: {
         violation_procedure_type:null
       },
@@ -396,16 +432,30 @@ created() {
         this.header="تعديل مخالفة"
         this.form = { ...data };  
         this.types = [];
-        this.actions = [];
+      this.actions = [];
+      console.log(this.form);
+      if (this.form.violation_procedure_type.length>0)
+      {
         this.form.violation_procedure_type.forEach(type => {
-            this.type.violation_procedure_type = type;
+          this.type.violation_procedure_type = type;
           this.types.push(Object.assign({}, this.type));
+        });
+      }
+      else
+      {
+          this.types.push(Object.assign({}, this.type));
+          }
+
             
-        });
+      if (this.form.action_performed.length > 0) {
         this.form.action_performed.forEach(action => {
-            this.action.action_performed = action;
-            this.actions.push(Object.assign({}, this.action));
+          this.action.action_performed = action;
+          this.actions.push(Object.assign({}, this.action));
         });
+      }
+      else {
+        this.actions.push(Object.assign({}, this.action));
+      }
         this.ViolationDialog = true;
         this.getViolationProcedures();
         this.getViolationDegrees();
@@ -454,10 +504,16 @@ created() {
 
       let violation_actions = ""; let violation_types = "";
       this.types.forEach(type => {
-        violation_types += type.violation_procedure_type + '&';
+        if (type.violation_procedure_type) {
+          violation_types += type.violation_procedure_type + '&';
+
+        }
       });
       this.actions.forEach(action => {
-        violation_actions += action.action_performed + '&';
+        if (action.action_performed) {
+          violation_actions += action.action_performed + '&';
+
+        }
       });
 
         const formData = new FormData()     

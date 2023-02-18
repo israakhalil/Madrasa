@@ -150,7 +150,7 @@ class="p-fluid font-bold text-lg">
             <InputNumber 
             id="guardian_id"   
             :useGrouping="false"
-            v-model="item.guardian_id"
+            v-model="form.guardian_id"
           />
         </div>
        

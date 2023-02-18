@@ -202,7 +202,10 @@ export default {
         absence_type_id: null,
         absence_reason: null,
         teacher_signature: null,
-        attached:null
+        attached: null,
+        respondent: null,
+        account_number: null,
+        time:null
       },
       absence_types:[],
       items: [],

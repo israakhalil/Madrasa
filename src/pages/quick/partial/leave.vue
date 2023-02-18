@@ -181,7 +181,11 @@ export default {
               leave_date: null,
               leave_time: null,
               student_signature: null,
-              leave_reason: null,
+          leave_reason: null,
+          attached: null,
+          guardian_id: null,
+          guardian_name: null,
+              
         },
         items: [],
         Msg: null,

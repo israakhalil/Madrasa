@@ -175,6 +175,7 @@ export default {
           book_name: null,
           is_delivered: null,
           student_signature: null,
+          attached:null
         },
         items: [],
         Msg: null,

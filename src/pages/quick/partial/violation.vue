@@ -73,8 +73,7 @@
                         optionLabel="name"
                         placeholder="سنة"
                         option-value="id"
-                        
-                        />
+                         />
                 </div>
             </div>
           </div>
@@ -82,26 +81,6 @@
         <div class="field col-12 md:col-4">
           <label for="violation_date">تاريخ المخالفة </label>
           <Calendar :showIcon="true" v-model="item.violation_date"></Calendar>
-        </div>
-        <div class="field col-12 md:col-4">
-          <label for="action_performed">  الاجراء المنفذ </label>
-          <InputText
-            id="action_performed"
-            v-model.trim="item.action_performed"
-            required="true"
-          />
-        </div>
-
-        <div class="field col-12 md:col-4">
-          <label for="violation_procedure_id"> نوع الاجراء</label>
-          <Dropdown
-            id="violation_procedure_id"
-            v-model="item.violation_procedure_id"
-            :options="violation_procedures"
-            optionLabel="name"
-            placeholder="  اختر"
-            option-value="id"
-          />
         </div>
         <div class="field col-12 md:col-4">
           <label for="violation_degree_id"> درجة المخالفة</label>
@@ -114,6 +93,53 @@
             option-value="id"
           />
         </div>
+
+        <div class="field col-12 md:col-4">
+          <label for="violation_procedure_id">  الاجراء</label>
+          <Dropdown
+            id="violation_procedure_id"
+            v-model="item.violation_procedure_id"
+            :options="violation_procedures"
+            optionLabel="name"
+            placeholder="  اختر"
+            option-value="id"
+          />
+        </div>
+        <div class="field col-12 md:col-4">
+          <label for="violation_procedure_type1">  نوع الاجراء - الاول </label>
+          <InputText
+            id="violation_procedure_type1"
+            v-model.trim="item.violation_procedure_type1"
+            required="true"
+          />
+        </div>
+        <div class="field col-12 md:col-4">
+          <label for="violation_procedure_type2">  نوع الاجراء - الثاني </label>
+          <InputText
+            id="violation_procedure_type2"
+            v-model.trim="item.violation_procedure_type2"
+            required="true"
+          />
+        </div>
+        
+        <div class="field col-12 md:col-4">
+          <label for="action_performed1">  الاجراء المنفذ - الاول </label>
+          <InputText
+            id="action_performed1"
+            v-model.trim="item.action_performed1"
+            required="true"
+          />
+        </div>
+        <div class="field col-12 md:col-4">
+          <label for="action_performed2">  الاجراء المنفذ - الثاني </label>
+          <InputText
+            id="action_performed2"
+            v-model.trim="item.action_performed2"
+            required="true"
+          />
+        </div>
+
+
         <div class="field col-12 md:col-4">
             <label :for="'file-'+index">الملف المرفق</label>
             <div class="inputfile-box">
@@ -133,6 +159,25 @@
             </div>  
           </div>
           
+          <div class="field col-12 md:col-4">
+         <label :for="'audio-'+index">ارفاق ملف صوتي </label>
+            <div class="inputfile-box">
+              <input
+                type="file"
+                :id="'audio-'+index"
+                class="inputfile"
+                @change="uploadAudio($event,item)"
+                accept="audio/*"
+              />
+              <label :for="'audio-'+index">
+                <span class="p-input-icon-left">
+                  <i class="pi pi-upload" aria-hidden="true"></i>
+                  <span id="file-name" class="file-box">{{item.audioname}}</span>
+                </span>
+              </label>
+            </div>
+            </div>
+           
         <div class="field col-12 md:col-4">
           <label for="suprvisore_signature"> توقيع الاداري </label>
           <InputText
@@ -150,6 +195,38 @@
           />
         </div>
 
+        <div class="field col-12 md:col-4">
+  <label>مخالفات الطلبة تجاه الهيئة التعليمية والادارية</label>
+  <div class="grid">
+    <div  class="field col-12 md:col-6 sm:col-12">
+            <label for="degree_against_administrator">  الدرجة </label>
+            <Dropdown
+                id="degree_against_administrator"
+                v-model="item.degree_against_administrator"
+                :options="degrees"
+                optionLabel="name"
+                placeholder="اختر"
+                option-value="id"
+              />
+
+        </div>
+        <div  class="field col-12 md:col-6 sm:col-12">
+            <label for="procedure_against_administrator"> الاجراء </label>
+            <Dropdown
+                id="procedure_against_administrator"
+                v-model="item.procedure_against_administrator"
+                :options="procedures"
+                optionLabel="name"
+                placeholder="اختر"
+                option-value="id"
+              />
+        </div>
+  </div>
+
+</div>
+
+
+
         <div class="field col-12 md:col-2">
           <Button
             v-if="this.items.length > 1"
@@ -158,8 +235,16 @@
             @click="unset(items, index)"
           />
         </div>
+
+
+
       </div>
+
+
+
     </div>
+
+
   
     <div class="grid p-fluid mt-3 font-bold mr-5">
       <div class="field col-12 md:col-4 sm:col-6">
@@ -198,9 +283,20 @@ export default {
         violation_procedure_id: null,
         violation_degree_id: null,
         supervisor_signature: null,
-        student_signature: null,
-
+          student_signature: null,
+          attached: null,
+          audio: null,
+          degree_against_administrator: null,
+          procedure_against_administrator:null
         },
+
+        procedures: [{ id: '1', name: 'الاول' },
+        { id: '2', name: 'الثاني' },
+        { id: '3', name: 'الثالث' },
+        { id: '4', name: 'الرابع' }],
+      degrees:[{ id: '1', name: 'الرابعة' },
+        { id: '2', name: 'الخامسة' },
+        { id: '3', name: 'السادسة' }],
         items: [],
         Msg: null,
         violation_procedures: [],
@@ -238,7 +334,18 @@ export default {
         }
         reader.readAsDataURL(file);
       },
-
+      uploadAudio(e, item) {
+        item.audioname = e.target.files[0].name;
+        const audioFile = e.target.files[0];
+        const reader = new FileReader()
+        let rawAudio;
+        reader.onloadend = () => {
+          rawAudio = reader.result;
+          item.audio = rawAudio
+        }
+        reader.readAsDataURL(audioFile);
+      
+    },
       getClasses(item) { 
         item.classes=this.classes.filter((_class) => { return _class.level_id == item.level_id });
     },
@@ -261,6 +368,33 @@ export default {
         this.successMsg = false;
         this.Msg = null;
         this.items.forEach(item => {
+          if (item.violation_procedure_type1&&item.violation_procedure_type2) {
+            item.violation_procedure_type =item.violation_procedure_type1 + '&'+ item.violation_procedure_type2 + '&';
+          }
+          else {
+            if (item.violation_procedure_type1) {
+              item.violation_procedure_type = item.violation_procedure_type1 + '&';
+            }
+            if (item.violation_procedure_type2) {
+              item.violation_procedure_type = item.violation_procedure_type2 + '&';
+            }
+          }
+          if (item.action_performed1&&item.action_performed2) {
+            item.action_performed =item.action_performed1 + '&'+ item.action_performed2 + '&';
+          }
+          else {
+            if (item.action_performed1) {
+              item.action_performed = item.action_performed1 + '&';
+            }
+            if (item.action_performed2) {
+              item.action_performed = item.action_performed2 + '&';
+            }
+          }
+          // item.action_performed = item.action_performed1 + '&'+ item.action_performed2 + '&';
+
+          // item.violation_procedure_type = item.violation_procedure_type + '&';
+          // item.action_performed =item.action_performed + '&';
+
         if (item.violation_date) {
           item.violation_date = this.formatDate(item.violation_date);
           item.hijri_date = item.day + ' ,' + item.month+' ,'+item.year;
@@ -269,7 +403,7 @@ export default {
       });
         const formData = new FormData();
         formData.append("data", JSON.stringify(this.items));
-  
+
         this.violationsService.store(formData).then(({ data }) => {
           if (data.code == 200) {
             this.Msg = data.msg;
@@ -295,14 +429,23 @@ export default {
             item.violation_date= null,
             item.action_performed= null,
             item.violation_procedure_id= null,
-            item.violation_degree_id = null
-            item.supervisore_signature= null,
+            item.violation_degree_id = null,
+            item.violation_procedure_type=null,
+            item.supervisor_signature= null,
             item.student_signature = null,
             item.day = null,
             item.month = null,
             item.year = null,
             item.attached = null,
-            item.name=null
+             item.name = null,
+             item.audio = null,
+             item.audioname = null,
+             item.procedure_against_administrator = null,
+             item.degree_against_administrator = null,
+             item.action_performed1 = null,
+             item.action_performed2 = null,
+             item.violation_procedure_type1 = null,
+             item.violation_procedure_type2=null
          });
 
         // items.forEach((item){
