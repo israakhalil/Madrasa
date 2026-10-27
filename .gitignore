@@ -10,9 +10,13 @@ lerna-debug.log*
 node_modules
 .DS_Store
 dist
+dist.zip
 dist-ssr
 coverage
 *.local
+.env
+.env.local
+.env.*.local
 
 /cypress/videos/
 /cypress/screenshots/
