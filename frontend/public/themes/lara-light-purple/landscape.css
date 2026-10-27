@@ -1,0 +1,125 @@
+
+.centered {
+    position: absolute;
+    top:45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 70%;
+  }
+  .flex-1 {
+    flex: 1 1 0% !important;
+}
+
+.justify-content-center {
+    justify-content: center !important;
+}
+
+.text-right {
+    text-align: right !important;
+    font-family: Tajawal;
+}
+
+.text-left {
+    text-align: left !important;
+    font-family: Tajawal;
+}
+
+.text-center {
+    text-align: center !important;
+}
+
+.text-5xl {
+    font-size: 2.7rem !important;
+    color: green;
+    font-family: Tajawal;
+}
+
+.text-6xl {
+    font-size: 3rem !important;
+    font-family: Tajawal;
+}
+.font-bold {
+    font-weight: 700 !important;
+}
+
+.text-3xl {
+    font-size: 1.75rem !important;
+    font-family: Tajawal;
+}
+.text-2xl {
+    font-size: 1.1rem !important;
+    font-family: Tajawal;
+}
+/* .product-badge.status-lowstock {
+    background: yellow;
+    color: #ffffff;
+} */
+
+.grid1 {
+    display: flex;
+    flex-wrap: wrap;
+    /* margin-right: -0.5rem;
+    margin-left: -0.5rem;
+    margin-top: -0.5rem; */
+}  
+
+.grid > .col, .grid > [class*=col] {
+    box-sizing: border-box;
+}
+
+.field {
+    /* margin-bottom: 1rem; */
+}
+
+.col-6 {
+    flex: 0 0 auto;
+    padding: 0.5rem;
+    width: 50%;
+}
+
+.mt-5 {
+    margin-top: 3rem !important;
+    font-family: Tajawal;
+}
+
+/* .mt-4 {
+    margin-top: 2.1rem !important;
+    font-family: Tajawal;
+} */
+
+.mt-1 {
+    margin-top: 1rem !important;
+}
+.mt-0 {
+    margin-top: 0.5rem !important;
+}
+/* .mt-3 {
+    margin-top: 3rem !important;
+} */
+
+.mt-2 {
+    margin-top: 1.5rem !important;
+}
+.col-3{
+    flex: 0 0 auto;
+    /* padding: 0.5rem; */
+    width: 25%; 
+}
+.col-4 {
+    flex: 0 0 auto;
+    /* padding: 0.5rem;  */
+    width: 33.3333%;
+}
+
+.col-2 {
+    flex: 0 0 auto;
+     /* padding: 0.5rem;  */
+    width: 16.6667%;
+}
+
+.col-12 {
+    /* flex: 0 0 auto;
+    padding: 0.5rem;
+    width: 100%; */
+    direction: rtl;
+}
