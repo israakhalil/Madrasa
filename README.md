@@ -1,66 +1,113 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Madrasa — Backend API
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+> نظام إدارة شؤون طلاب المدرسة — خدمة REST API مبنية بـ Laravel 9.
+> School student management system — REST API built with Laravel 9.
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 🇸🇦 نظرة عامة
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+خدمة backend لنظام **مدرسة** لإدارة شؤون الطلاب في المدارس الثانوية: الطلاب، الفصول، المستويات، الغياب، التأخير، الإجازات، المخالفات والإجراءات التأديبية، مع نظام صلاحيات وأدوار كامل.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- واجهة الـ frontend (Vue 3): [Madrasa-frontend](https://github.com/israakhalil/Madrasa-frontend)
 
-## Learning Laravel
+### المزايا
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+- 🏫 **إدارة مدارس متعددة** بمستوياتها وفصولها
+- 👨‍🎓 **سجل كامل للطلاب** مع بياناتهم وأرقام ذويهم وجنسياتهم
+- 📋 **متابعة سلوكية**: غياب، تأخير، إجازات، مخالفات
+- 📚 **سجل الكتب المسلّمة** للطلاب
+- 🔐 **صلاحيات تفصيلية** (Role-Based Access Control) مع Laravel Sanctum
+- 📊 **تقارير جاهزة** عبر API
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+## 🇬🇧 Overview
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Backend service for **Madrasa**, a secondary-school student management platform. Tracks students, classes, levels, absences, delays, leaves, disciplinary violations, and distributed books, with role-based access control.
 
-## Laravel Sponsors
+- Frontend (Vue 3): [Madrasa-frontend](https://github.com/israakhalil/Madrasa-frontend)
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+### Features
 
-### Premium Partners
+- Multi-school support with levels and classes
+- Full student records (contacts, nationality, date of birth, attachments)
+- Behavior tracking: absences, delays, leaves, violations
+- Books-handed-out log
+- Role-based permissions with Laravel Sanctum
+- Reports via REST endpoints
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+---
 
-## Contributing
+## 🧱 Tech Stack
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+- **PHP** 8.0+
+- **Laravel** 9.19
+- **Laravel Sanctum** (API auth)
+- **MySQL** / MariaDB
+- **Maatwebsite/Excel** (exports)
+- **Guzzle** (HTTP client)
 
-## Code of Conduct
+---
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## 🚀 Setup / التثبيت
 
-## Security Vulnerabilities
+```bash
+# clone
+git clone https://github.com/israakhalil/Madrasa-backend.git
+cd Madrasa-backend
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+# install dependencies
+composer install
 
-## License
+# environment
+cp .env.example .env
+php artisan key:generate
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+# edit .env with your DB credentials, then:
+php artisan migrate --seed
+php artisan serve
+```
+
+API يعمل افتراضياً على `http://127.0.0.1:8000`.
+
+### بيانات تسجيل الدخول التجريبية / Demo credentials
+
+بعد تشغيل `migrate --seed`:
+
+- **Email**: `admin@gmail.com`
+- **Password**: `123456`
+
+> ⚠️ هذه بيانات تجريبية فقط. غيّرها قبل أي نشر إنتاجي.
+> Demo-only credentials. Change before any production deployment.
+
+### Demo data via Seeders
+
+تستخدم الـ seeders مكتبة **Faker** لتوليد بيانات واقعية بالعربية:
+- 2 مدارس · 5 مستويات · 7 فصول
+- ~100–175 طالب موزّعين على الفصول (أسماء ومواليد وجنسيّات عربية)
+- سجلات غياب عشوائية خلال آخر 6 أشهر
+
+---
+
+## 📂 Project Structure
+
+```
+app/
+├── Http/Controllers/
+│   ├── Auth/           # Login, Users, Permissions
+│   ├── School/         # Schools, Levels, Classes, Students
+│   └── Procedures/     # Absences, Delays, Leaves, Violations, Books
+├── Models/
+│   ├── Auth/
+│   ├── School/
+│   └── Procedures/
+database/
+├── migrations/         # 23 migrations
+└── seeders/            # Demo data via Faker
+routes/api.php          # REST endpoints
+```
+
+---
+
+## 📜 License
+
+MIT
