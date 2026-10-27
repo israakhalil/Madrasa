@@ -1,8 +1,7 @@
 <template>
-    
   <Dialog
     id="errorMsg"
-    v-model:visible="errorMsg"
+    v-model:visible="visible"
     :style="{ width: '450px' }"
     header=""
     :modal="true"
@@ -22,10 +21,17 @@
 
 <script>
 export default {
-
-    props: {
-      errorMsg: Boolean,
-      Msg: String
-} 
+  props: {
+    errorMsg: Boolean,
+    Msg: String
+  },
+  data() {
+    return { visible: this.errorMsg };
+  },
+  watch: {
+    errorMsg(value) {
+      this.visible = value;
+    }
+  }
 }
 </script>
