@@ -1,12 +1,7 @@
 import axios from "axios";
 import store_x from '@/store'
 import router from '@/router'
-let BASE_URL = null ;
-if (process.env.NODE_ENV == "development") {
-    BASE_URL = "http://127.0.0.1:8000/api";
-}else{
-    BASE_URL = "http://moqsit.com/attendance/api";
-}
+const BASE_URL = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000/api";
 
 // const API_VERSION = "v1";
 

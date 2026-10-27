@@ -68,9 +68,13 @@ npm run dev
 npm run build
 ```
 
-تأكد من تشغيل الـ backend أولاً على `http://127.0.0.1:8000`، أو عدّل `baseURL` في `src/axios/`.
+انسخ `.env.example` إلى `.env` وحدّد عنوان الـ API في `VITE_API_URL` (الافتراضي `http://127.0.0.1:8000/api`).
 
-Make sure the backend is running at `http://127.0.0.1:8000`, or adjust `baseURL` in `src/axios/`.
+Copy `.env.example` to `.env` and set `VITE_API_URL` to your API address (defaults to `http://127.0.0.1:8000/api`).
+
+```bash
+cp .env.example .env
+```
 
 ---
 
