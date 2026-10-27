@@ -16,6 +16,10 @@
 - Arabic (RTL) and English UI, Hijri date entry / واجهة عربية وإنجليزية مع التاريخ الهجري
 - Printable reports and charts / تقارير قابلة للطباعة ورسوم بيانية
 
+## Database design / تصميم قاعدة البيانات
+
+[docs/database-diagram.pdf](docs/database-diagram.pdf) — database diagram (Visual Paradigm) / مخطط قاعدة البيانات.
+
 ## Quick start / تشغيل سريع
 
 ```bash
