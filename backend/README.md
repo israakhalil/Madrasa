@@ -9,7 +9,7 @@
 
 خدمة backend لنظام **مدرسة** لإدارة شؤون الطلاب في المدارس الثانوية: الطلاب، الفصول، المستويات، الغياب، التأخير، الإجازات، المخالفات والإجراءات التأديبية، مع نظام صلاحيات وأدوار كامل.
 
-- واجهة الـ frontend (Vue 3): [Madrasa-frontend](https://github.com/israakhalil/Madrasa-frontend)
+- واجهة الـ frontend (Vue 3): [`frontend/`](../frontend)
 
 ### المزايا
 
@@ -24,7 +24,7 @@
 
 Backend service for **Madrasa**, a secondary-school student management platform. Tracks students, classes, levels, absences, delays, leaves, disciplinary violations, and distributed books, with role-based access control.
 
-- Frontend (Vue 3): [Madrasa-frontend](https://github.com/israakhalil/Madrasa-frontend)
+- Frontend (Vue 3): [`frontend/`](../frontend)
 
 ### Features
 
@@ -52,8 +52,8 @@ Backend service for **Madrasa**, a secondary-school student management platform.
 
 ```bash
 # clone
-git clone https://github.com/israakhalil/Madrasa-backend.git
-cd Madrasa-backend
+git clone https://github.com/israakhalil/Madrasa.git
+cd Madrasa/backend
 
 # install dependencies
 composer install

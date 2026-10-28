@@ -9,7 +9,7 @@
 
 واجهة ويب تفاعلية لنظام **مدرسة**: لوحة تحكم مدرسية لمتابعة الطلاب والفصول والغياب والمخالفات، بدعم كامل للغة العربية (RTL) والتاريخ الهجري.
 
-- خدمة الـ backend (Laravel): [Madrasa-backend](https://github.com/israakhalil/Madrasa-backend)
+- خدمة الـ backend (Laravel): [`backend/`](../backend)
 
 ### المزايا
 
@@ -25,7 +25,7 @@
 
 Interactive web UI for the **Madrasa** platform: a school dashboard for managing students, classes, attendance, and disciplinary records, with full Arabic (RTL) and Hijri calendar support.
 
-- Backend (Laravel): [Madrasa-backend](https://github.com/israakhalil/Madrasa-backend)
+- Backend (Laravel): [`backend/`](../backend)
 
 ### Features
 
@@ -55,8 +55,8 @@ Interactive web UI for the **Madrasa** platform: a school dashboard for managing
 
 ```bash
 # clone
-git clone https://github.com/israakhalil/Madrasa-frontend.git
-cd Madrasa-frontend
+git clone https://github.com/israakhalil/Madrasa.git
+cd Madrasa/frontend
 
 # install
 npm install
